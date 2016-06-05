@@ -15,6 +15,6 @@ public class HTMLParser {
     }
 
     public void onParse(){
-        Log.d("HTML", document.toString());
+//        Log.d("HTML", document.toString());
     }
 }

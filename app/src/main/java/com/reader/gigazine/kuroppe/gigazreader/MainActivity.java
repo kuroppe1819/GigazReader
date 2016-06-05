@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-
 import com.reader.gigazine.kuroppe.gigazreader.http.HttpAsyncTask;
 
 public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks{
