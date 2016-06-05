@@ -7,11 +7,10 @@ import org.jsoup.nodes.Document;
 /**
  * Created by atsusuke on 2016/06/05.
  */
-public class HTMLParse {
-
+public class HTMLParser {
     private Document document;
 
-    public HTMLParse(Document document){
+    public HTMLParser(Document document){
         this.document = document;
     }
 

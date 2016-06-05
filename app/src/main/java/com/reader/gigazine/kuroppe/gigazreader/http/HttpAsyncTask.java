@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.reader.gigazine.kuroppe.gigazreader.AsyncTaskCallbacks;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -44,7 +43,7 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
 
     @Override
     protected void onPostExecute(Document document) {
-        HTMLParse html = new HTMLParse(document);
+        HTMLParser html = new HTMLParser(document);
         html.onParse();
         // プログレスダイアログを閉じる
         if (this.progressDialog != null && this.progressDialog.isShowing()) {
