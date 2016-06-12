@@ -1,7 +1,6 @@
 package com.reader.gigazine.kuroppe.gigazreader.http;
 
 import android.util.Log;
-
 import org.jsoup.nodes.Document;
 
 /**
@@ -15,6 +14,6 @@ public class HTMLParser {
     }
 
     public void onParse(){
-//        Log.d("HTML", document.toString());
+        Log.d("HTML", document.toString());
     }
 }
