@@ -2,27 +2,29 @@ package com.reader.gigazine.kuroppe.gigazreader.http;
 
 import android.util.Log;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
 import java.util.ArrayList;
 
-public class HTMLParser {
+public class HtmlParser {
     private Document document;
-    private int count = 1;
     private ArrayList<String> title = new ArrayList<String>();
     private ArrayList<String> category = new ArrayList<String>();
     private ArrayList<String> imgs = new ArrayList<String>();
+    private ArrayList<String> url = new ArrayList<String>();
 
-    public HTMLParser(Document document){
+    public HtmlParser(Document document){
         this.document = document;
     }
 
     public void onParse(){
         getTitle();
         getImage();
-        Log.d("HTML", imgs.get(0));
-        Log.d("HTML", title.get(0));
-        Log.d("HTML", category.get(0));
+        getUrl();
+        Log.d("HTML", title.get(39));
+        Log.d("HTML", category.get(39));
+        Log.d("HTML", imgs.get(39));
+        Log.d("HTML", url.get(39));
     }
 
     private void getImage(){
@@ -43,11 +45,20 @@ public class HTMLParser {
         for (int i=0 ; i<span_split.length; i+=2) {
             title.add(span_split[i]);
             category.add(span_split[i+1]);
+//            html.setTitle(span_split[i]);
         }
     }
 
     private void getUrl(){
-
+        final String prefix = "<a href=\"";
+        final String suffix = "\"><span>";
+        Elements h2 = document.select("h2");
+        for (int i=0; i<h2.size(); i++){
+            String element = h2.get(i).toString();
+            int preIdx = element.indexOf(prefix) + prefix.length();
+            int sufIdx = element.indexOf(suffix);
+            url.add(element.substring(preIdx, sufIdx));
+        }
     }
 
 }

@@ -43,7 +43,7 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
 
     @Override
     protected void onPostExecute(Document document) {
-        HTMLParser html = new HTMLParser(document);
+        HtmlParser html = new HtmlParser(document);
         html.onParse();
         // プログレスダイアログを閉じる
         if (this.progressDialog != null && this.progressDialog.isShowing()) {
