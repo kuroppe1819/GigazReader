@@ -21,21 +21,28 @@ public class HtmlParser {
         getTitle();
         getImage();
         getUrl();
-        Log.d("HTML", title.get(39));
-        Log.d("HTML", category.get(39));
-        Log.d("HTML", imgs.get(39));
-        Log.d("HTML", url.get(39));
+//        Log.d("HTML", title.get(39));
+//        Log.d("HTML", category.get(39));
+//        Log.d("HTML", imgs.get(39));
+//        Log.d("HTML", url.get(39));
+        HtmlList htmlList = new HtmlList();
+        htmlList.setTitle(title);
+        htmlList.setCategory(category);
+        htmlList.setImgs(imgs);
+        htmlList.setUrl(url);
     }
 
     private void getImage(){
         Elements img = document.getElementsByTag("img");
-        for (int i=1; i<img.size()-1; i++){
+//        int count = 0;
+        for (int i=0; i<img.size()-1; i++){
             if (img.get(i).attr("src") == ""){
                 imgs.add(img.get(i).attr("data-src"));
             }else{
                 imgs.add(img.get(i).attr("src"));
             }
-//            Log.d("HTML", imgs.get(i-1));
+//            Log.d("HTML", imgs.get(i) + " " + count);
+//            count++;
         }
     }
 
