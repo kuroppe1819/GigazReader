@@ -18,24 +18,24 @@ public class HtmlParser {
     }
 
     public void onParse(){
-        getTitle();
-        getImage();
-        getUrl();
-//        Log.d("HTML", title.get(39));
-//        Log.d("HTML", category.get(39));
-//        Log.d("HTML", imgs.get(39));
-//        Log.d("HTML", url.get(39));
-        HtmlList htmlList = new HtmlList();
+        Title();
+        Image();
+        Url();
+        Log.d("HTML", title.get(39));
+        Log.d("HTML", category.get(39));
+        Log.d("HTML", imgs.get(39));
+        Log.d("HTML", url.get(39));
+        HtmlParameter htmlList = new HtmlParameter();
         htmlList.setTitle(title);
         htmlList.setCategory(category);
         htmlList.setImgs(imgs);
         htmlList.setUrl(url);
     }
 
-    private void getImage(){
+    private void Image(){
         Elements img = document.getElementsByTag("img");
 //        int count = 0;
-        for (int i=0; i<img.size()-1; i++){
+        for (int i=1; i<img.size()-1; i++){
             if (img.get(i).attr("src") == ""){
                 imgs.add(img.get(i).attr("data-src"));
             }else{
@@ -46,7 +46,7 @@ public class HtmlParser {
         }
     }
 
-    private void getTitle(){
+    private void Title(){
         Elements span = document.getElementsByTag("span");
         String[] span_split = span.html().toString().split("\n", 0);
         for (int i=0 ; i<span_split.length; i+=2) {
@@ -56,7 +56,7 @@ public class HtmlParser {
         }
     }
 
-    private void getUrl(){
+    private void Url(){
         final String prefix = "<a href=\"";
         final String suffix = "\"><span>";
         Elements h2 = document.select("h2");
@@ -67,5 +67,4 @@ public class HtmlParser {
             url.add(element.substring(preIdx, sufIdx));
         }
     }
-
 }

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.reader.gigazine.kuroppe.gigazreader.R;
+import com.reader.gigazine.kuroppe.gigazreader.http.HtmlList;
 
 import java.util.ArrayList;
 
@@ -31,7 +32,7 @@ public class FavoriteList extends Fragment{
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new RecyclerAdapter(getActivity(), arrayList));
+        recyclerView.setAdapter(new RecyclerAdapter(getActivity(), new HtmlList().getList()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
     }
 }
