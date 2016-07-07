@@ -10,6 +10,7 @@ public class HtmlList {
         list.add(params.getCategory());
         list.add(params.getImgs());
         list.add(params.getUrl());
+        list.add(params.getBitmap());
         return list;
     }
 }

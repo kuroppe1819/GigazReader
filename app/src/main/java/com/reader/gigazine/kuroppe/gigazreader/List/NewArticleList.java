@@ -10,9 +10,6 @@ import android.view.ViewGroup;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import com.reader.gigazine.kuroppe.gigazreader.http.HtmlList;
 
-/**
- * Created by atsusuke on 2016/06/05.
- */
 public class NewArticleList extends Fragment {
     private View view;
 

@@ -1,6 +1,9 @@
 package com.reader.gigazine.kuroppe.gigazreader.http;
 
+import android.graphics.Bitmap;
 import android.util.Log;
+
+import com.bumptech.glide.BitmapTypeRequest;
 
 import java.util.ArrayList;
 
@@ -9,6 +12,7 @@ public class HtmlParameter {
     private static ArrayList<String> category = new ArrayList<String>();
     private static ArrayList<String> imgs = new ArrayList<String>();
     private static ArrayList<String> url = new ArrayList<String>();
+    private static ArrayList<Bitmap> bitmap = new ArrayList<Bitmap>();
 
     public void setTitle(ArrayList<String> title){
         this.title = title;
@@ -40,5 +44,13 @@ public class HtmlParameter {
 
     public ArrayList<String> getUrl(){
         return url;
+    }
+
+    public void setBitmap(ArrayList<Bitmap> bitmap){
+        this.bitmap = bitmap;
+    }
+
+    public ArrayList<Bitmap> getBitmap(){
+        return bitmap;
     }
 }

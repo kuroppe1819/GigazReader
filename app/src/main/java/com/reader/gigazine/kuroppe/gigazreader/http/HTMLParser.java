@@ -1,6 +1,17 @@
 package com.reader.gigazine.kuroppe.gigazreader.http;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
+import com.bumptech.glide.DrawableRequestBuilder;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
@@ -8,38 +19,43 @@ import java.util.ArrayList;
 
 public class HtmlParser {
     private Document document;
-    private ArrayList<String> title = new ArrayList<String>();
-    private ArrayList<String> category = new ArrayList<String>();
-    private ArrayList<String> imgs = new ArrayList<String>();
-    private ArrayList<String> url = new ArrayList<String>();
+    private ArrayList<String> titleList = new ArrayList<String>();
+    private ArrayList<String> categoryList = new ArrayList<String>();
+    private ArrayList<String> imgList = new ArrayList<String>();
+    private ArrayList<String> urlList = new ArrayList<String>();
+    private ArrayList<Bitmap> bitmapList = new ArrayList<>();
+    private Context context;
 
-    public HtmlParser(Document document){
+    public HtmlParser(Document document, Context context){
         this.document = document;
+        this.context = context;
     }
 
     public void onParse(){
         Title();
         Image();
         Url();
-        Log.d("HTML", title.get(39));
-        Log.d("HTML", category.get(39));
-        Log.d("HTML", imgs.get(39));
-        Log.d("HTML", url.get(39));
+        Log.d("HTML", titleList.get(39) + " " + titleList.size());
+        Log.d("HTML", categoryList.get(39));
+        Log.d("HTML", imgList.get(39) + " " + imgList.size());
+        Log.d("HTML", urlList.get(39) + " " + urlList.size());
+//        Log.d("HTML", String.valueOf(bitmapList.size()));
         HtmlParameter htmlList = new HtmlParameter();
-        htmlList.setTitle(title);
-        htmlList.setCategory(category);
-        htmlList.setImgs(imgs);
-        htmlList.setUrl(url);
+        htmlList.setTitle(titleList);
+        htmlList.setCategory(categoryList);
+        htmlList.setImgs(imgList);
+        htmlList.setUrl(urlList);
+//        htmlList.setBitmap(bitmapList);
     }
 
     private void Image(){
         Elements img = document.getElementsByTag("img");
 //        int count = 0;
-        for (int i=1; i<img.size()-1; i++){
+        for (int i=3; i<img.size()-1; i++){
             if (img.get(i).attr("src") == ""){
-                imgs.add(img.get(i).attr("data-src"));
+                imgList.add(img.get(i).attr("data-src"));
             }else{
-                imgs.add(img.get(i).attr("src"));
+                imgList.add(img.get(i).attr("src"));
             }
 //            Log.d("HTML", imgs.get(i) + " " + count);
 //            count++;
@@ -50,8 +66,8 @@ public class HtmlParser {
         Elements span = document.getElementsByTag("span");
         String[] span_split = span.html().toString().split("\n", 0);
         for (int i=0 ; i<span_split.length; i+=2) {
-            title.add(span_split[i]);
-            category.add(span_split[i+1]);
+            titleList.add(span_split[i]);
+            categoryList.add(span_split[i+1]);
 //            html.setTitle(span_split[i]);
         }
     }
@@ -64,7 +80,7 @@ public class HtmlParser {
             String element = h2.get(i).toString();
             int preIdx = element.indexOf(prefix) + prefix.length();
             int sufIdx = element.indexOf(suffix);
-            url.add(element.substring(preIdx, sufIdx));
+            urlList.add(element.substring(preIdx, sufIdx));
         }
     }
 }
