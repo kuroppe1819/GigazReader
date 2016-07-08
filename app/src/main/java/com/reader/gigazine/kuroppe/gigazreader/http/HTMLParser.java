@@ -18,6 +18,7 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 
 public class HtmlParser {
+    private String TAG = "HTML";
     private Document document;
     private ArrayList<String> titleList = new ArrayList<String>();
     private ArrayList<String> categoryList = new ArrayList<String>();
@@ -35,10 +36,10 @@ public class HtmlParser {
         Title();
         Image();
         Url();
-        Log.d("HTML", titleList.get(39) + " " + titleList.size());
-        Log.d("HTML", categoryList.get(39));
-        Log.d("HTML", imgList.get(39) + " " + imgList.size());
-        Log.d("HTML", urlList.get(39) + " " + urlList.size());
+        Log.d(TAG, titleList.get(39) + " " + titleList.size());
+        Log.d(TAG, categoryList.get(39));
+        Log.d(TAG, imgList.get(39) + " " + imgList.size());
+        Log.d(TAG, urlList.get(39) + " " + urlList.size());
 //        Log.d("HTML", String.valueOf(bitmapList.size()));
         HtmlParameter htmlList = new HtmlParameter();
         htmlList.setTitle(titleList);
@@ -57,7 +58,7 @@ public class HtmlParser {
             }else{
                 imgList.add(img.get(i).attr("src"));
             }
-//            Log.d("HTML", imgs.get(i) + " " + count);
+//            Log.d(TAG, imgs.get(i) + " " + count);
 //            count++;
         }
     }

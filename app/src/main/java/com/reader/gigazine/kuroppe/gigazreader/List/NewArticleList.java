@@ -12,7 +12,10 @@ import com.reader.gigazine.kuroppe.gigazreader.R;
 import com.reader.gigazine.kuroppe.gigazreader.http.HtmlList;
 
 public class NewArticleList extends Fragment {
+    private String TAG = "position";
     private View view;
+    private HtmlList htmlList = new HtmlList();
+    private GetNum num = new GetNum();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -26,13 +29,14 @@ public class NewArticleList extends Fragment {
         super.onActivityCreated(savedInstanceState);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new RecyclerAdapter(getActivity(), new HtmlList().getList()));
+        recyclerView.setAdapter(new RecyclerAdapter(getActivity(), htmlList.getList()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Log.d("position", String.valueOf(position));
+                        Log.d(TAG, String.valueOf(position));
+                        Log.d(TAG, (String) htmlList.getList().get(num.getUrlNum).get(position));
                     }
                 })
         );

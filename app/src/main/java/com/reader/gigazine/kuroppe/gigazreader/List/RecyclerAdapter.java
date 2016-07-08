@@ -2,9 +2,7 @@ package com.reader.gigazine.kuroppe.gigazreader.List;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,19 +14,14 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import java.util.ArrayList;
-import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     private ArrayList<ArrayList> htmlList = new ArrayList<ArrayList>();
     private LayoutInflater inflater;
     private Context context;
-    private int title = 0;
-    private int category = 1;
-    private int imgs = 2;
-    private int url = 3;
-//    private int bitmap = 4;
-    int BitmapSize = 150;
+    private GetNum num = new GetNum();
+    private int BitmapSize = 150;
 
     public RecyclerAdapter(Context context, ArrayList<ArrayList> htmlList) {
         this.context = context;
@@ -43,9 +36,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        viewHolder.article_textView.setText((String)htmlList.get(title).get(i));
+        viewHolder.article_textView.setText((String)htmlList.get(num.getTitleNum).get(i));
 //        viewHolder.category_textView.setText((String)htmlList.get(category).get(i));
-        Glide.with(this.context).load(htmlList.get(imgs).get(i)).asBitmap().into(new SimpleTarget<Bitmap>(BitmapSize,BitmapSize) {
+        Glide.with(this.context).load(htmlList.get(num.getImgsNum).get(i)).asBitmap().into(new SimpleTarget<Bitmap>(BitmapSize,BitmapSize) {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
                 viewHolder.imageView.setImageBitmap(resource);
@@ -55,7 +48,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return htmlList.get(title).size();
+        return htmlList.get(num.getTitleNum).size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
