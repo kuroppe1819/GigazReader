@@ -1,6 +1,8 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import com.reader.gigazine.kuroppe.gigazreader.http.HtmlList;
+import org.chromium.customtabsclient.shared.CustomTabsHelper;
 
 public class NewArticleList extends Fragment {
     private String TAG = "position";
@@ -35,8 +38,14 @@ public class NewArticleList extends Fragment {
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
+                        Uri urlStr = (Uri) htmlList.getList().get(num.getUrlNum).get(position);
                         Log.d(TAG, String.valueOf(position));
-                        Log.d(TAG, (String) htmlList.getList().get(num.getUrlNum).get(position));
+                        Log.d(TAG, String.valueOf(urlStr));
+
+                        CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder().build();
+                        String packageName = CustomTabsHelper.getPackageNameToUse(getActivity());
+                        tabsIntent.intent.setPackage(packageName);
+                        tabsIntent.launchUrl(getActivity(), urlStr);
                     }
                 })
         );
