@@ -19,6 +19,11 @@ public class NewArticleList extends Fragment {
     private View view;
     private HtmlList htmlList = new HtmlList();
     private GetNum num = new GetNum();
+    private int getTitleNum = 0;
+    private int getCategoryNum = 1;
+    private int getImgsNum = 2;
+    private int getUrlNum = 3;
+    private int getBitmapNum = 4;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,10 +43,10 @@ public class NewArticleList extends Fragment {
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Uri urlStr = (Uri) htmlList.getList().get(num.getUrlNum).get(position);
                         Log.d(TAG, String.valueOf(position));
+                        Uri urlStr = Uri.parse((String) htmlList.getList().get(getUrlNum).get(position));
                         Log.d(TAG, String.valueOf(urlStr));
-
+                        //  外部ブラウザに飛ばす
                         CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder().build();
                         String packageName = CustomTabsHelper.getPackageNameToUse(getActivity());
                         tabsIntent.intent.setPackage(packageName);

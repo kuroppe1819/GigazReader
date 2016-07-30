@@ -2,19 +2,10 @@ package com.reader.gigazine.kuroppe.gigazreader.http;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
-import com.bumptech.glide.DrawableRequestBuilder;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
-
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-
 import java.util.ArrayList;
 
 public class HtmlParser {
@@ -51,15 +42,18 @@ public class HtmlParser {
 
     private void Image(){
         Elements img = document.getElementsByTag("img");
-//        int count = 0;
-        for (int i=3; i<img.size()-1; i++){
+        int count = 0;
+        while(img.get(count).attr("id") == ""){
+            count++;
+        }
+        for (int i = count; i<img.size()-1; i++){
             if (img.get(i).attr("src") == ""){
                 imgList.add(img.get(i).attr("data-src"));
             }else{
                 imgList.add(img.get(i).attr("src"));
             }
-//            Log.d(TAG, imgs.get(i) + " " + count);
-//            count++;
+//            Log.d("Imgs", img.get(i) + " " + count + " " + img.get(i).attr("id"));
+            count++;
         }
     }
 

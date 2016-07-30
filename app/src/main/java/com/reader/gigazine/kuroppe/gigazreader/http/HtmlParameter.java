@@ -1,8 +1,8 @@
 package com.reader.gigazine.kuroppe.gigazreader.http;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
-
 import com.bumptech.glide.BitmapTypeRequest;
 
 import java.util.ArrayList;

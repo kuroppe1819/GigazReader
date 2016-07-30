@@ -9,6 +9,8 @@ import android.util.Log;
 import com.reader.gigazine.kuroppe.gigazreader.http.HttpAsyncTask;
 
 public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks{
+    private String appTitle = "Gigazine";
+    private String TAG = "callback";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,14 +23,20 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     @Override
     public void onTaskFinished() {
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
-        toolbar.setTitle("Gigazine");
+        toolbar.setTitle(appTitle);
         setSupportActionBar(toolbar);
         onPagerSettings();
     }
 
+//    @Override
+//    public void onResume(){
+//        super.onResume();
+//        onPagerSettings();
+//    }
+
     @Override
     public void onTaskCancelled() {
-        Log.d("callback","キャンセル");
+        Log.d(TAG,"キャンセル");
     }
 
     private void onPagerSettings(){
