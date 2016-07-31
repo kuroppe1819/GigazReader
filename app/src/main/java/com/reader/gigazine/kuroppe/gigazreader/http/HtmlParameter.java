@@ -12,6 +12,7 @@ public class HtmlParameter {
     private static ArrayList<String> category = new ArrayList<String>();
     private static ArrayList<String> imgs = new ArrayList<String>();
     private static ArrayList<String> url = new ArrayList<String>();
+    private static ArrayList<String> time = new ArrayList<String>();
     private static ArrayList<Bitmap> bitmap = new ArrayList<Bitmap>();
 
     public void setTitle(ArrayList<String> title){
@@ -44,6 +45,14 @@ public class HtmlParameter {
 
     public ArrayList<String> getUrl(){
         return url;
+    }
+
+    public void setTime(ArrayList<String> time){
+        this.time = time;
+    }
+
+    public ArrayList<String> getTime(){
+        return time;
     }
 
     public void setBitmap(ArrayList<Bitmap> bitmap){

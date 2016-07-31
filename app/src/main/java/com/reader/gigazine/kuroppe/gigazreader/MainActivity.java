@@ -28,12 +28,6 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
         onPagerSettings();
     }
 
-//    @Override
-//    public void onResume(){
-//        super.onResume();
-//        onPagerSettings();
-//    }
-
     @Override
     public void onTaskCancelled() {
         Log.d(TAG,"キャンセル");

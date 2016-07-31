@@ -38,7 +38,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         viewHolder.article_textView.setText((String)htmlList.get(num.getTitleNum).get(i));
 //        viewHolder.category_textView.setText((String)htmlList.get(category).get(i));
-        Glide.with(this.context).load(htmlList.get(num.getImgsNum).get(i)).asBitmap().into(new SimpleTarget<Bitmap>(BitmapSize,BitmapSize) {
+        Glide.with(this.context).load(htmlList.get(num.getImgsNum).get(i)).asBitmap().into(new SimpleTarget<Bitmap>(/*BitmapSize,BitmapSize*/) {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
                 viewHolder.imageView.setImageBitmap(resource);
