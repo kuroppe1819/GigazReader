@@ -36,8 +36,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        viewHolder.article_textView.setText((String)htmlList.get(num.getTitleNum).get(i));
-//        viewHolder.category_textView.setText((String)htmlList.get(category).get(i));
+        viewHolder.article_textView.setText((String) htmlList.get(num.getTitleNum).get(i));
+        viewHolder.time_textView.setText((String) htmlList.get(num.getTimeNum).get(i));
+        viewHolder.category_textView.setText((String)htmlList.get(num.getCategoryNum).get(i));
         Glide.with(this.context).load(htmlList.get(num.getImgsNum).get(i)).asBitmap().into(new SimpleTarget<Bitmap>(/*BitmapSize,BitmapSize*/) {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
@@ -54,12 +55,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
         final ImageView imageView;
         final TextView article_textView;
-//        final TextView category_textView;
+        final TextView time_textView;
+        final TextView category_textView;
         public ViewHolder(View view) {
             super(view);
             imageView = (ImageView) view.findViewById(R.id.img);
             article_textView = (TextView) view.findViewById(R.id.article_text);
-//            category_textView = (TextView) view.findViewById(R.id.category_text);
+            time_textView = (TextView) view.findViewById(R.id.time_text);
+            category_textView = (TextView) view.findViewById(R.id.category_text);
         }
     }
 }

@@ -26,7 +26,7 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
         // タッチした箇所のViewを取得
         View childView = view.findChildViewUnder(e.getX(), e.getY());
         if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
-            // onInterceptTouchEventのタイミングだとアイテムのtouch feedbackがつく前にonItemClickが呼ばれてしまうので、明示的にsetPressed(true)を呼んでいます。
+            // onInterceptTouchEventのタイミングだとアイテムのtouch feedbackがつく前にonItemClickが呼ばれてしまうので、明示的にsetPressed(true)を呼ぶ。
             childView.setPressed(true);
             mListener.onItemClick(childView, view.getChildPosition(childView));
         }
@@ -35,7 +35,7 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
 
     @Override
     public void onTouchEvent(RecyclerView view, MotionEvent motionEvent) {
-        // Do nothing
+
     }
 
     @Override

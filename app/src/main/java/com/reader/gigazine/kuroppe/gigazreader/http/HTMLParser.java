@@ -30,7 +30,7 @@ public class HtmlParser {
         Url();
         Time();
 
-        getLog();
+//        getLog();
         HtmlParameter htmlList = new HtmlParameter();
         htmlList.setTitle(titleList);
         htmlList.setCategory(categoryList);
@@ -89,7 +89,6 @@ public class HtmlParser {
             int sufIdx = element.indexOf(suffix);
             timeList.add(element.substring(preIdx, sufIdx));
         }
-
     }
 
     private void getLog(){
