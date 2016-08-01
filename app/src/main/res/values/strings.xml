@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GigazReader</string>
+    <string name="action_share">この記事を共有する</string>
+    <string name="action_favorite">Favorite</string>
 </resources>

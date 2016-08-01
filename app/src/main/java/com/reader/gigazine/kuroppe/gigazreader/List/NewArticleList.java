@@ -1,5 +1,9 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
@@ -39,13 +43,10 @@ public class NewArticleList extends Fragment {
                     @Override
                     public void onItemClick(View view, int position) {
                         Log.d(TAG, String.valueOf(position));
-                        Uri urlStr = Uri.parse((String) htmlList.getList().get(num.getUrlNum).get(position));
-                        Log.d(TAG, String.valueOf(urlStr));
+                        Uri uri = Uri.parse((String) htmlList.getList().get(num.getUrlNum).get(position));
+                        Log.d(TAG, String.valueOf(uri));
                         //  外部ブラウザに飛ばす
-                        CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder().build();
-                        String packageName = CustomTabsHelper.getPackageNameToUse(getActivity());
-                        tabsIntent.intent.setPackage(packageName);
-                        tabsIntent.launchUrl(getActivity(), urlStr);
+                        new GoogleCustomTabs(uri, getActivity());
                     }
                 })
         );

@@ -6,11 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
 import com.reader.gigazine.kuroppe.gigazreader.http.HttpAsyncTask;
 
-public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks{
+public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks, View.OnClickListener{
     private String appTitle = "Gigazine";
-    private String TAG = "callback";
+    private String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,5 +42,10 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
         viewPager.setAdapter(pagerAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public void onClick(View view) {
+        Log.d(TAG, "押されたよ！");
     }
 }
