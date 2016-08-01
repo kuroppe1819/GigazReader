@@ -34,6 +34,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return new ViewHolder(inflater.inflate(R.layout.list_item, viewGroup, false));
     }
 
+
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         viewHolder.article_textView.setText((String) htmlList.get(num.getTitleNum).get(i));

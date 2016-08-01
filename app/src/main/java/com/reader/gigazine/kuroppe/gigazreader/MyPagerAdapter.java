@@ -40,7 +40,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter implements Serializable
         String title = null;
         switch (position){
             case 0:
-                title = "最新記事";
+                title = "TOP";
                 break;
             case 1:
                 title = "お気に入り";
