@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.reader.gigazine.kuroppe.gigazreader.AsyncTaskCallbacks;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,6 +18,7 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
     private Activity activity = null;
     private String url = "http://gigazine.net/P0/";
     public ProgressDialog progressDialog;
+    private String TAG = "AsyncTask";
 
     public HttpAsyncTask(Activity activity, AsyncTaskCallbacks callback){
         this.activity = activity;
@@ -43,8 +46,13 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
 
     @Override
     protected void onPostExecute(Document document) {
-        HtmlParser html = new HtmlParser(document, this.activity);
-        html.onParse();
+        Log.d(TAG, String.valueOf(document));
+        if (document != null) {
+            HtmlParser html = new HtmlParser(document, activity);
+            html.onParse();
+        }else {
+            Toast.makeText(activity, "接続がタイムアウトしました。しばらくしてからもう一度お試しください。", Toast.LENGTH_LONG).show();
+        }
         // プログレスダイアログを閉じる
         if (this.progressDialog != null && this.progressDialog.isShowing()) {
             this.progressDialog.dismiss();
@@ -55,7 +63,7 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
 
     @Override
     protected void onCancelled() {
-        Log.v("AsyncTask", "onCancelled");
+        Log.v(TAG, "onCancelled");
         callback.onTaskCancelled();
     }
 }
