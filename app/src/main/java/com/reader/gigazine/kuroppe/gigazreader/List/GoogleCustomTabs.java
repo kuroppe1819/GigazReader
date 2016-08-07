@@ -13,10 +13,8 @@ import org.chromium.customtabsclient.shared.CustomTabsHelper;
 
 public class GoogleCustomTabs{
     public GoogleCustomTabs(Uri uri, Activity activity) {
-
         // GoogleChrome v45以上が利用可能か調べる。
         String packageName = CustomTabsHelper.getPackageNameToUse(activity);
-
         // URLを共有するメニューアイテムの生成
         final Intent shareIntent = new Intent(Intent.ACTION_SEND)
                 .setType("text/plain")

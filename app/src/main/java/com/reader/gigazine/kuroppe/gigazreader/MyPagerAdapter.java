@@ -1,16 +1,12 @@
 package com.reader.gigazine.kuroppe.gigazreader;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteList;
 import com.reader.gigazine.kuroppe.gigazreader.List.NewArticleList;
-import com.reader.gigazine.kuroppe.gigazreader.http.HtmlParameter;
-import java.io.Serializable;
-import java.util.ArrayList;
 
-public class MyPagerAdapter extends FragmentPagerAdapter implements Serializable {
+public class MyPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
 
     public MyPagerAdapter(FragmentManager fm) {

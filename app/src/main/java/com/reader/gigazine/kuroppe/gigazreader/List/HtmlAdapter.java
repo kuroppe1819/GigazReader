@@ -1,8 +1,6 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.reader.gigazine.kuroppe.gigazreader.R;
-import com.reader.gigazine.kuroppe.gigazreader.http.HtmlList;
-import com.reader.gigazine.kuroppe.gigazreader.http.HtmlParameter;
-
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class HtmlAdapter extends ArrayAdapter<HtmlData>{
     private LayoutInflater layoutInflater_;
@@ -51,9 +44,11 @@ public class HtmlAdapter extends ArrayAdapter<HtmlData>{
         Glide.with(this.context)
                 .load(htmlData.getImgs())
                 .asBitmap()
-                .override(500,500)
+                .override(450,450)
+                .error(android.R.drawable.ic_delete)
                 .into(imageView);
 
         return convertView;
     }
 }
+

@@ -12,8 +12,7 @@ public class NewArticleList extends Fragment {
     private View view;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.article_layout,null);
         return view;
     }

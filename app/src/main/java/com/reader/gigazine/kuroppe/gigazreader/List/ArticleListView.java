@@ -7,12 +7,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import com.reader.gigazine.kuroppe.gigazreader.http.HtmlList;
 import com.reader.gigazine.kuroppe.gigazreader.http.HtmlParameter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ArticleListView {
     private Activity activity;
@@ -26,8 +25,9 @@ public class ArticleListView {
     }
 
     public void ArticleList() {
+        HtmlList htmlList = new HtmlList();
         final HtmlParameter htmlParameter = new HtmlParameter();
-        final HtmlAdapter htmlAdapter = new HtmlAdapter(activity, 0, new HtmlList().getList());
+        final HtmlAdapter htmlAdapter = new HtmlAdapter(activity, 0, htmlList.getList());
         listView = (ListView) activity.findViewById(R.id.article_list);
         listView.setAdapter(htmlAdapter);
 
@@ -45,6 +45,13 @@ public class ArticleListView {
                 new GoogleCustomTabs(uri, activity);
             }
         });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
+                Toast.makeText(activity, "お気に入りに追加", Toast.LENGTH_LONG).show();
+                return true;
+            }
+        }); // End setOnItemLongClickListener
     }
 
     public void FavoriteList(){

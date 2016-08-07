@@ -1,5 +1,9 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
+import android.graphics.Bitmap;
+
+import com.bumptech.glide.Glide;
+
 public class HtmlData {
     private String title, category, imgs, url, time;
 
@@ -42,5 +46,7 @@ public class HtmlData {
     public String getTime(){
         return time;
     }
+
+
 
 }
