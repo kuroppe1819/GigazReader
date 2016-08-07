@@ -1,17 +1,20 @@
 package com.reader.gigazine.kuroppe.gigazreader.http;
-
+import com.reader.gigazine.kuroppe.gigazreader.List.HtmlData;
 import java.util.ArrayList;
 
 public class HtmlList {
-    public ArrayList<ArrayList> getList(){
+    public ArrayList<HtmlData> getList(){
+        ArrayList<HtmlData> objects = new ArrayList<HtmlData>();
         HtmlParameter params = new HtmlParameter();
-        ArrayList<ArrayList> list = new ArrayList<ArrayList>();
-        list.add(params.getTitle());
-        list.add(params.getCategory());
-        list.add(params.getImgs());
-        list.add(params.getUrl());
-        list.add(params.getTime());
-        list.add(params.getBitmap());
-        return list;
+        for (int i=0; i<params.getTitle().size(); i++){
+            HtmlData htmlData = new HtmlData();
+            htmlData.setTitle(params.getTitle().get(i));
+            htmlData.setCategory(params.getCategory().get(i));
+            htmlData.setImgs(params.getImgs().get(i));
+            htmlData.setUrl(params.getUrl().get(i));
+            htmlData.setTime(params.getTime().get(i));
+            objects.add(htmlData);
+        }
+        return objects;
     }
 }

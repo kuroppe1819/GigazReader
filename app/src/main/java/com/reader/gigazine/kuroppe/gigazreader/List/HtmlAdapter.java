@@ -1,0 +1,59 @@
+package com.reader.gigazine.kuroppe.gigazreader.List;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.reader.gigazine.kuroppe.gigazreader.R;
+import com.reader.gigazine.kuroppe.gigazreader.http.HtmlList;
+import com.reader.gigazine.kuroppe.gigazreader.http.HtmlParameter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class HtmlAdapter extends ArrayAdapter<HtmlData>{
+    private LayoutInflater layoutInflater_;
+    private Context context;
+
+    public HtmlAdapter(Context context, int textViewResourceId, ArrayList<HtmlData> objects) {
+        super(context, textViewResourceId, objects);
+        this.context = context;
+        layoutInflater_ = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        // 特定の行(position)のデータを得る
+        HtmlData htmlData = (HtmlData) getItem(position);
+
+        // convertViewは使い回しされている可能性があるのでnullの時だけ新しく作る
+        if (null == convertView) {
+            convertView = layoutInflater_.inflate(R.layout.list_item, null);
+        }
+
+        TextView titleText = (TextView)convertView.findViewById(R.id.title_text);
+        titleText.setText(htmlData.getTitle());
+        TextView categoryText = (TextView)convertView.findViewById(R.id.category_text);
+        categoryText.setText(htmlData.getCategory());
+        TextView timeText = (TextView)convertView.findViewById(R.id.time_text);
+        timeText.setText(htmlData.getTime());
+
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
+        // BitmapDataに変換
+        Glide.with(this.context)
+                .load(htmlData.getImgs())
+                .asBitmap()
+                .override(500,500)
+                .into(imageView);
+
+        return convertView;
+    }
+}

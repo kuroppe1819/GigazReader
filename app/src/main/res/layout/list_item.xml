@@ -47,7 +47,7 @@
             android:textColor="@color/Grey"/>
 
             <TextView
-                android:id="@+id/article_text"
+                android:id="@+id/title_text"
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -1,8 +1,6 @@
 package com.reader.gigazine.kuroppe.gigazreader.http;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.util.Log;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -16,7 +14,6 @@ public class HtmlParser {
     private ArrayList<String> imgList = new ArrayList<String>();
     private ArrayList<String> urlList = new ArrayList<String>();
     private ArrayList<String> timeList = new ArrayList<String>();
-//    private ArrayList<Bitmap> bitmapList = new ArrayList<>();
     private Context context;
 
     public HtmlParser(Document document, Context context){
@@ -37,7 +34,6 @@ public class HtmlParser {
         htmlList.setImgs(imgList);
         htmlList.setUrl(urlList);
         htmlList.setTime(timeList);
-//        htmlList.setBitmap(bitmapList);
     }
 
     private void Image(){

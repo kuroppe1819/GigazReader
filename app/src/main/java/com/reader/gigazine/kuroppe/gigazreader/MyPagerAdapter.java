@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteList;
 import com.reader.gigazine.kuroppe.gigazreader.List.NewArticleList;
-import com.reader.gigazine.kuroppe.gigazreader.List.TestList;
 import com.reader.gigazine.kuroppe.gigazreader.http.HtmlParameter;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,8 +23,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter implements Serializable
             case 0:
                 return new NewArticleList();
             case 1:
-//                return new FavoriteList();
-                return new TestList();
+                return new FavoriteList();
         }
         return null;
     }

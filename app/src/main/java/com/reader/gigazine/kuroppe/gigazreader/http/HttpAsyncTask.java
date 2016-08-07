@@ -5,8 +5,8 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.reader.gigazine.kuroppe.gigazreader.AsyncTaskCallbacks;
+import com.reader.gigazine.kuroppe.gigazreader.R;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import java.io.IOException;
@@ -51,7 +51,7 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
             HtmlParser html = new HtmlParser(document, activity);
             html.onParse();
         }else {
-            Toast.makeText(activity, "接続がタイムアウトしました。しばらくしてからもう一度お試しください。", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, R.string.timeout, Toast.LENGTH_LONG).show();
         }
         // プログレスダイアログを閉じる
         if (this.progressDialog != null && this.progressDialog.isShowing()) {

@@ -1,28 +1,15 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.reader.gigazine.kuroppe.gigazreader.R;
-import com.reader.gigazine.kuroppe.gigazreader.http.HtmlList;
-import org.chromium.customtabsclient.shared.CustomTabsHelper;
 
 public class NewArticleList extends Fragment {
-    private String TAG = "position";
+    private String TAG = "NewArticleList";
     private View view;
-    private HtmlList htmlList = new HtmlList();
-    private GetNum num = new GetNum();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,21 +21,7 @@ public class NewArticleList extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new RecyclerAdapter(getActivity(), htmlList.getList()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Log.d(TAG, String.valueOf(position));
-                        Uri uri = Uri.parse((String) htmlList.getList().get(num.getUrlNum).get(position));
-                        Log.d(TAG, String.valueOf(uri));
-                        //  外部ブラウザに飛ばす
-                        new GoogleCustomTabs(uri, getActivity());
-                    }
-                })
-        );
+        ArticleListView articleListView = new ArticleListView(getActivity(), view);
+        articleListView.ArticleList();
     }
 }
