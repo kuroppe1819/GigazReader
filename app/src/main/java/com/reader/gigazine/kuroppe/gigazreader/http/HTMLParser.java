@@ -9,11 +9,11 @@ import java.util.ArrayList;
 public class HtmlParser {
     private String TAG = "HTML";
     private Document document;
-    private ArrayList<String> titleList = new ArrayList<String>();
-    private ArrayList<String> categoryList = new ArrayList<String>();
-    private ArrayList<String> imgList = new ArrayList<String>();
-    private ArrayList<String> urlList = new ArrayList<String>();
-    private ArrayList<String> timeList = new ArrayList<String>();
+    private ArrayList<String> titleList = new ArrayList<>();
+    private ArrayList<String> categoryList = new ArrayList<>();
+    private ArrayList<String> imgList = new ArrayList<>();
+    private ArrayList<String> urlList = new ArrayList<>();
+    private ArrayList<String> timeList = new ArrayList<>();
     private Context context;
 
     public HtmlParser(Document document, Context context){

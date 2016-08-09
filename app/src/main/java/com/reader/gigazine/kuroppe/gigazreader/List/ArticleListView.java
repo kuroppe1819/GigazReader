@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import com.reader.gigazine.kuroppe.gigazreader.http.HtmlList;
 import com.reader.gigazine.kuroppe.gigazreader.http.HtmlParameter;
@@ -25,6 +24,7 @@ public class ArticleListView {
     }
 
     public void ArticleList() {
+        final FileIO fileIO = new FileIO(activity);
         HtmlList htmlList = new HtmlList();
         final HtmlParameter htmlParameter = new HtmlParameter();
         final HtmlAdapter htmlAdapter = new HtmlAdapter(activity, 0, htmlList.getList());
@@ -49,12 +49,10 @@ public class ArticleListView {
             @Override
             public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
                 Toast.makeText(activity, "お気に入りに追加", Toast.LENGTH_LONG).show();
+                // データの保存
+                fileIO.Input(position, htmlParameter);
                 return true;
             }
-        }); // End setOnItemLongClickListener
-    }
-
-    public void FavoriteList(){
-
+        });
     }
 }

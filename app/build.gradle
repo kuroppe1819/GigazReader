@@ -29,4 +29,5 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.support:customtabs:23.1.1'
     compile project(':shared')
+    compile 'com.google.code.gson:gson:2.3.1'
 }

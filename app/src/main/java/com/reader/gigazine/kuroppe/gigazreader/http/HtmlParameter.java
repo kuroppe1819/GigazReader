@@ -2,11 +2,11 @@ package com.reader.gigazine.kuroppe.gigazreader.http;
 import java.util.ArrayList;
 
 public class HtmlParameter {
-    private static ArrayList<String> title = new ArrayList<String>();
-    private static ArrayList<String> category = new ArrayList<String>();
-    private static ArrayList<String> imgs = new ArrayList<String>();
-    private static ArrayList<String> url = new ArrayList<String>();
-    private static ArrayList<String> time = new ArrayList<String>();
+    private static ArrayList<String> title = new ArrayList<>();
+    private static ArrayList<String> category = new ArrayList<>();
+    private static ArrayList<String> imgs = new ArrayList<>();
+    private static ArrayList<String> url = new ArrayList<>();
+    private static ArrayList<String> time = new ArrayList<>();
 
     public void setTitle(ArrayList<String> title){
         this.title = title;

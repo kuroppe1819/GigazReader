@@ -21,10 +21,6 @@ public class FavoriteList extends Fragment{
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ArrayList<String> arrayList = new ArrayList<String>();
-        for (int i = 0; i < 100; i++){
-            arrayList.add(String.valueOf(i));
-        }
 
     }
 }

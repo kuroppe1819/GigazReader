@@ -8,7 +8,7 @@ public class HtmlList {
     private HtmlData htmlData;
 
     public ArrayList<HtmlData> getList(){
-        ArrayList<HtmlData> objects = new ArrayList<HtmlData>();
+        ArrayList<HtmlData> objects = new ArrayList<>();
         HtmlParameter params = new HtmlParameter();
         for (int i=0; i<params.getTitle().size(); i++){
             htmlData = new HtmlData();
