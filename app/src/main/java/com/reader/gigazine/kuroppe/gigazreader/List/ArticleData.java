@@ -1,11 +1,13 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 
-public class HtmlData {
+public class ArticleData {
     private String title, category, imgs, url, time;
+    private String TAG = "ArticleData";
 
     public void setTitle(String title){
         this.title = title;
@@ -46,7 +48,4 @@ public class HtmlData {
     public String getTime(){
         return time;
     }
-
-
-
 }

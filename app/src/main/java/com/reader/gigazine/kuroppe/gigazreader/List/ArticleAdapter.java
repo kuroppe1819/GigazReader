@@ -11,12 +11,11 @@ import com.bumptech.glide.Glide;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import java.util.ArrayList;
 
-
-public class HtmlAdapter extends ArrayAdapter<HtmlData>{
+public class ArticleAdapter extends ArrayAdapter<ArticleData>{
     private LayoutInflater layoutInflater_;
     private Context context;
 
-    public HtmlAdapter(Context context, int textViewResourceId, ArrayList<HtmlData> objects) {
+    public ArticleAdapter(Context context, int textViewResourceId, ArrayList<ArticleData> objects) {
         super(context, textViewResourceId, objects);
         this.context = context;
         layoutInflater_ = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -25,7 +24,7 @@ public class HtmlAdapter extends ArrayAdapter<HtmlData>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // 特定の行(position)のデータを得る
-        HtmlData htmlData = (HtmlData) getItem(position);
+        ArticleData articleData = (ArticleData) getItem(position);
 
         // convertViewは使い回しされている可能性があるのでnullの時だけ新しく作る
         if (null == convertView) {
@@ -33,16 +32,16 @@ public class HtmlAdapter extends ArrayAdapter<HtmlData>{
         }
 
         TextView titleText = (TextView)convertView.findViewById(R.id.title_text);
-        titleText.setText(htmlData.getTitle());
+        titleText.setText(articleData.getTitle());
         TextView categoryText = (TextView)convertView.findViewById(R.id.category_text);
-        categoryText.setText(htmlData.getCategory());
+        categoryText.setText(articleData.getCategory());
         TextView timeText = (TextView)convertView.findViewById(R.id.time_text);
-        timeText.setText(htmlData.getTime());
+        timeText.setText(articleData.getTime());
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
         // BitmapDataに変換
         Glide.with(this.context)
-                .load(htmlData.getImgs())
+                .load(articleData.getImgs())
                 .asBitmap()
                 .override(450,450)
                 .error(android.R.drawable.ic_delete)
