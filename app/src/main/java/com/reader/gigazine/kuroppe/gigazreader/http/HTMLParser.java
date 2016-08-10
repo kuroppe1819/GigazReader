@@ -1,4 +1,4 @@
-package com.reader.gigazine.kuroppe.gigazreader.http;
+package com.reader.gigazine.kuroppe.gigazreader.Http;
 
 import android.content.Context;
 import android.util.Log;

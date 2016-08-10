@@ -1,8 +1,7 @@
-package com.reader.gigazine.kuroppe.gigazreader.http;
+package com.reader.gigazine.kuroppe.gigazreader.Http;
 
 import android.app.Activity;
 import android.util.Log;
-
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteData;
 import com.reader.gigazine.kuroppe.gigazreader.List.FileIO;
 import com.reader.gigazine.kuroppe.gigazreader.List.ArticleData;
@@ -42,8 +41,6 @@ public class HtmlList {
             favoriteData.setTime(fileIO.Output().get(i).get(4).toString());
             objects.add(favoriteData);
         }
-        Log.d(TAG, fileIO.Output().get(0).get(0).toString());
-        Log.d(TAG, fileIO.Output().get(1).get(0).toString());
         return objects;
     }
 }

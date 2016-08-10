@@ -6,15 +6,14 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.reader.gigazine.kuroppe.gigazreader.http.HtmlParameter;
-import org.json.JSONArray;
+import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlParameter;
 import java.util.ArrayList;
 
 public class FileIO implements FavoriteList.Callback{
     private ArrayList<ArrayList> favoriteList = new ArrayList<>();
     private String TAG = "FileIO";
     private Activity activity;
-    private JSONArray jsonArray = new JSONArray();
+
     private Gson gson = new Gson();
     private SharedPreferences preferences;
 
@@ -23,6 +22,27 @@ public class FileIO implements FavoriteList.Callback{
         this.preferences = activity.getSharedPreferences("preferences", Context.MODE_PRIVATE);
         // 保存したデータを削除
 //        preferences.edit().clear().commit();
+    }
+
+    // FavoriteListにCallback
+    public void Update(){
+        FavoriteList favoriteList = new FavoriteList();
+        favoriteList.setCallback(this);
+        favoriteList.onUpdate();
+    }
+
+    @Override
+    public void callbackMethod() {
+        Log.d(TAG, "Updating and finishing");
+    }
+
+    private void Save(ArrayList<ArrayList> favoriteList){
+        // データの保存
+        preferences.edit().putString("list", gson.toJson(favoriteList)).commit();
+    }
+
+    public ArrayList<ArrayList> Output(){
+        return gson.fromJson(preferences.getString("list", ""), new TypeToken<ArrayList<ArrayList>>(){}.getType());
     }
 
     public void Input(int position, HtmlParameter htmlParameter){
@@ -38,24 +58,15 @@ public class FileIO implements FavoriteList.Callback{
 //        for (int i=0; i<favoriteList.size(); i++) {
 //            Log.d(TAG, String.valueOf(favoriteList.get(i).get(0)));
 //        }
-        // データの保存
-        preferences.edit().putString("list", gson.toJson(favoriteList)).commit();
+        Save(favoriteList);
         Update();
     }
 
-    public ArrayList<ArrayList> Output(){
-        return gson.fromJson(preferences.getString("list", ""), new TypeToken<ArrayList<ArrayList>>(){}.getType());
+    public void PreferencesDelete(int position){
+        favoriteList = Output();
+        favoriteList.remove(position);
+        Save(favoriteList);
     }
 
-    // FavoriteListにCallback
-    public void Update(){
-        FavoriteList favoriteList = new FavoriteList();
-        favoriteList.setCallback(this);
-        favoriteList.onUpdate();
-    }
 
-    @Override
-    public void callbackMethod() {
-        Log.d(TAG, "Updating and finishing");
-    }
 }

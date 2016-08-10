@@ -7,9 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
-import com.reader.gigazine.kuroppe.gigazreader.http.HttpAsyncTask;
+import com.reader.gigazine.kuroppe.gigazreader.Http.HttpAsyncTask;
 
 public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks, View.OnClickListener{
     private String appTitle = "Gigazine";

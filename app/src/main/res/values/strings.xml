@@ -2,5 +2,7 @@
     <string name="app_name">GigazReader</string>
     <string name="action_share">この記事を共有する</string>
     <string name="add_favorite">お気に入りに追加しました</string>
+    <string name="delete_favorite">お気に入り記事を削除しました</string>
+    <string name="dialog_message">この記事をお気に入りから削除しますか？</string>
     <string name="timeout">接続がタイムアウトしました。しばらくしてからもう一度お試しください。</string>
 </resources>

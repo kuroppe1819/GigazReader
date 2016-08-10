@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.reader.gigazine.kuroppe.gigazreader.R;
-import com.reader.gigazine.kuroppe.gigazreader.http.HtmlList;
-import com.reader.gigazine.kuroppe.gigazreader.http.HtmlParameter;
+import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlList;
+import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlParameter;
 
 public class NewArticleList extends Fragment {
     private String TAG = "NewArticleList";

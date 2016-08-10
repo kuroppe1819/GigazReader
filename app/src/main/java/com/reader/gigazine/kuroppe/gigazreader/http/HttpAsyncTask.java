@@ -1,4 +1,4 @@
-package com.reader.gigazine.kuroppe.gigazreader.http;
+package com.reader.gigazine.kuroppe.gigazreader.Http;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

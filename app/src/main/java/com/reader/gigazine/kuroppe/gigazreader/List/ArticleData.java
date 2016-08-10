@@ -1,10 +1,5 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
-import android.graphics.Bitmap;
-import android.util.Log;
-
-import com.bumptech.glide.Glide;
-
 public class ArticleData {
     private String title, category, imgs, url, time;
     private String TAG = "ArticleData";
