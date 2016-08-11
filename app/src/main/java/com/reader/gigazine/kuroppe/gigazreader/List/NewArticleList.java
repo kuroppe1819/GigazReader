@@ -74,7 +74,7 @@ public class NewArticleList extends Fragment{
                 fileIO.Input(position, htmlParameter);
                 refresh();
                 final Snackbar snackbar = Snackbar.make(view, R.string.add_favorite, Snackbar.LENGTH_SHORT);
-                snackbar.getView().setBackgroundColor(ContextCompat.getColor(getContext(),R.color.colorPrimary));
+                snackbar.getView().setBackgroundColor(ContextCompat.getColor(getContext(),R.color.LightsSkyBlue));
                 snackbar.show();
                 return true;
             }

@@ -94,7 +94,7 @@ public class FavoriteList extends Fragment{
                         fileIO.PreferencesDelete(position);
                         refresh();
                         final Snackbar snackbar = Snackbar.make(view, R.string.delete_favorite, Snackbar.LENGTH_SHORT);
-                        snackbar.getView().setBackgroundColor(ContextCompat.getColor(getContext(),R.color.colorPrimary));
+                        snackbar.getView().setBackgroundColor(ContextCompat.getColor(getContext(),R.color.LightsSkyBlue));
                         snackbar.show();
                     }
                 })

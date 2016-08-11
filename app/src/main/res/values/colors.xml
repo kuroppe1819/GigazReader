@@ -6,4 +6,7 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="Grey">#808080</color>
     <color name="Black">#000000</color>
+    <color name="LightsSkyBlue">#87CEFA</color>
+    <color name="Yellow">#FFFF00</color>
+    <color name="DeepSkyBlue">#00BFFF</color>
 </resources>
