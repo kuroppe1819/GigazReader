@@ -1,5 +1,6 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,39 +23,41 @@ public class FavoriteList extends Fragment{
     private ListView listView;
     private FavoriteAdapter favoriteAdapter;
     private FileIO fileIO;
+    private Activity activity;
     private String TAG = "FavoriteList";
 
-    public interface Callback{
-        public void callbackMethod();
+    public interface OnPageChangeListener{
+        public void onDeleteChange();
     }
 
-    private Callback callback;
-
-    public void setCallback(Callback callback){
-        this.callback = callback;
-    }
-
-    // ListViewの更新
-    public void onUpdate(){
-//        favoriteAdapter.notifyDataSetChanged();
+    //Activityへ通知
+    //Fragment内でページを更新したい場合に呼ぶ
+    public void refresh(){
+        Activity activity = getActivity();
+        if(activity instanceof OnPageChangeListener == false){
+            System.out.println("activity unimplement OnPageChangeListener");
+            return;
+        }
+        ((OnPageChangeListener)activity).onDeleteChange();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
-        view = inflater.inflate(R.layout.favorite_layout,null);
+        view = inflater.inflate(R.layout.favorite_layout, null);
+        this.activity = getActivity();
         return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        fileIO = new FileIO(getActivity());
+        fileIO = new FileIO(activity);
         final HtmlParameter htmlParameter = new HtmlParameter();
         if (fileIO.Output() != null) {
             HtmlList htmlList = new HtmlList();
-            favoriteAdapter = new FavoriteAdapter(getActivity(), 0, htmlList.getFavorite(getActivity()));
-            listView = (ListView) getActivity().findViewById(R.id.favorite_list);
+            favoriteAdapter = new FavoriteAdapter(activity, 0, htmlList.getFavorite(activity));
+            listView = (ListView) activity.findViewById(R.id.favorite_list);
             listView.setAdapter(favoriteAdapter);
 
             // スワイプしたときにToolbarを隠す
@@ -68,7 +71,7 @@ public class FavoriteList extends Fragment{
                     Uri uri = Uri.parse(htmlParameter.getUrl().get(position));
 //                    Log.d(TAG, String.valueOf(uri));
                     //  外部ブラウザに飛ばす
-                    new GoogleCustomTabs(uri, getActivity());
+                    new GoogleCustomTabs(uri, activity);
                 }
             });
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -82,13 +85,14 @@ public class FavoriteList extends Fragment{
     }
 
     private void onDialog(final int position){
-        new AlertDialog.Builder(getActivity())
+        new AlertDialog.Builder(activity)
                 .setMessage(R.string.dialog_message)
                 .setPositiveButton("はい", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // OKのとき
                         fileIO.PreferencesDelete(position);
+                        refresh();
                         final Snackbar snackbar = Snackbar.make(view, R.string.delete_favorite, Snackbar.LENGTH_SHORT);
                         snackbar.getView().setBackgroundColor(ContextCompat.getColor(getContext(),R.color.colorPrimary));
                         snackbar.show();
@@ -96,13 +100,5 @@ public class FavoriteList extends Fragment{
                 })
                 .setNegativeButton("いいえ", null)
                 .show();
-    }
-
-    @Override
-    public void onDestroyView(){
-        super.onDestroyView();
-//        view = null;
-//        listView.setAdapter(null);
-//        favoriteAdapter.clear();
     }
 }

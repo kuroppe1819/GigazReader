@@ -3,17 +3,15 @@ package com.reader.gigazine.kuroppe.gigazreader.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlParameter;
 import java.util.ArrayList;
 
-public class FileIO implements FavoriteList.Callback{
+public class FileIO {
     private ArrayList<ArrayList> favoriteList = new ArrayList<>();
     private String TAG = "FileIO";
     private Activity activity;
-
     private Gson gson = new Gson();
     private SharedPreferences preferences;
 
@@ -22,18 +20,6 @@ public class FileIO implements FavoriteList.Callback{
         this.preferences = activity.getSharedPreferences("preferences", Context.MODE_PRIVATE);
         // 保存したデータを削除
 //        preferences.edit().clear().commit();
-    }
-
-    // FavoriteListにCallback
-    public void Update(){
-        FavoriteList favoriteList = new FavoriteList();
-        favoriteList.setCallback(this);
-        favoriteList.onUpdate();
-    }
-
-    @Override
-    public void callbackMethod() {
-        Log.d(TAG, "Updating and finishing");
     }
 
     private void Save(ArrayList<ArrayList> favoriteList){
@@ -59,7 +45,6 @@ public class FileIO implements FavoriteList.Callback{
 //            Log.d(TAG, String.valueOf(favoriteList.get(i).get(0)));
 //        }
         Save(favoriteList);
-        Update();
     }
 
     public void PreferencesDelete(int position){

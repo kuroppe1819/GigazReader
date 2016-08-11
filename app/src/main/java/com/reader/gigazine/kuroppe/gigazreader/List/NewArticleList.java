@@ -1,5 +1,6 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -16,10 +17,25 @@ import com.reader.gigazine.kuroppe.gigazreader.R;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlList;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlParameter;
 
-public class NewArticleList extends Fragment {
+public class NewArticleList extends Fragment{
     private String TAG = "NewArticleList";
     private View view;
     private ListView listView;
+
+    public interface OnPageChangeListener{
+        public void onAddChange();
+    }
+
+    //Activityへ通知
+    //Fragment内でページを更新したい場合に呼ぶ
+    public void refresh(){
+        Activity activity = getActivity();
+        if(activity instanceof OnPageChangeListener == false){
+            System.out.println("activity unimplement OnPageChangeListener");
+            return;
+        }
+        ((OnPageChangeListener)activity).onAddChange();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -56,6 +72,7 @@ public class NewArticleList extends Fragment {
             public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
                 // データの保存
                 fileIO.Input(position, htmlParameter);
+                refresh();
                 final Snackbar snackbar = Snackbar.make(view, R.string.add_favorite, Snackbar.LENGTH_SHORT);
                 snackbar.getView().setBackgroundColor(ContextCompat.getColor(getContext(),R.color.colorPrimary));
                 snackbar.show();

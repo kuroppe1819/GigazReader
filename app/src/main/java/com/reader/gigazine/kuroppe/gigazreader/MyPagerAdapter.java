@@ -6,8 +6,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteList;
 import com.reader.gigazine.kuroppe.gigazreader.List.NewArticleList;
 
-public class MyPagerAdapter extends FragmentPagerAdapter {
+public class MyPagerAdapter extends FragmentPagerAdapter{
     final int PAGE_COUNT = 2;
+
 
     public MyPagerAdapter(FragmentManager fm) {
         super(fm);
