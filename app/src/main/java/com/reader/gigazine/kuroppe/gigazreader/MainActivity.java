@@ -1,7 +1,5 @@
 package com.reader.gigazine.kuroppe.gigazreader;
 
-import android.graphics.Color;
-import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,9 +9,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-
 import com.reader.gigazine.kuroppe.gigazreader.Http.HttpAsyncTask;
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteList;
 import com.reader.gigazine.kuroppe.gigazreader.List.NewArticleList;
@@ -21,7 +16,6 @@ import com.reader.gigazine.kuroppe.gigazreader.List.NewArticleList;
 public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks,
         View.OnClickListener, NewArticleList.OnPageChangeListener, FavoriteList.OnPageChangeListener{
 
-    private String appTitle = "Gigazine";
     private String TAG = "MainActivity";
     private MyPagerAdapter pagerAdapter;
     private ViewPager viewPager;
@@ -39,8 +33,14 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     @Override
     public void onTaskFinished() {
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
-        toolbar.setTitle(appTitle);
+        toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
+        onPagerSettings();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
         onPagerSettings();
     }
 
