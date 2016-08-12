@@ -68,7 +68,7 @@ public class FavoriteList extends Fragment{
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 //                    Log.d(TAG, String.valueOf(position));
-                    Uri uri = Uri.parse(htmlParameter.getUrl().get(position));
+                    Uri uri = Uri.parse(fileIO.Output().get(position).get(3).toString());
 //                    Log.d(TAG, String.valueOf(uri));
                     //  外部ブラウザに飛ばす
                     new GoogleCustomTabs(uri, activity);
