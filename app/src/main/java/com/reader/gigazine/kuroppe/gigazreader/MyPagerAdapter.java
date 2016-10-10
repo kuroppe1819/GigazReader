@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteList;
-import com.reader.gigazine.kuroppe.gigazreader.List.NewArticleList;
+import com.reader.gigazine.kuroppe.gigazreader.List.ArticleList;
 
 public class MyPagerAdapter extends FragmentPagerAdapter{
     final int PAGE_COUNT = 2;
@@ -18,7 +18,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter{
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new NewArticleList();
+                return new ArticleList();
             case 1:
                 return new FavoriteList();
         }

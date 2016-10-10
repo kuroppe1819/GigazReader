@@ -11,42 +11,22 @@ import android.util.Log;
 import android.view.View;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HttpAsyncTask;
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteList;
-import com.reader.gigazine.kuroppe.gigazreader.List.NewArticleList;
+import com.reader.gigazine.kuroppe.gigazreader.List.ArticleList;
 
 public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks,
-        View.OnClickListener, NewArticleList.OnPageChangeListener, FavoriteList.OnPageChangeListener{
+        View.OnClickListener, FavoriteList.DialogClickListener, PageChangeListener {
 
     private String TAG = "MainActivity";
     private MyPagerAdapter pagerAdapter;
     private ViewPager viewPager;
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        HttpAsyncTask http = new HttpAsyncTask(this,this);
-        http.execute();
-    }
-
-    @Override
-    public void onTaskFinished() {
-        Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
-        toolbar.setTitle(R.string.app_name);
-        setSupportActionBar(toolbar);
-        onPagerSettings();
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        onPagerSettings();
-    }
-
-    @Override
-    public void onTaskCancelled() {
-        Log.d(TAG,"キャンセル");
+    private void onUpdate(){
+        // Fragmentの再生成
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction trans = fm.beginTransaction();
+        FavoriteList favoriteList = new FavoriteList();
+        trans.replace(R.id.fragment, favoriteList);
+        trans.commit();
     }
 
     private void onPagerSettings(){
@@ -58,28 +38,48 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        HttpAsyncTask http = new HttpAsyncTask(this,this);
+        http.execute();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        onPagerSettings();
+    }
+
+    @Override
+    public void onTaskFinished() {
+        Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
+        toolbar.setTitle(R.string.app_name);
+        setSupportActionBar(toolbar);
+        onPagerSettings();
+    }
+
+    @Override
+    public void onTaskCancelled() {
+        Log.d(TAG,"キャンセル");
+    }
+
+    @Override
     public void onClick(View view) {
         Log.d(TAG, "押されたよ！");
     }
 
-    private void onUpdate(){
-        // Fragmentの再生成
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction trans = fm.beginTransaction();
-        FavoriteList favoriteList = new FavoriteList();
-        trans.replace(R.id.fragment, favoriteList);
-        trans.commit();
+    @Override
+    public void onDialogShow(int position) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+        CustomDialogFragment dialog = new CustomDialogFragment();
+        dialog.setArguments(bundle);
+        dialog.show(getSupportFragmentManager(), "");
     }
 
     @Override
-    public void onAddChange() {
-        // NewArticleListから呼ばれる
-        onUpdate();
-    }
-
-    @Override
-    public void onDeleteChange() {
-        // FavoriteListから呼ばれる
+    public void onPageChange() {
         onUpdate();
     }
 }

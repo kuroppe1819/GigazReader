@@ -1,6 +1,7 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlList;
-import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlParameter;
 
 public class FavoriteList extends Fragment{
     private View view;
@@ -24,10 +24,15 @@ public class FavoriteList extends Fragment{
     private FavoriteAdapter favoriteAdapter;
     private FileIO fileIO;
     private Activity activity;
+    private DialogClickListener dialogClickListener = null;
     private String TAG = "FavoriteList";
 
     public interface OnPageChangeListener{
-        public void onDeleteChange();
+        void onDeleteChange();
+    }
+
+    public interface DialogClickListener {
+        void onDialogShow(int position);
     }
 
     //Activityへ通知
@@ -42,6 +47,16 @@ public class FavoriteList extends Fragment{
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof DialogClickListener){
+            dialogClickListener = (DialogClickListener) context;
+        }else{
+            throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
         view = inflater.inflate(R.layout.favorite_layout, null);
@@ -53,7 +68,7 @@ public class FavoriteList extends Fragment{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         fileIO = new FileIO(activity);
-        final HtmlParameter htmlParameter = new HtmlParameter();
+//        final HtmlParameter htmlParameter = new HtmlParameter();
         if (fileIO.Output() != null) {
             HtmlList htmlList = new HtmlList();
             favoriteAdapter = new FavoriteAdapter(activity, 0, htmlList.getFavorite(activity));
@@ -77,7 +92,8 @@ public class FavoriteList extends Fragment{
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
-                    onDialog(position);
+                    // ダイアログを表示
+                    dialogClickListener.onDialogShow(position);
                     return true;
                 }
             });

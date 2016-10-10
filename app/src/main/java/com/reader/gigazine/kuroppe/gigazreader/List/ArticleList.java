@@ -1,6 +1,6 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
-import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -13,28 +13,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.reader.gigazine.kuroppe.gigazreader.PageChangeListener;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlList;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlParameter;
 
-public class NewArticleList extends Fragment{
-    private String TAG = "NewArticleList";
+public class ArticleList extends Fragment{
+    private String TAG = "ArticleList";
     private View view;
     private ListView listView;
+    private  PageChangeListener pageChangeListener = null;
 
-    public interface OnPageChangeListener{
-        public void onAddChange();
-    }
-
-    //Activityへ通知
-    //Fragment内でページを更新したい場合に呼ぶ
-    public void refresh(){
-        Activity activity = getActivity();
-        if(activity instanceof OnPageChangeListener == false){
-            System.out.println("activity unimplement OnPageChangeListener");
-            return;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof PageChangeListener){
+            pageChangeListener = (PageChangeListener) context;
+        }else{
+            throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
         }
-        ((OnPageChangeListener)activity).onAddChange();
     }
 
     @Override
@@ -72,7 +70,8 @@ public class NewArticleList extends Fragment{
             public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
                 // データの保存
                 fileIO.Input(position, htmlParameter);
-                refresh();
+                // ページを更新
+                pageChangeListener.onPageChange();
                 final Snackbar snackbar = Snackbar.make(view, R.string.add_favorite, Snackbar.LENGTH_SHORT);
                 snackbar.getView().setBackgroundColor(ContextCompat.getColor(getContext(),R.color.SeaGreen));
                 snackbar.show();

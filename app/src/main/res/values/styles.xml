@@ -1,13 +1,12 @@
 <resources>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/SeaGreen</item>
         <item name="colorPrimaryDark">@color/DarkSeaGreen</item>
-        <item name="colorAccent">@color/Accent</item>
+        <item name="colorAccent">@color/DarkSeaGreen</item>
         <!-- ToolBarのタイトルテキスト色 -->
-        <item name="android:textColorPrimary">@color/Yellow</item>
+        <item name="android:textColorPrimary">@color/White</item>
     </style>
 
 </resources>

@@ -2,8 +2,8 @@ package com.reader.gigazine.kuroppe.gigazreader;
 
 public interface AsyncTaskCallbacks {
     //終了
-    public void onTaskFinished();
+    void onTaskFinished();
 
     //キャンセル
-    public void onTaskCancelled();
+    void onTaskCancelled();
 }
