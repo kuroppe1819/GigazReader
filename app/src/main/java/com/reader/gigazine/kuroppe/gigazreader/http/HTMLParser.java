@@ -1,7 +1,16 @@
 package com.reader.gigazine.kuroppe.gigazreader.Http;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
+import android.widget.ImageView;
+
+import com.bumptech.glide.BitmapTypeRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.reader.gigazine.kuroppe.gigazreader.R;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import java.util.ArrayList;
@@ -14,26 +23,9 @@ public class HtmlParser {
     static private ArrayList<String> imgList = new ArrayList<>();
     static private ArrayList<String> urlList = new ArrayList<>();
     static private ArrayList<String> timeList = new ArrayList<>();
-    private Context context;
 
-    public HtmlParser(Document document, Context context){
+    public HtmlParser(Document document, Activity activity){
         this.document = document;
-        this.context = context;
-    }
-
-    public void onParse(){
-        Title();
-        Image();
-        Url();
-        Time();
-
-        getLog();
-        HtmlParameter htmlList = new HtmlParameter();
-        htmlList.setTitle(titleList);
-        htmlList.setCategory(categoryList);
-        htmlList.setImgs(imgList);
-        htmlList.setUrl(urlList);
-        htmlList.setTime(timeList);
     }
 
     private void Image(){
@@ -46,7 +38,9 @@ public class HtmlParser {
             if (img.get(i).attr("src") == ""){
                 imgList.add(img.get(i).attr("data-src"));
             }else{
-                imgList.add(img.get(i).attr("src"));
+                if (img.get(count).attr("id") != "") {
+                    imgList.add(img.get(i).attr("src"));
+                }
             }
 //            Log.d("Imgs", img.get(i) + " " + count + " " + img.get(i).attr("id"));
             count++;
@@ -93,5 +87,20 @@ public class HtmlParser {
         Log.d(TAG, "Image" + " " + imgList.get(39) + " " + imgList.size());
         Log.d(TAG, "Url" + " " + urlList.get(39) + " " + urlList.size());
         Log.d(TAG, "Time" + " " + timeList.get(39) + " " + timeList.size());
+    }
+
+    public void onParse(){
+        Title();
+        Image();
+        Url();
+        Time();
+
+//        getLog();
+        HtmlParameter htmlList = new HtmlParameter();
+        htmlList.setTitle(titleList);
+        htmlList.setCategory(categoryList);
+        htmlList.setImgs(imgList);
+        htmlList.setUrl(urlList);
+        htmlList.setTime(timeList);
     }
 }

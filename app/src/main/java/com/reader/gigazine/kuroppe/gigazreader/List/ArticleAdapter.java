@@ -1,6 +1,7 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.MemoryCategory;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.cache.LruResourceCache;
+import com.bumptech.glide.load.engine.cache.MemoryCache;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import java.util.ArrayList;
 
@@ -39,14 +44,15 @@ public class ArticleAdapter extends ArrayAdapter<ArticleData>{
         timeText.setText(articleData.getTime());
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
+
+//        Log.d("Imgs", String.valueOf(imageView));
         // BitmapDataに変換
         Glide.with(this.context)
                 .load(articleData.getImgs())
-                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(450,450)
                 .error(android.R.drawable.ic_delete)
                 .into(imageView);
-
         return convertView;
     }
 }

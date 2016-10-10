@@ -1,7 +1,6 @@
 package com.reader.gigazine.kuroppe.gigazreader.Http;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,7 +16,6 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
     private AsyncTaskCallbacks callback = null;
     private Activity activity = null;
     private String url;
-//    public ProgressDialog progressDialog;
     private String TAG = "AsyncTask";
 
     public HttpAsyncTask(Activity activity, AsyncTaskCallbacks callback, int pageNumber){
@@ -28,10 +26,6 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
 
     @Override
     protected void onPreExecute() {
-        // プログレスダイアログの生成
-//        this.progressDialog = new ProgressDialog(this.activity);
-//        this.progressDialog.setMessage("読み込み中...");
-//        this.progressDialog.show();
     }
 
     @Override
@@ -54,12 +48,8 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
         }else {
             Toast.makeText(activity, R.string.timeout, Toast.LENGTH_LONG).show();
         }
-        // プログレスダイアログを閉じる
-//        if (this.progressDialog != null && this.progressDialog.isShowing()) {
-//            this.progressDialog.dismiss();
             //終了をActivityに通知
             callback.onTaskFinished();
-        //}
     }
 
     @Override

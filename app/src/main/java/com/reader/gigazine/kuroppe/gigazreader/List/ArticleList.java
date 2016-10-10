@@ -14,9 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import com.reader.gigazine.kuroppe.gigazreader.AsyncTaskCallbacks;
-import com.reader.gigazine.kuroppe.gigazreader.Http.HttpAsyncTask;
 import com.reader.gigazine.kuroppe.gigazreader.PageChangeListener;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlList;
@@ -29,7 +27,6 @@ public class ArticleList extends Fragment{
     private boolean scrollFinished = false;
     private PageChangeListener pageChangeListener = null;
     private AsyncTaskCallbacks asyncTaskCallbacks = null;
-    // フッターのプログレスバー
     private View mFooter;
 
     private View getFooter(Bundle bundle) {
