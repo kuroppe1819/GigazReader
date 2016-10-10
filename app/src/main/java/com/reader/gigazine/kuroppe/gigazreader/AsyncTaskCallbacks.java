@@ -6,4 +6,7 @@ public interface AsyncTaskCallbacks {
 
     //キャンセル
     void onTaskCancelled();
+
+    //データの追加
+    void addTaskCallbacks();
 }

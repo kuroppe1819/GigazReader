@@ -9,11 +9,11 @@ import java.util.ArrayList;
 public class HtmlParser {
     private String TAG = "HTML";
     private Document document;
-    private ArrayList<String> titleList = new ArrayList<>();
-    private ArrayList<String> categoryList = new ArrayList<>();
-    private ArrayList<String> imgList = new ArrayList<>();
-    private ArrayList<String> urlList = new ArrayList<>();
-    private ArrayList<String> timeList = new ArrayList<>();
+    static private ArrayList<String> titleList = new ArrayList<>();
+    static private ArrayList<String> categoryList = new ArrayList<>();
+    static private ArrayList<String> imgList = new ArrayList<>();
+    static private ArrayList<String> urlList = new ArrayList<>();
+    static private ArrayList<String> timeList = new ArrayList<>();
     private Context context;
 
     public HtmlParser(Document document, Context context){
@@ -27,7 +27,7 @@ public class HtmlParser {
         Url();
         Time();
 
-//        getLog();
+        getLog();
         HtmlParameter htmlList = new HtmlParameter();
         htmlList.setTitle(titleList);
         htmlList.setCategory(categoryList);
@@ -93,6 +93,5 @@ public class HtmlParser {
         Log.d(TAG, "Image" + " " + imgList.get(39) + " " + imgList.size());
         Log.d(TAG, "Url" + " " + urlList.get(39) + " " + urlList.size());
         Log.d(TAG, "Time" + " " + timeList.get(39) + " " + timeList.size());
-//        Log.d("HTML", String.valueOf(bitmapList.size()));
     }
 }

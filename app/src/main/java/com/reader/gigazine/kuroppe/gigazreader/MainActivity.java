@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HttpAsyncTask;
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteList;
-import com.reader.gigazine.kuroppe.gigazreader.List.ArticleList;
 
 public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks,
         View.OnClickListener, FavoriteList.DialogClickListener, PageChangeListener {
@@ -19,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     private String TAG = "MainActivity";
     private MyPagerAdapter pagerAdapter;
     private ViewPager viewPager;
+    private int pageNumber = 0;
 
     private void onUpdate(){
         // Fragmentの再生成
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        HttpAsyncTask http = new HttpAsyncTask(this,this);
+        HttpAsyncTask http = new HttpAsyncTask(this, this, pageNumber);
         http.execute();
     }
 
@@ -62,6 +62,14 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     @Override
     public void onTaskCancelled() {
         Log.d(TAG,"キャンセル");
+    }
+
+    @Override
+    public void addTaskCallbacks() {
+        Log.d(TAG,"");
+        pageNumber += 40;
+        HttpAsyncTask http = new HttpAsyncTask(this, this, pageNumber);
+        http.execute();
     }
 
     @Override

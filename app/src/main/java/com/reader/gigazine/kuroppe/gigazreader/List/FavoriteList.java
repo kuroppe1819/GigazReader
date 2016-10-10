@@ -27,23 +27,8 @@ public class FavoriteList extends Fragment{
     private DialogClickListener dialogClickListener = null;
     private String TAG = "FavoriteList";
 
-    public interface OnPageChangeListener{
-        void onDeleteChange();
-    }
-
     public interface DialogClickListener {
         void onDialogShow(int position);
-    }
-
-    //Activityへ通知
-    //Fragment内でページを更新したい場合に呼ぶ
-    public void refresh(){
-        Activity activity = getActivity();
-        if(activity instanceof OnPageChangeListener == false){
-            System.out.println("activity unimplement OnPageChangeListener");
-            return;
-        }
-        ((OnPageChangeListener)activity).onDeleteChange();
     }
 
     @Override
@@ -98,23 +83,5 @@ public class FavoriteList extends Fragment{
                 }
             });
         }
-    }
-
-    private void onDialog(final int position){
-        new AlertDialog.Builder(activity)
-                .setMessage(R.string.dialog_message)
-                .setPositiveButton("はい", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // OKのとき
-                        fileIO.PreferencesDelete(position);
-                        refresh();
-                        final Snackbar snackbar = Snackbar.make(view, R.string.delete_favorite, Snackbar.LENGTH_SHORT);
-                        snackbar.getView().setBackgroundColor(ContextCompat.getColor(getContext(),R.color.SeaGreen));
-                        snackbar.show();
-                    }
-                })
-                .setNegativeButton("いいえ", null)
-                .show();
     }
 }

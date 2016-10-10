@@ -11,9 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.reader.gigazine.kuroppe.gigazreader.AsyncTaskCallbacks;
+import com.reader.gigazine.kuroppe.gigazreader.Http.HttpAsyncTask;
 import com.reader.gigazine.kuroppe.gigazreader.PageChangeListener;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlList;
@@ -23,13 +26,30 @@ public class ArticleList extends Fragment{
     private String TAG = "ArticleList";
     private View view;
     private ListView listView;
-    private  PageChangeListener pageChangeListener = null;
+    private boolean scrollFinished = false;
+    private PageChangeListener pageChangeListener = null;
+    private AsyncTaskCallbacks asyncTaskCallbacks = null;
+    // フッターのプログレスバー
+    private View mFooter;
+
+    private View getFooter(Bundle bundle) {
+        if (mFooter == null) {
+            mFooter = getLayoutInflater(bundle).inflate(R.layout.listview_footer, null);
+        }
+        return mFooter;
+    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if(context instanceof PageChangeListener){
             pageChangeListener = (PageChangeListener) context;
+        }else{
+            throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
+        }
+
+        if(context instanceof AsyncTaskCallbacks){
+            asyncTaskCallbacks = (AsyncTaskCallbacks) context;
         }else{
             throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
         }
@@ -50,6 +70,29 @@ public class ArticleList extends Fragment{
         final ArticleAdapter articleAdapter = new ArticleAdapter(getActivity(), 0, htmlList.getArticle());
         listView = (ListView) getActivity().findViewById(R.id.article_list);
         listView.setAdapter(articleAdapter);
+        // リストビューにフッターを追加
+        listView.addFooterView(getFooter(savedInstanceState));
+        // スクロールのリスナー
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                // スクロール完了したとき
+                if ((totalItemCount - visibleItemCount) == firstVisibleItem && firstVisibleItem != 0) {
+//                    Log.d(TAG, firstVisibleItem + " " + visibleItemCount + " " +totalItemCount);
+                    scrollFinished = true;
+                }
+            }
+
+            // ListViewがスクロール中かどうか
+            @Override
+            public void onScrollStateChanged(AbsListView arg0, int arg1) {
+//                Log.d(TAG, String.valueOf(arg1));
+                if(arg1 == 0 && scrollFinished == true){
+                    scrollFinished = false;
+                    asyncTaskCallbacks.addTaskCallbacks();
+                }
+            }
+        });
 
         // スワイプしたときにToolbarを隠す
         ViewCompat.setNestedScrollingEnabled(listView, true);
@@ -65,6 +108,7 @@ public class ArticleList extends Fragment{
                 new GoogleCustomTabs(uri, getActivity());
             }
         });
+        // 長押し
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
