@@ -2,17 +2,23 @@ package com.reader.gigazine.kuroppe.gigazreader.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.location.GpsStatus;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.reader.gigazine.kuroppe.gigazreader.PageChangeListener;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlList;
+
+import java.security.PublicKey;
 
 public class FavoriteList extends Fragment{
     private View view;
@@ -22,6 +28,9 @@ public class FavoriteList extends Fragment{
     private Activity activity;
     private DialogClickListener dialogClickListener = null;
     private String TAG = "FavoriteList";
+
+    public FavoriteList() {
+    }
 
     public interface DialogClickListener {
         void onDialogShow(int position);
@@ -80,4 +89,15 @@ public class FavoriteList extends Fragment{
             });
         }
     }
+
+    public void FavoriteListUpdate(int position){
+        fileIO = new FileIO(getActivity());
+        fileIO.PreferencesDelete(position);
+        HtmlList htmlList = new HtmlList();
+        favoriteAdapter.clear();
+        favoriteAdapter.addAll(htmlList.getFavorite(activity));
+        favoriteAdapter.notifyDataSetChanged();
+        listView.invalidateViews();
+    }
+
 }

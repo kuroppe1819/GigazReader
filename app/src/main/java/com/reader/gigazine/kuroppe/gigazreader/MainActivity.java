@@ -13,7 +13,7 @@ import com.reader.gigazine.kuroppe.gigazreader.Http.HttpAsyncTask;
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteList;
 
 public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks,
-        View.OnClickListener, FavoriteList.DialogClickListener, PageChangeListener {
+        View.OnClickListener, FavoriteList.DialogClickListener,PageChangeListener{
 
     private String TAG = "MainActivity";
     private MyPagerAdapter pagerAdapter;

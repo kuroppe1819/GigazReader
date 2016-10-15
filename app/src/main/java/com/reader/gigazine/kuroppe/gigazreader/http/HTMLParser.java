@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class HtmlParser {
     private String TAG = "HTML";
     private Document document;
-    private int PROMOTIONNUMBER;
+    private int PROMOTION_NUMBER;
     static private ArrayList<String> titleList = new ArrayList<>();
     static private ArrayList<String> categoryList = new ArrayList<>();
     static private ArrayList<String> imgList = new ArrayList<>();
@@ -18,7 +18,7 @@ public class HtmlParser {
 
     public HtmlParser(Document document, int pageNumber){
         this.document = document;
-        PROMOTIONNUMBER = pageNumber + 20;
+        PROMOTION_NUMBER = pageNumber + 20;
     }
 
     private void Image(){
@@ -61,12 +61,12 @@ public class HtmlParser {
     }
 
     private void addPromotion(){
-        Log.d(TAG, String.valueOf(PROMOTIONNUMBER));
-        titleList.add(PROMOTIONNUMBER, "広告");
-        categoryList.add(PROMOTIONNUMBER, "PR");
-        imgList.add(PROMOTIONNUMBER, "http://image.itmedia.co.jp/nl/articles/1610/12/mofigtwwcrg001.jpg");
-        urlList.add(PROMOTIONNUMBER, "http://ansaikuropedia.org/wiki/%E9%87%91%E6%B2%A2%E5%B7%A5%E6%A5%AD%E5%A4%A7%E5%AD%A6");
-        timeList.add(PROMOTIONNUMBER, "");
+        Log.d(TAG, String.valueOf(PROMOTION_NUMBER));
+        titleList.add(PROMOTION_NUMBER, "広告");
+        categoryList.add(PROMOTION_NUMBER, "PR");
+        imgList.add(PROMOTION_NUMBER, "http://image.itmedia.co.jp/nl/articles/1610/12/mofigtwwcrg001.jpg");
+        urlList.add(PROMOTION_NUMBER, "http://ansaikuropedia.org/wiki/%E9%87%91%E6%B2%A2%E5%B7%A5%E6%A5%AD%E5%A4%A7%E5%AD%A6");
+        timeList.add(PROMOTION_NUMBER, "");
     }
 
     private void getLog(){

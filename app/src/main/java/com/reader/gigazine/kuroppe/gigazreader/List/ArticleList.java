@@ -3,10 +3,12 @@ package com.reader.gigazine.kuroppe.gigazreader.List;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +22,7 @@ import com.reader.gigazine.kuroppe.gigazreader.R;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlList;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlParameter;
 
-public class ArticleList extends Fragment{
+public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private String TAG = "ArticleList";
     private View view;
     private ListView listView;
@@ -28,6 +30,7 @@ public class ArticleList extends Fragment{
     private PageChangeListener pageChangeListener = null;
     private AsyncTaskCallbacks asyncTaskCallbacks = null;
     private View mFooter;
+    private SwipeRefreshLayout mSwipeRefresh;
 
     private View getFooter(Bundle bundle) {
         if (mFooter == null) {
@@ -55,6 +58,10 @@ public class ArticleList extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.article_layout,null);
+        mSwipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+        mSwipeRefresh.setColorSchemeResources(R.color.DarkSeaGreen);
+        // Listenerをセット
+        mSwipeRefresh.setOnRefreshListener(this);
         return view;
     }
 
@@ -119,5 +126,16 @@ public class ArticleList extends Fragment{
                 return true;
             }
         });
+    }
+
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // 更新が終了したらインジケータ非表示
+                mSwipeRefresh.setRefreshing(false);
+            }
+        }, 800);
     }
 }
