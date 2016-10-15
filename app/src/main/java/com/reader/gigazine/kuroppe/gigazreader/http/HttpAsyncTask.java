@@ -16,13 +16,14 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
     private AsyncTaskCallbacks callback = null;
     private Activity activity = null;
     private String url;
+    private int pageNumber;
     private String TAG = "AsyncTask";
 
     public HttpAsyncTask(Activity activity, AsyncTaskCallbacks callback, int pageNumber){
         this.activity = activity;
         this.callback = callback;
         this.url = "http://gigazine.net/P" + String.valueOf(pageNumber);
-//        this.url = "http://gigazine.net/P40";
+        this.pageNumber = pageNumber;
     }
 
     @Override
@@ -44,7 +45,7 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
     protected void onPostExecute(Document document) {
 //        Log.d(TAG, String.valueOf(document));
         if (document != null) {
-            HtmlParser html = new HtmlParser(document, activity);
+            HtmlParser html = new HtmlParser(document, pageNumber);
             html.onParse();
         }else {
             Toast.makeText(activity, R.string.timeout, Toast.LENGTH_LONG).show();

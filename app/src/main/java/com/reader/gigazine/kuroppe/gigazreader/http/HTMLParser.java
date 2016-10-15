@@ -9,14 +9,16 @@ import java.util.ArrayList;
 public class HtmlParser {
     private String TAG = "HTML";
     private Document document;
+    private int PROMOTIONNUMBER;
     static private ArrayList<String> titleList = new ArrayList<>();
     static private ArrayList<String> categoryList = new ArrayList<>();
     static private ArrayList<String> imgList = new ArrayList<>();
     static private ArrayList<String> urlList = new ArrayList<>();
     static private ArrayList<String> timeList = new ArrayList<>();
 
-    public HtmlParser(Document document, Activity activity){
+    public HtmlParser(Document document, int pageNumber){
         this.document = document;
+        PROMOTIONNUMBER = pageNumber + 20;
     }
 
     private void Image(){
@@ -24,11 +26,10 @@ public class HtmlParser {
         for (int i = 0; i<img.size(); i++){
             if (img.get(i).attr("src") == "") {
                 imgList.add(img.get(i).attr("data-src"));
-            } else {
+            } else{
                 imgList.add(img.get(i).attr("src"));
             }
         }
-
     }
 
     private void Title(){
@@ -59,12 +60,23 @@ public class HtmlParser {
         }
     }
 
+    private void addPromotion(){
+        Log.d(TAG, String.valueOf(PROMOTIONNUMBER));
+        titleList.add(PROMOTIONNUMBER, "広告");
+        categoryList.add(PROMOTIONNUMBER, "PR");
+        imgList.add(PROMOTIONNUMBER, "http://image.itmedia.co.jp/nl/articles/1610/12/mofigtwwcrg001.jpg");
+        urlList.add(PROMOTIONNUMBER, "http://ansaikuropedia.org/wiki/%E9%87%91%E6%B2%A2%E5%B7%A5%E6%A5%AD%E5%A4%A7%E5%AD%A6");
+        timeList.add(PROMOTIONNUMBER, "");
+    }
+
     private void getLog(){
-        Log.d(TAG, "Title" + " " + titleList.get(39) + " " + titleList.size());
-        Log.d(TAG, "Category" + " " + categoryList.get(39) + " " + categoryList.size());
-        Log.d(TAG, "Image" + " " + imgList.get(39) + " " + imgList.size());
-        Log.d(TAG, "Url" + " " + urlList.get(39) + " " + urlList.size());
-        Log.d(TAG, "Time" + " " + timeList.get(39) + " " + timeList.size());
+        for (int i=0; i<titleList.size(); i++) {
+            Log.d(TAG, "Title" + " " + titleList.get(i) + " " + titleList.size());
+//            Log.d(TAG, "Category" + " " + categoryList.get(i) + " " + categoryList.size());
+//            Log.d(TAG, "Image" + " " + imgList.get(i) + " " + imgList.size());
+//            Log.d(TAG, "Url" + " " + urlList.get(i) + " " + urlList.size());
+//            Log.d(TAG, "Time" + " " + timeList.get(i) + " " + timeList.size());
+        }
     }
 
     public void onParse(){
@@ -72,7 +84,8 @@ public class HtmlParser {
         Image();
         Url();
         Time();
-//        getLog();
+        addPromotion();
+        getLog();
         HtmlParameter htmlList = new HtmlParameter();
         htmlList.setTitle(titleList);
         htmlList.setCategory(categoryList);
