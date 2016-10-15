@@ -1,16 +1,7 @@
 package com.reader.gigazine.kuroppe.gigazreader.Http;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
-import android.widget.ImageView;
-
-import com.bumptech.glide.BitmapTypeRequest;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.reader.gigazine.kuroppe.gigazreader.R;
-
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import java.util.ArrayList;
@@ -29,22 +20,15 @@ public class HtmlParser {
     }
 
     private void Image(){
-        Elements img = document.getElementsByTag("img");
-        int count = 0;
-        while(img.get(count).attr("id") == ""){
-            count++;
-        }
-        for (int i = count; i<img.size()-1; i++){
-            if (img.get(i).attr("src") == ""){
+        Elements img = document.select(".card .thumb a img");
+        for (int i = 0; i<img.size(); i++){
+            if (img.get(i).attr("src") == "") {
                 imgList.add(img.get(i).attr("data-src"));
-            }else{
-                if (img.get(count).attr("id") != "") {
-                    imgList.add(img.get(i).attr("src"));
-                }
+            } else {
+                imgList.add(img.get(i).attr("src"));
             }
-//            Log.d("Imgs", img.get(i) + " " + count + " " + img.get(i).attr("id"));
-            count++;
         }
+
     }
 
     private void Title(){
@@ -53,19 +37,13 @@ public class HtmlParser {
         for (int i=0 ; i<span_split.length; i+=2) {
             titleList.add(span_split[i]);
             categoryList.add(span_split[i+1]);
-//            html.setTitle(span_split[i]);
         }
     }
 
     private void Url(){
-        final String prefix = "<a href=\"";
-        final String suffix = "\"><span>";
-        Elements h2 = document.select("h2");
-        for (int i=0; i<h2.size(); i++){
-            String element = h2.get(i).toString();
-            int preIdx = element.indexOf(prefix) + prefix.length();
-            int sufIdx = element.indexOf(suffix);
-            urlList.add(element.substring(preIdx, sufIdx));
+        Elements url = document.select("h2 a");
+        for (int i=0; i<url.size(); i++){
+            urlList.add(url.get(i).attr("href"));
         }
     }
 
@@ -94,7 +72,6 @@ public class HtmlParser {
         Image();
         Url();
         Time();
-
 //        getLog();
         HtmlParameter htmlList = new HtmlParameter();
         htmlList.setTitle(titleList);

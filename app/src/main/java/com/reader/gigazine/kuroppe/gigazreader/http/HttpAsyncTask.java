@@ -22,6 +22,7 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
         this.activity = activity;
         this.callback = callback;
         this.url = "http://gigazine.net/P" + String.valueOf(pageNumber);
+//        this.url = "http://gigazine.net/P40";
     }
 
     @Override
@@ -41,7 +42,7 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
 
     @Override
     protected void onPostExecute(Document document) {
-        Log.d(TAG, String.valueOf(document));
+//        Log.d(TAG, String.valueOf(document));
         if (document != null) {
             HtmlParser html = new HtmlParser(document, activity);
             html.onParse();
