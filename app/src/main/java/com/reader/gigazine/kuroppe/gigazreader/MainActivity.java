@@ -12,8 +12,7 @@ import android.view.View;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HttpAsyncTask;
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteList;
 
-public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks,
-        View.OnClickListener, FavoriteList.DialogClickListener,PageChangeListener{
+public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks,PageChangeListener{
 
     private String TAG = "MainActivity";
     private MyPagerAdapter pagerAdapter;
@@ -46,12 +45,6 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
-        onPagerSettings();
-    }
-
-    @Override
     public void onTaskFinished() {
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
         toolbar.setTitle(R.string.app_name);
@@ -73,21 +66,12 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     }
 
     @Override
-    public void onClick(View view) {
-        Log.d(TAG, "押されたよ！");
+    public void dialogCallback() {
+
     }
 
     @Override
-    public void onDialogShow(int position) {
-        Bundle bundle = new Bundle();
-        bundle.putInt("position", position);
-        CustomDialogFragment dialog = new CustomDialogFragment();
-        dialog.setArguments(bundle);
-        dialog.show(getSupportFragmentManager(), "");
-    }
-
-    @Override
-    public void onPageChange() {
+    public void ArticleListCallback() {
         onUpdate();
     }
 }

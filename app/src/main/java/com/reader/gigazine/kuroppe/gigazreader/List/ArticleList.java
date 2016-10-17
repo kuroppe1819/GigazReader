@@ -1,6 +1,8 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,8 +29,8 @@ public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefres
     private View view;
     private ListView listView;
     private boolean scrollFinished = false;
-    private PageChangeListener pageChangeListener = null;
     private AsyncTaskCallbacks asyncTaskCallbacks = null;
+    private PageChangeListener pageChangeListener = null;
     private View mFooter;
     private SwipeRefreshLayout mSwipeRefresh;
 
@@ -42,14 +44,17 @@ public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefres
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if(context instanceof PageChangeListener){
-            pageChangeListener = (PageChangeListener) context;
+        if(context instanceof AsyncTaskCallbacks){
+            asyncTaskCallbacks = (AsyncTaskCallbacks) context;
         }else{
             throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
         }
-
-        if(context instanceof AsyncTaskCallbacks){
-            asyncTaskCallbacks = (AsyncTaskCallbacks) context;
+//        pageChangeListener = (PageChangeListener) getTargetFragment();
+//        if (pageChangeListener instanceof PageChangeListener == false) {
+//            throw new ClassCastException("must implement OnFragmentInteractionListener");
+//        }
+        if(context instanceof PageChangeListener){
+            pageChangeListener = (PageChangeListener) context;
         }else{
             throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
         }
@@ -105,11 +110,13 @@ public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefres
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Log.d(TAG, String.valueOf(position));
+//                Log.d(TAG, String.valueOf(position));
                 Uri uri = Uri.parse(htmlParameter.getUrl().get(position));
-                Log.d(TAG, String.valueOf(uri));
+//                Log.d(TAG, String.valueOf(uri));
                 //  外部ブラウザに飛ばす
-                new GoogleCustomTabs(uri, getActivity());
+                GoogleCustomTabs customTabs = new GoogleCustomTabs(getActivity());
+                customTabs.ChromeStartUp(uri);
+                customTabs.unbindCustomTabsService();
             }
         });
         // 長押し
@@ -118,10 +125,21 @@ public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefres
             public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
                 // データの保存
                 fileIO.Input(position, htmlParameter);
-                // ページを更新
-                pageChangeListener.onPageChange();
+                // todo お気に入りページを更新
+                Fragment target = getTargetFragment();
+                Log.d(TAG, String.valueOf(getTargetFragment()));
+//                Intent data = new Intent();
+//                data.putExtra(Intent.EXTRA_TEXT, "data");
+//                target.onActivityResult(getTargetRequestCode(), Activity.RESULT_OK,data);
+
                 final Snackbar snackbar = Snackbar.make(view, R.string.add_favorite, Snackbar.LENGTH_SHORT);
                 snackbar.getView().setBackgroundColor(ContextCompat.getColor(getContext(),R.color.SeaGreen));
+                snackbar.setAction("閉じる", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        snackbar.dismiss();
+                    }
+                });
                 snackbar.show();
                 return true;
             }

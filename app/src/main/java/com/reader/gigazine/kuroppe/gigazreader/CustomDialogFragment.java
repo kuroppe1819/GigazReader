@@ -6,12 +6,9 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-
-import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteList;
 import com.reader.gigazine.kuroppe.gigazreader.List.FileIO;
 
 public class CustomDialogFragment extends DialogFragment{
@@ -20,20 +17,14 @@ public class CustomDialogFragment extends DialogFragment{
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if(context instanceof PageChangeListener){
-            pageChangeListener = (PageChangeListener) context;
-        }else{
-            throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
+        pageChangeListener = (PageChangeListener) getTargetFragment();
+        if (pageChangeListener instanceof PageChangeListener == false) {
+            throw new ClassCastException("must implement OnFragmentInteractionListener");
         }
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-        // タップ位置の取得
-        Bundle bundle = getArguments();
-        final int position = bundle.getInt("position");
-
         Dialog dialog = new Dialog(getActivity());
         // タイトル非表示
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -48,8 +39,8 @@ public class CustomDialogFragment extends DialogFragment{
             @Override
             public void onClick(View v) {
                 FileIO fileIO = new FileIO(getActivity());
-                fileIO.PreferencesDelete(position);
-                pageChangeListener.onPageChange();
+                fileIO.PreferencesDelete(getTargetRequestCode());
+                pageChangeListener.dialogCallback();
                 dismiss();
             }
         });
@@ -63,6 +54,4 @@ public class CustomDialogFragment extends DialogFragment{
 
         return dialog;
     }
-
-
 }
