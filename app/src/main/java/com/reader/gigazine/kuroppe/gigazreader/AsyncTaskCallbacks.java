@@ -9,4 +9,7 @@ public interface AsyncTaskCallbacks {
 
     //データの追加
     void addTaskCallbacks();
+
+    //データの更新
+    void updateTaskCallbacks();
 }

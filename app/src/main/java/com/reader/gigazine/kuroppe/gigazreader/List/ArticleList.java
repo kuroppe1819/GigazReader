@@ -33,6 +33,7 @@ public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefres
     private PageChangeListener pageChangeListener = null;
     private View mFooter;
     private SwipeRefreshLayout mSwipeRefresh;
+    private ArticleAdapter articleAdapter;
 
     private View getFooter(Bundle bundle) {
         if (mFooter == null) {
@@ -53,11 +54,11 @@ public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefres
 //        if (pageChangeListener instanceof PageChangeListener == false) {
 //            throw new ClassCastException("must implement OnFragmentInteractionListener");
 //        }
-        if(context instanceof PageChangeListener){
-            pageChangeListener = (PageChangeListener) context;
-        }else{
-            throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
-        }
+//        if(context instanceof PageChangeListener){
+//            pageChangeListener = (PageChangeListener) context;
+//        }else{
+//            throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
+//        }
     }
 
     @Override
@@ -76,7 +77,7 @@ public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefres
         HtmlList htmlList = new HtmlList();
         final FileIO fileIO = new FileIO(getActivity());
         final HtmlParameter htmlParameter = new HtmlParameter();
-        final ArticleAdapter articleAdapter = new ArticleAdapter(getActivity(), 0, htmlList.getArticle());
+        articleAdapter = new ArticleAdapter(getActivity(), 0, htmlList.getArticle());
         listView = (ListView) getActivity().findViewById(R.id.article_list);
         listView.setAdapter(articleAdapter);
         // リストビューにフッターを追加
@@ -151,6 +152,10 @@ public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefres
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                articleAdapter.clear();
+                articleAdapter.notifyDataSetChanged();
+                listView.invalidateViews();
+                asyncTaskCallbacks.updateTaskCallbacks();
                 // 更新が終了したらインジケータ非表示
                 mSwipeRefresh.setRefreshing(false);
             }

@@ -1,8 +1,12 @@
 package com.reader.gigazine.kuroppe.gigazreader.Http;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 import com.reader.gigazine.kuroppe.gigazreader.AsyncTaskCallbacks;
 import com.reader.gigazine.kuroppe.gigazreader.R;
@@ -29,6 +33,7 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
     @Override
     protected void onPreExecute() {
     }
+
 
     @Override
     protected Document doInBackground(Void... voids) {

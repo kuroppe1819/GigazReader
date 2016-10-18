@@ -10,15 +10,29 @@ public class HtmlParser {
     private String TAG = "HTML";
     private Document document;
     private int PROMOTION_NUMBER;
+    private HtmlParameter htmlList;
     static private ArrayList<String> titleList = new ArrayList<>();
     static private ArrayList<String> categoryList = new ArrayList<>();
     static private ArrayList<String> imgList = new ArrayList<>();
     static private ArrayList<String> urlList = new ArrayList<>();
     static private ArrayList<String> timeList = new ArrayList<>();
 
+    private void onDestroyList(){
+        timeList.clear();
+        categoryList.clear();
+        imgList.clear();
+        urlList.clear();
+        timeList.clear();
+        htmlList.onDestroyList();
+    }
+
     public HtmlParser(Document document, int pageNumber){
         this.document = document;
         PROMOTION_NUMBER = pageNumber + 20;
+        htmlList = new HtmlParameter();
+        if (pageNumber == 0){
+            onDestroyList();
+        }
     }
 
     private void Image(){
@@ -85,8 +99,7 @@ public class HtmlParser {
         Url();
         Time();
         addPromotion();
-        getLog();
-        HtmlParameter htmlList = new HtmlParameter();
+//        getLog();
         htmlList.setTitle(titleList);
         htmlList.setCategory(categoryList);
         htmlList.setImgs(imgList);

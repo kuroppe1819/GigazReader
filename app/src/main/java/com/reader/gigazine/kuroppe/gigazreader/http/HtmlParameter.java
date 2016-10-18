@@ -47,4 +47,12 @@ public class HtmlParameter {
     public ArrayList<String> getTime(){
         return time;
     }
+
+    public void onDestroyList(){
+        title.clear();
+        category.clear();
+        imgs.clear();
+        url.clear();
+        time.clear();
+    }
 }
