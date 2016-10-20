@@ -1,5 +1,6 @@
 package com.reader.gigazine.kuroppe.gigazreader;
 
+import android.app.ProgressDialog;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     private TabLayout tabLayout = null;
     private Snackbar snackbar = null;
     private View view;
+    private ProgressDialog progressDialog;
 
     private void onHttpGet(int pageNumber){
         HttpAsyncTask http = new HttpAsyncTask(this, this, pageNumber);
@@ -48,17 +50,29 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
         onHttpGet(pageNumber);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("読み込み中...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
     }
 
     @Override
     public void onTaskFinished() {
         onPagerSettings();
         if (snackbar != null) snackbar.dismiss();
+        if (progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
     }
 
     @Override
     public void onTaskCancelled() {
         Log.d(TAG,"キャンセル");
+        if (progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
     }
 
     @Override
