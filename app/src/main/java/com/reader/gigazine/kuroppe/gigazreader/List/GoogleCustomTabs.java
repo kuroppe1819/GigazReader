@@ -14,7 +14,6 @@ import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
 import android.util.TypedValue;
 
-import com.reader.gigazine.kuroppe.gigazreader.MainActivity;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import org.chromium.customtabsclient.shared.CustomTabsHelper;
 

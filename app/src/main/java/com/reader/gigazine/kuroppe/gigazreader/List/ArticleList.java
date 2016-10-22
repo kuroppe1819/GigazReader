@@ -23,6 +23,7 @@ import com.reader.gigazine.kuroppe.gigazreader.PageChangeListener;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlList;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlParameter;
+import com.reader.gigazine.kuroppe.gigazreader.SubActivity.WebActivity;
 
 public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private String TAG = "ArticleList";
@@ -30,10 +31,10 @@ public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefres
     private ListView listView;
     private boolean scrollFinished = false;
     private AsyncTaskCallbacks asyncTaskCallbacks = null;
-    private PageChangeListener pageChangeListener = null;
     private View mFooter;
     private SwipeRefreshLayout mSwipeRefresh;
     private ArticleAdapter articleAdapter;
+    private Context context;
 
     private View getFooter(Bundle bundle) {
         if (mFooter == null) {
@@ -45,20 +46,12 @@ public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefres
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        this.context = context;
         if(context instanceof AsyncTaskCallbacks){
             asyncTaskCallbacks = (AsyncTaskCallbacks) context;
         }else{
             throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
         }
-//        pageChangeListener = (PageChangeListener) getTargetFragment();
-//        if (pageChangeListener instanceof PageChangeListener == false) {
-//            throw new ClassCastException("must implement OnFragmentInteractionListener");
-//        }
-//        if(context instanceof PageChangeListener){
-//            pageChangeListener = (PageChangeListener) context;
-//        }else{
-//            throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
-//        }
     }
 
     @Override
@@ -111,13 +104,12 @@ public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefres
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                Log.d(TAG, String.valueOf(position));
-                Uri uri = Uri.parse(htmlParameter.getUrl().get(position));
-//                Log.d(TAG, String.valueOf(uri));
-                //  外部ブラウザに飛ばす
-                GoogleCustomTabs customTabs = new GoogleCustomTabs(getActivity());
-                customTabs.ChromeStartUp(uri);
-                customTabs.unbindCustomTabsService();
+                String url = htmlParameter.getUrl().get(position);
+                String title = htmlParameter.getTitle().get(position);
+                Intent intent = new Intent(context,WebActivity.class);
+                intent.putExtra("url",url);
+                intent.putExtra("title",title);
+                startActivity(intent);
             }
         });
         // 長押し

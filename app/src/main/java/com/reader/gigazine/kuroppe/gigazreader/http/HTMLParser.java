@@ -35,43 +35,32 @@ public class HtmlParser {
         }
     }
 
-    private void Image(){
-        Elements img = document.select(".card .thumb a img");
-        for (int i = 0; i<img.size(); i++){
+    private void Image(Elements img, int i){
             if (img.get(i).attr("src") == "") {
                 imgList.add(img.get(i).attr("data-src"));
             } else{
                 imgList.add(img.get(i).attr("src"));
             }
-        }
     }
 
-    private void Title(){
-        Elements span = document.getElementsByTag("span");
-        String[] span_split = span.html().toString().split("\n", 0);
+    private void Title(String[] span_split){
         for (int i=0 ; i<span_split.length; i+=2) {
             titleList.add(span_split[i]);
             categoryList.add(span_split[i+1]);
         }
     }
 
-    private void Url(){
-        Elements url = document.select("h2 a");
-        for (int i=0; i<url.size(); i++){
-            urlList.add(url.get(i).attr("href"));
-        }
+    private void Url(Elements url, int i){
+        urlList.add(url.get(i).attr("href"));
     }
 
-    private void Time(){
+    private void Time(Elements time, int i){
         final String prefix = "月";
         final String suffix = "</a>";
-        Elements time = document.select("time");
-        for (int i=0; i<time.size(); i++) {
-            String element = time.get(i).toString();
-            int preIdx = element.indexOf(prefix) + prefix.length() - 3;
-            int sufIdx = element.indexOf(suffix);
-            timeList.add(element.substring(preIdx, sufIdx));
-        }
+        String element = time.get(i).toString();
+        int preIdx = element.indexOf(prefix) + prefix.length() - 3;
+        int sufIdx = element.indexOf(suffix);
+        timeList.add(element.substring(preIdx, sufIdx));
     }
 
     private void addPromotion(){
@@ -94,10 +83,17 @@ public class HtmlParser {
     }
 
     public void onParse(){
-        Title();
-        Image();
-        Url();
-        Time();
+        Elements url = document.select("h2 a");
+        Elements img = document.select(".card .thumb a img");
+        Elements span = document.getElementsByTag("span");
+        String[] span_split = span.html().toString().split("\n", 0);
+        Elements time = document.select("time");
+        Title(span_split);
+        for (int i=0; i<url.size(); i++) {
+            Image(img,i);
+            Url(url,i);
+            Time(time,i);
+        }
         addPromotion();
 //        getLog();
         htmlList.setTitle(titleList);

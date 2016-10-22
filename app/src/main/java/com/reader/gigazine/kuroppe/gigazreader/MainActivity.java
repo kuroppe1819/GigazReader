@@ -12,10 +12,14 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+
+import com.reader.gigazine.kuroppe.gigazreader.AsyncTaskCallbacks;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HttpAsyncTask;
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteList;
+import com.reader.gigazine.kuroppe.gigazreader.MyPagerAdapter;
+import com.reader.gigazine.kuroppe.gigazreader.R;
 
-public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks{
+public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks {
 
     private String TAG = "MainActivity";
     private MyPagerAdapter pagerAdapter = null;

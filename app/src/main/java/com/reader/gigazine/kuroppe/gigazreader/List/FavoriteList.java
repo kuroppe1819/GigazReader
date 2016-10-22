@@ -59,9 +59,9 @@ public class FavoriteList extends Fragment implements PageChangeListener{
                     Uri uri = Uri.parse(fileIO.Output().get(position).get(3).toString());
 //                    Log.d(TAG, String.valueOf(uri));
                     //  外部ブラウザに飛ばす
-                    GoogleCustomTabs customTabs = new GoogleCustomTabs(getActivity());
-                    customTabs.ChromeStartUp(uri);
-                    customTabs.unbindCustomTabsService();
+//                    GoogleCustomTabs customTabs = new GoogleCustomTabs(getActivity());
+//                    customTabs.ChromeStartUp(uri);
+//                    customTabs.unbindCustomTabsService();
                 }
             });
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
