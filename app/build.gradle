@@ -26,9 +26,7 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'org.jsoup:jsoup:1.9.2'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.android.support:customtabs:23.1.1'
-    compile 'com.android.support:support-v4:23.1.1'
-    compile project(':shared')
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'jp.wasabeef:glide-transformations:2.0.1'
+//    compile 'com.github.ksoichiro:android-observablescrollview:1.6.0'
 }

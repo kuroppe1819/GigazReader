@@ -34,7 +34,6 @@ public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefres
     private View mFooter;
     private SwipeRefreshLayout mSwipeRefresh;
     private ArticleAdapter articleAdapter;
-    private Context context;
 
     private View getFooter(Bundle bundle) {
         if (mFooter == null) {
@@ -46,7 +45,6 @@ public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefres
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context = context;
         if(context instanceof AsyncTaskCallbacks){
             asyncTaskCallbacks = (AsyncTaskCallbacks) context;
         }else{
@@ -56,10 +54,9 @@ public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefres
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        view = inflater.inflate(R.layout.article_layout,null);
+        view = inflater.inflate(R.layout.article_layout, null);
         mSwipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         mSwipeRefresh.setColorSchemeResources(R.color.DarkSeaGreen);
-        // Listenerをセット
         mSwipeRefresh.setOnRefreshListener(this);
         return view;
     }
@@ -73,58 +70,46 @@ public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefres
         articleAdapter = new ArticleAdapter(getActivity(), 0, htmlList.getArticle());
         listView = (ListView) getActivity().findViewById(R.id.article_list);
         listView.setAdapter(articleAdapter);
-        // リストビューにフッターを追加
         listView.addFooterView(getFooter(savedInstanceState));
-        // スクロールのリスナー
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                // スクロール完了したとき
+                /** スクロール完了したとき **/
                 if ((totalItemCount - visibleItemCount) == firstVisibleItem && firstVisibleItem != 0) {
-//                    Log.d(TAG, firstVisibleItem + " " + visibleItemCount + " " +totalItemCount);
                     scrollFinished = true;
                 }
             }
 
-            // ListViewがスクロール中かどうか
+            /** ListViewがスクロール中かどうか **/
             @Override
             public void onScrollStateChanged(AbsListView arg0, int arg1) {
-//                Log.d(TAG, String.valueOf(arg1));
                 if(arg1 == 0 && scrollFinished == true){
                     scrollFinished = false;
+                    mFooter = null;
                     asyncTaskCallbacks.addTaskCallbacks();
                 }
             }
         });
 
-        // スワイプしたときにToolbarを隠す
+        /** スワイプしたときにToolbarを隠す **/
         ViewCompat.setNestedScrollingEnabled(listView, true);
-
-        //リスト項目が選択された時のイベントを追加
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 String url = htmlParameter.getUrl().get(position);
                 String title = htmlParameter.getTitle().get(position);
-                Intent intent = new Intent(context,WebActivity.class);
+                Intent intent = new Intent(getContext(),WebActivity.class);
                 intent.putExtra("url",url);
                 intent.putExtra("title",title);
                 startActivity(intent);
             }
         });
-        // 長押し
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
-                // データの保存
+                /** データの保存 **/
                 fileIO.Input(position, htmlParameter);
-                // todo お気に入りページを更新
-                Fragment target = getTargetFragment();
                 Log.d(TAG, String.valueOf(getTargetFragment()));
-//                Intent data = new Intent();
-//                data.putExtra(Intent.EXTRA_TEXT, "data");
-//                target.onActivityResult(getTargetRequestCode(), Activity.RESULT_OK,data);
-
                 final Snackbar snackbar = Snackbar.make(view, R.string.add_favorite, Snackbar.LENGTH_SHORT);
                 snackbar.getView().setBackgroundColor(ContextCompat.getColor(getContext(),R.color.SeaGreen));
                 snackbar.setAction("閉じる", new View.OnClickListener() {
@@ -148,8 +133,9 @@ public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefres
                 articleAdapter.notifyDataSetChanged();
                 listView.invalidateViews();
                 asyncTaskCallbacks.updateTaskCallbacks();
-                // 更新が終了したらインジケータ非表示
+                /** 更新が終了したらインジケータ非表示 **/
                 mSwipeRefresh.setRefreshing(false);
+                mFooter = null;
             }
         }, 800);
     }

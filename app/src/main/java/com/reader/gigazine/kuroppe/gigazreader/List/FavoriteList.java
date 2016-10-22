@@ -1,6 +1,7 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import com.reader.gigazine.kuroppe.gigazreader.CustomDialogFragment;
 import com.reader.gigazine.kuroppe.gigazreader.PageChangeListener;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlList;
+import com.reader.gigazine.kuroppe.gigazreader.SubActivity.WebActivity;
 
 public class FavoriteList extends Fragment implements PageChangeListener{
     private View view;
@@ -41,33 +43,29 @@ public class FavoriteList extends Fragment implements PageChangeListener{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         fileIO = new FileIO(activity);
-//        final HtmlParameter htmlParameter = new HtmlParameter();
         if (fileIO.Output() != null) {
             HtmlList htmlList = new HtmlList();
             favoriteAdapter = new FavoriteAdapter(activity, 0, htmlList.getFavorite(activity));
             listView = (ListView) activity.findViewById(R.id.favorite_list);
             listView.setAdapter(favoriteAdapter);
-
-            // スワイプしたときにToolbarを隠す
+            /** スワイプしたときにToolbarを隠す **/
             ViewCompat.setNestedScrollingEnabled(listView, true);
-
-            //リスト項目が選択された時のイベントを追加
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                    Log.d(TAG, String.valueOf(position));
-                    Uri uri = Uri.parse(fileIO.Output().get(position).get(3).toString());
-//                    Log.d(TAG, String.valueOf(uri));
-                    //  外部ブラウザに飛ばす
-//                    GoogleCustomTabs customTabs = new GoogleCustomTabs(getActivity());
-//                    customTabs.ChromeStartUp(uri);
-//                    customTabs.unbindCustomTabsService();
+                    String url = fileIO.Output().get(position).get(3).toString();
+                    String title = fileIO.Output().get(position).get(0).toString();
+                    /**  外部ブラウザに飛ばす **/
+                    Intent intent = new Intent(getContext(),WebActivity.class);
+                    intent.putExtra("url",url);
+                    intent.putExtra("title",title);
+                    startActivity(intent);
                 }
             });
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
-                    // ダイアログを表示
+                    /** ダイアログを表示 **/
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     CustomDialogFragment dialogFragment = new CustomDialogFragment();
                     dialogFragment.setTargetFragment(FavoriteList.this,position);
