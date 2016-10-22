@@ -9,4 +9,8 @@
         <item name="android:textColorPrimary">@color/White</item>
     </style>
 
+    <style name="ToolbarTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textSize">18dp</item>
+    </style>
+
 </resources>
