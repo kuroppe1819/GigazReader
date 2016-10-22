@@ -1,6 +1,8 @@
 package com.reader.gigazine.kuroppe.gigazreader;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HttpAsyncTask;
+import com.reader.gigazine.kuroppe.gigazreader.SubActivity.SearchActivity;
+import com.reader.gigazine.kuroppe.gigazreader.SubActivity.WebActivity;
 
 public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks {
 
@@ -30,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
         http.execute();
     }
 
-    private void ToolbarSetting(){
+    private void ToolbarSetting(final Context context){
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
@@ -39,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 //todo 検索アクティビティに飛ばす
+                Intent intent = new Intent(context, SearchActivity.class);
+                startActivity(intent);
                 return true;
             }
         });
@@ -59,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         view = this.findViewById(android.R.id.content);
-        ToolbarSetting();
+        ToolbarSetting(this);
         onHttpGet(pageNumber);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("読み込み中...");

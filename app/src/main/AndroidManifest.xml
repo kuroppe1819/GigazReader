@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SubActivity.WebActivity"></activity>
+        <activity android:name=".SubActivity.SearchActivity"></activity>
     </application>
 
 </manifest>
