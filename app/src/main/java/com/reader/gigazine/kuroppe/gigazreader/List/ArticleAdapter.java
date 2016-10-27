@@ -1,7 +1,6 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.MemoryCategory;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import java.util.ArrayList;
 
@@ -33,7 +30,7 @@ public class ArticleAdapter extends ArrayAdapter<ArticleData>{
         ArticleData articleData = (ArticleData) getItem(position);
         // convertViewは使い回しされている可能性があるのでnullの時だけ新しく作る
         if (null == convertView) {
-            convertView = layoutInflater_.inflate(R.layout.list_item, null);
+            convertView = layoutInflater_.inflate(R.layout.articlelist_item, null);
         }
         TextView titleText = (TextView)convertView.findViewById(R.id.title_text);
         titleText.setText(articleData.getTitle());

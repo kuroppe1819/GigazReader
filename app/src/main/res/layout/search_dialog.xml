@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- コンテンツ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:background="@drawable/bg_dialog"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <!-- タイトル -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_title"
+            android:padding="10dp"
+            android:text="カテゴリ検索"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            />
+
+        <ListView
+            android:id="@+id/search_dialog_list"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:choiceMode="singleChoice"
+            android:divider="@color/SeaGreen"
+            android:dividerHeight="0.5dp"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true" />
+
+        <!-- OK ボタン -->
+        <Button
+            android:id="@+id/positive_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bt_dialog_positive"
+            android:text="OK"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</RelativeLayout>

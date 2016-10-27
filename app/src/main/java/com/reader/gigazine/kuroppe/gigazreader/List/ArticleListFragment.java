@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -25,8 +27,8 @@ import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlList;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlParameter;
 import com.reader.gigazine.kuroppe.gigazreader.SubActivity.WebActivity;
 
-public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
-    private String TAG = "ArticleList";
+public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+    private String TAG = "ArticleListFragment";
     private View view;
     private ListView listView;
     private boolean scrollFinished = false;
@@ -139,4 +141,10 @@ public class ArticleList extends Fragment implements SwipeRefreshLayout.OnRefres
             }
         }, 800);
     }
+
+//    @Override
+//    public void onDestroy(){
+//        super.onDestroy();
+//
+//    }
 }

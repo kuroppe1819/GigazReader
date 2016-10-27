@@ -48,15 +48,14 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
 
     @Override
     protected void onPostExecute(Document document) {
-//        Log.d(TAG, String.valueOf(document));
         if (document != null) {
             HtmlParser html = new HtmlParser(document, pageNumber);
             html.onParse();
         }else {
             Toast.makeText(activity, R.string.timeout, Toast.LENGTH_LONG).show();
         }
-            //終了をActivityに通知
-            callback.onTaskFinished();
+        //終了をActivityに通知
+        callback.onTaskFinished();
     }
 
     @Override

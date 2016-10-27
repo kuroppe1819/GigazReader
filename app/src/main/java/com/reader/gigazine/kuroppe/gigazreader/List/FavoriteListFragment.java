@@ -2,7 +2,6 @@ package com.reader.gigazine.kuroppe.gigazreader.List;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,28 +11,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import com.reader.gigazine.kuroppe.gigazreader.CustomDialogFragment;
+import com.reader.gigazine.kuroppe.gigazreader.Dialog.FavoriteDialogFragment;
 import com.reader.gigazine.kuroppe.gigazreader.PageChangeListener;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlList;
 import com.reader.gigazine.kuroppe.gigazreader.SubActivity.WebActivity;
 
-public class FavoriteList extends Fragment implements PageChangeListener{
+public class FavoriteListFragment extends Fragment implements PageChangeListener{
     private View view;
     private ListView listView;
     private FavoriteAdapter favoriteAdapter;
     private FileIO fileIO;
     private Activity activity;
-    private String TAG = "FavoriteList";
+    private String TAG = "FavoriteListFragment";
 
-    public FavoriteList() {
+    public FavoriteListFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
-        ArticleList articleList = new ArticleList();
-        articleList.setTargetFragment(FavoriteList.this,0);
+        ArticleListFragment articleListFragment = new ArticleListFragment();
+        articleListFragment.setTargetFragment(FavoriteListFragment.this,0);
         view = inflater.inflate(R.layout.favorite_layout, null);
         this.activity = getActivity();
         return view;
@@ -67,8 +66,8 @@ public class FavoriteList extends Fragment implements PageChangeListener{
                 public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
                     /** ダイアログを表示 **/
                     FragmentManager fm = getActivity().getSupportFragmentManager();
-                    CustomDialogFragment dialogFragment = new CustomDialogFragment();
-                    dialogFragment.setTargetFragment(FavoriteList.this,position);
+                    FavoriteDialogFragment dialogFragment = new FavoriteDialogFragment();
+                    dialogFragment.setTargetFragment(FavoriteListFragment.this,position);
                     dialogFragment.show(fm, "dialog");
                     return true;
                 }

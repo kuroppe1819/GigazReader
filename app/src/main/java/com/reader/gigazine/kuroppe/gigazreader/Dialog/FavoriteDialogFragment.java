@@ -1,4 +1,4 @@
-package com.reader.gigazine.kuroppe.gigazreader;
+package com.reader.gigazine.kuroppe.gigazreader.Dialog;
 
 import android.content.Context;
 import android.support.v4.app.DialogFragment;
@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import com.reader.gigazine.kuroppe.gigazreader.List.FileIO;
+import com.reader.gigazine.kuroppe.gigazreader.PageChangeListener;
+import com.reader.gigazine.kuroppe.gigazreader.R;
 
-public class CustomDialogFragment extends DialogFragment{
+public class FavoriteDialogFragment extends DialogFragment{
     private PageChangeListener pageChangeListener = null;
 
     @Override
@@ -30,7 +32,7 @@ public class CustomDialogFragment extends DialogFragment{
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         // フルスクリーン
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-        dialog.setContentView(R.layout.dialog_custom);
+        dialog.setContentView(R.layout.favorite_dialog);
         // 背景を透明にする
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         // OK ボタンのリスナ

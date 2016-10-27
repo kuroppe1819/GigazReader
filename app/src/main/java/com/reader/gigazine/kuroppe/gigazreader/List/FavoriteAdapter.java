@@ -30,7 +30,7 @@ public class FavoriteAdapter extends ArrayAdapter<FavoriteData> {
 
         // convertViewは使い回しされている可能性があるのでnullの時だけ新しく作る
         if (null == convertView) {
-            convertView = layoutInflater_.inflate(R.layout.list_item, null);
+            convertView = layoutInflater_.inflate(R.layout.articlelist_item, null);
         }
 
         TextView titleText = (TextView) convertView.findViewById(R.id.title_text);

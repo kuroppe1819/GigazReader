@@ -3,29 +3,29 @@ package com.reader.gigazine.kuroppe.gigazreader;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteList;
-import com.reader.gigazine.kuroppe.gigazreader.List.ArticleList;
+import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteListFragment;
+import com.reader.gigazine.kuroppe.gigazreader.List.ArticleListFragment;
 
 public class MyPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
-    private ArticleList articleList;
-    private FavoriteList favoriteList;
+    private ArticleListFragment articleListFragment;
+    private FavoriteListFragment favoriteListFragment;
     private FragmentManager fm;
 
     public MyPagerAdapter(FragmentManager fm) {
         super(fm);
         this.fm = fm;
-        articleList = new ArticleList();
-        favoriteList = new FavoriteList();
+        articleListFragment = new ArticleListFragment();
+        favoriteListFragment = new FavoriteListFragment();
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return articleList;
+                return articleListFragment;
             case 1:
-                return favoriteList;
+                return favoriteListFragment;
         }
         return null;
     }

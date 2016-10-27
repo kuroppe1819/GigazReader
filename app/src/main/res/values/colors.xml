@@ -3,6 +3,7 @@
     <color name="Accent">#F32853</color>
     <color name="White">#FFFFFF</color>
     <color name="Grey">#808080</color>
+    <color name="DarkGrey">#505050</color>
     <color name="Black">#000000</color>
     <color name="Yellow">#FFDD22</color>
     <color name="FloralWhite">#FFFAF0</color>

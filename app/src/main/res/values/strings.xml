@@ -6,4 +6,33 @@
     <string name="dialog_message">この記事をお気に入りから削除しますか？</string>
     <string name="timeout">接続がタイムアウトしました。しばらくしてからもう一度お試しください。</string>
     <string name="article_share">記事の共有</string>
+    <string name="loading">読み込み中...</string>
+
+    <string-array name="menu_items">
+        <item>アニメ</item>
+        <item>アート</item>
+        <item>生き物</item>
+        <item>インタビュー</item>
+        <item>ウェブアプリ</item>
+        <item>お知らせ</item>
+        <item>映画</item>
+        <item>ゲーム</item>
+        <item>広告</item>
+        <item>コラム</item>
+        <item>サイエンス動画</item>
+        <item>試食</item>
+        <item>取材</item>
+        <item>食</item>
+        <item>セキュリティ</item>
+        <item>ソフトウェア</item>
+        <item>デザイン</item>
+        <item>ネットサービス</item>
+        <item>乗り物</item>
+        <item>ハードウェア</item>
+        <item>ピックアップ</item>
+        <item>ヘッドライン</item>
+        <item>メモ</item>
+        <item>モバイル</item>
+        <item>レビュー</item>
+    </string-array>
 </resources>

@@ -42,9 +42,9 @@ public class FileIO {
         articleData.add(htmlParameter.getUrl().get(position));
         articleData.add(htmlParameter.getTime().get(position));
         favoriteList.add(articleData);
-        for (int i=0; i<favoriteList.size(); i++) {
+//        for (int i=0; i<favoriteList.size(); i++) {
 //            Log.d(TAG, String.valueOf(favoriteList.get(i).get(3)));
-        }
+//        }
         Save(favoriteList);
     }
 
