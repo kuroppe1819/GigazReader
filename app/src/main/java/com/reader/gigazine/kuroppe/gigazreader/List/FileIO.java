@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlParameter;
+
 import java.util.ArrayList;
 
 public class FileIO {
@@ -16,23 +18,24 @@ public class FileIO {
     private Gson gson = new Gson();
     private SharedPreferences preferences;
 
-    public FileIO(Activity activity){
+    public FileIO(Activity activity) {
         this.activity = activity;
         this.preferences = activity.getSharedPreferences("preferences", Context.MODE_PRIVATE);
         // 保存したデータを削除
 //        preferences.edit().clear().commit();
     }
 
-    private void Save(ArrayList<ArrayList> favoriteList){
+    private void Save(ArrayList<ArrayList> favoriteList) {
         // データの保存
-        preferences.edit().putString("list", gson.toJson(favoriteList)).commit();
+        preferences.edit().putString("list", gson.toJson(favoriteList)).apply();
     }
 
-    public ArrayList<ArrayList> Output(){
-        return gson.fromJson(preferences.getString("list", ""), new TypeToken<ArrayList<ArrayList>>(){}.getType());
+    public ArrayList<ArrayList> Output() {
+        return gson.fromJson(preferences.getString("list", ""), new TypeToken<ArrayList<ArrayList>>() {
+        }.getType());
     }
 
-    public void Input(int position, HtmlParameter htmlParameter){
+    public void Input(int position, HtmlParameter htmlParameter) {
 //        Log.d(TAG, String.valueOf(position) + " " + htmlParameter.getTitle().get(position));
         if (Output() != null) favoriteList = Output();
         ArrayList<String> articleData = new ArrayList<>();
@@ -48,7 +51,7 @@ public class FileIO {
         Save(favoriteList);
     }
 
-    public void PreferencesDelete(int position){
+    public void PreferencesDelete(int position) {
         favoriteList = Output();
         favoriteList.remove(position);
         Save(favoriteList);

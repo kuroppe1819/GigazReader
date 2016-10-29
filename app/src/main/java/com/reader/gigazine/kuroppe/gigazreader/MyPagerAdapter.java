@@ -3,6 +3,7 @@ package com.reader.gigazine.kuroppe.gigazreader;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteListFragment;
 import com.reader.gigazine.kuroppe.gigazreader.List.ArticleListFragment;
 
@@ -38,7 +39,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         String title = null;
-        switch (position){
+        switch (position) {
             case 0:
                 title = "TOP";
                 break;

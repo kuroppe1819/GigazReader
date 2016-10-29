@@ -9,14 +9,12 @@ import java.util.ArrayList;
 
 public class HtmlList {
     private String TAG = "HtmlList";
-    private ArticleData articleData;
-    private FavoriteData favoriteData;
 
     public ArrayList<ArticleData> getArticle(){
         ArrayList<ArticleData> objects = new ArrayList<>();
         HtmlParameter params = new HtmlParameter();
         for (int i=0; i<params.getTitle().size(); i++){
-            articleData = new ArticleData();
+            ArticleData articleData = new ArticleData();
             articleData.setTitle(params.getTitle().get(i));
             articleData.setCategory(params.getCategory().get(i));
             articleData.setImgs(params.getImgs().get(i));
@@ -33,7 +31,7 @@ public class HtmlList {
         if (fileIO.Output() == null) return null;
         for (int i=0; i<fileIO.Output().size(); i++){
 //            Log.d(TAG, String.valueOf(fileIO.Output().size()));
-            favoriteData = new FavoriteData();
+            FavoriteData favoriteData = new FavoriteData();
             favoriteData.setTitle(fileIO.Output().get(i).get(0).toString());
             favoriteData.setCategory(fileIO.Output().get(i).get(1).toString());
             favoriteData.setImgs(fileIO.Output().get(i).get(2).toString());

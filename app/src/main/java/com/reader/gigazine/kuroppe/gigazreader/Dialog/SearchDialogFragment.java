@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
 import com.reader.gigazine.kuroppe.gigazreader.R;
 
 public class SearchDialogFragment extends DialogFragment {
@@ -38,7 +39,7 @@ public class SearchDialogFragment extends DialogFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-               position  = i;
+                position = i;
             }
         });
 

@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
 import com.reader.gigazine.kuroppe.gigazreader.AsyncTaskCallbacks;
 import com.reader.gigazine.kuroppe.gigazreader.PageChangeListener;
 import com.reader.gigazine.kuroppe.gigazreader.R;
@@ -27,9 +28,8 @@ import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlList;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlParameter;
 import com.reader.gigazine.kuroppe.gigazreader.SubActivity.WebActivity;
 
-public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private String TAG = "ArticleListFragment";
-    private View view;
     private ListView listView;
     private boolean scrollFinished = false;
     private AsyncTaskCallbacks asyncTaskCallbacks = null;
@@ -47,16 +47,16 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if(context instanceof AsyncTaskCallbacks){
+        if (context instanceof AsyncTaskCallbacks) {
             asyncTaskCallbacks = (AsyncTaskCallbacks) context;
-        }else{
+        } else {
             throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        view = inflater.inflate(R.layout.article_layout, null);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.article_layout, null);
         mSwipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         mSwipeRefresh.setColorSchemeResources(R.color.DarkSeaGreen);
         mSwipeRefresh.setOnRefreshListener(this);
@@ -85,7 +85,7 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
             /** ListViewがスクロール中かどうか **/
             @Override
             public void onScrollStateChanged(AbsListView arg0, int arg1) {
-                if(arg1 == 0 && scrollFinished == true){
+                if (arg1 == 0 && scrollFinished == true) {
                     scrollFinished = false;
                     mFooter = null;
                     asyncTaskCallbacks.addTaskCallbacks();
@@ -95,33 +95,17 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
 
         /** スワイプしたときにToolbarを隠す **/
         ViewCompat.setNestedScrollingEnabled(listView, true);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        /** WebActivityに遷移 **/
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 String url = htmlParameter.getUrl().get(position);
                 String title = htmlParameter.getTitle().get(position);
-                Intent intent = new Intent(getContext(),WebActivity.class);
-                intent.putExtra("url",url);
-                intent.putExtra("title",title);
-                startActivity(intent);
-            }
-        });
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
-                /** データの保存 **/
-                fileIO.Input(position, htmlParameter);
-                Log.d(TAG, String.valueOf(getTargetFragment()));
-                final Snackbar snackbar = Snackbar.make(view, R.string.add_favorite, Snackbar.LENGTH_SHORT);
-                snackbar.getView().setBackgroundColor(ContextCompat.getColor(getContext(),R.color.SeaGreen));
-                snackbar.setAction("閉じる", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        snackbar.dismiss();
-                    }
-                });
-                snackbar.show();
-                return true;
+                Intent intent = new Intent(getContext(), WebActivity.class);
+                intent.putExtra("url", url);
+                intent.putExtra("title", title);
+                intent.putExtra("position", position);
+                getActivity().startActivityForResult(intent, 1234);
             }
         });
     }

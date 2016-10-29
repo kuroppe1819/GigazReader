@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/favorite_on"
+        android:id="@+id/favorite_off"
         android:icon="@drawable/ic_star_black"
         android:title="menu_favorite_on"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/favorite_off"
+        android:id="@+id/favorite_on"
         android:icon="@drawable/ic_star_border_white"
         android:title="menu_favorite_off"
         app:showAsAction="always" />

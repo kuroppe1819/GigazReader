@@ -7,10 +7,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.reader.gigazine.kuroppe.gigazreader.R;
+
 import java.util.ArrayList;
+
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class FavoriteAdapter extends ArrayAdapter<FavoriteData> {
@@ -44,7 +47,7 @@ public class FavoriteAdapter extends ArrayAdapter<FavoriteData> {
         // BitmapDataに変換
         Glide.with(this.context)
                 .load(favoriteData.getImgs())
-                .bitmapTransform(new RoundedCornersTransformation(context,10,0))
+                .bitmapTransform(new RoundedCornersTransformation(context, 10, 0))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(450, 450)
                 .error(android.R.drawable.ic_delete)

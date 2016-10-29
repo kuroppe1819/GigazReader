@@ -86,7 +86,7 @@ public class HtmlParser {
         Elements url = document.select("h2 a");
         Elements img = document.select(".card .thumb a img");
         Elements span = document.getElementsByTag("span");
-        String[] span_split = span.html().toString().split("\n", 0);
+        String[] span_split = span.html().split("\n", 0);
         Elements time = document.select("time");
         Title(span_split);
         for (int i=0; i<url.size(); i++) {

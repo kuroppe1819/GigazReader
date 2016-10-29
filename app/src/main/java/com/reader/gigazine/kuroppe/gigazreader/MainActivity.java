@@ -2,9 +2,11 @@ package com.reader.gigazine.kuroppe.gigazreader;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,12 +16,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchDialogFragment;
 import com.reader.gigazine.kuroppe.gigazreader.Http.HttpAsyncTask;
+import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteListFragment;
 
 public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks {
-
     private String TAG = "MainActivity";
     private MyPagerAdapter pagerAdapter = null;
     private ViewPager viewPager = null;
@@ -29,13 +30,13 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     private View view;
     private ProgressDialog progressDialog;
 
-    private void onHttpGet(int pageNumber){
+    private void onHttpGet(int pageNumber) {
         HttpAsyncTask http = new HttpAsyncTask(this, this, pageNumber);
         http.execute();
     }
 
-    private void ToolbarSetting(final Context context){
-        Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
+    private void ToolbarSetting(final Context context) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
 //        toolbar.setTitle(R.string.app_name);
         toolbar.setTitleTextColor(getResources().getColor(R.color.White));
         setSupportActionBar(toolbar);
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
         });
     }
 
-    private void onPagerSettings(){
+    private void onPagerSettings() {
         if (pagerAdapter == null) {
             pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
             viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     public void onTaskFinished() {
         onPagerSettings();
         if (snackbar != null) snackbar.dismiss();
-        if (progressDialog != null){
+        if (progressDialog != null) {
             progressDialog.dismiss();
             progressDialog = null;
         }
@@ -87,8 +88,8 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
 
     @Override
     public void onTaskCancelled() {
-        Log.d(TAG,"キャンセル");
-        if (progressDialog != null){
+        Log.d(TAG, "キャンセル");
+        if (progressDialog != null) {
             progressDialog.dismiss();
             progressDialog = null;
         }
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     @Override
     public void updateTaskCallbacks() {
         snackbar = Snackbar.make(view, R.string.loading, Snackbar.LENGTH_LONG);
-        snackbar.getView().setBackgroundColor(ContextCompat.getColor(this,R.color.SeaGreen));
+        snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.SeaGreen));
         snackbar.show();
         pageNumber = 0;
         onHttpGet(pageNumber);
@@ -113,5 +114,19 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu, menu);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, String.valueOf(requestCode + " " + resultCode));
+        if (requestCode == 1234 && resultCode == RESULT_OK) {
+            /** Fragmentの再生成 **/
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction trans = fm.beginTransaction();
+            FavoriteListFragment favoriteListFragment = new FavoriteListFragment();
+            trans.replace(R.id.fragment, favoriteListFragment);
+            trans.commit();
+        }
     }
 }

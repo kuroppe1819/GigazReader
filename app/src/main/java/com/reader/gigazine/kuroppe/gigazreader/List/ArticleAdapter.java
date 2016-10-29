@@ -7,14 +7,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.reader.gigazine.kuroppe.gigazreader.R;
+
 import java.util.ArrayList;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-public class ArticleAdapter extends ArrayAdapter<ArticleData>{
+public class ArticleAdapter extends ArrayAdapter<ArticleData> {
     private LayoutInflater layoutInflater_;
     private Context context;
 
@@ -32,20 +34,20 @@ public class ArticleAdapter extends ArrayAdapter<ArticleData>{
         if (null == convertView) {
             convertView = layoutInflater_.inflate(R.layout.articlelist_item, null);
         }
-        TextView titleText = (TextView)convertView.findViewById(R.id.title_text);
+        TextView titleText = (TextView) convertView.findViewById(R.id.title_text);
         titleText.setText(articleData.getTitle());
-        TextView categoryText = (TextView)convertView.findViewById(R.id.category_text);
+        TextView categoryText = (TextView) convertView.findViewById(R.id.category_text);
         categoryText.setText(articleData.getCategory());
-        TextView timeText = (TextView)convertView.findViewById(R.id.time_text);
+        TextView timeText = (TextView) convertView.findViewById(R.id.time_text);
         timeText.setText(articleData.getTime());
         ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
 //        Log.d("Imgs", String.valueOf(imageView));
         // BitmapDataに変換
         Glide.with(this.context)
                 .load(articleData.getImgs())
-                .bitmapTransform(new RoundedCornersTransformation(context,10,0))
+                .bitmapTransform(new RoundedCornersTransformation(context, 10, 0))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .override(450,450)
+                .override(450, 450)
                 .error(android.R.drawable.ic_delete)
                 .into(imageView);
         return convertView;

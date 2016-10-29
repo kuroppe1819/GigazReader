@@ -1,6 +1,9 @@
 package com.reader.gigazine.kuroppe.gigazreader.SubActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,14 +12,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+
+import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlParameter;
+import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteListFragment;
+import com.reader.gigazine.kuroppe.gigazreader.List.FileIO;
 import com.reader.gigazine.kuroppe.gigazreader.ObservableScrollView;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 
 public class WebActivity extends AppCompatActivity {
     private String TAG = "WebActivity";
+    private FileIO fileIO;
+    private String url;
+    private Intent intent;
+    private int position;
     private boolean favorite_frag = false;
 
-    private void ToolbarSetting(final String title, final String url){
+    private void ToolbarSetting(final String title, final String url) {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(title);
         ObservableScrollView scrollView = (ObservableScrollView) findViewById(R.id.scrollview);
@@ -34,7 +45,8 @@ public class WebActivity extends AppCompatActivity {
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
+                HtmlParameter htmlParameter = new HtmlParameter();
+                switch (item.getItemId()) {
                     case R.id.share:
                         ShareCompat.IntentBuilder builder = ShareCompat.IntentBuilder.from(WebActivity.this);
                         builder.setChooserTitle(R.string.article_share);
@@ -43,11 +55,16 @@ public class WebActivity extends AppCompatActivity {
                         builder.startChooser();
                         break;
                     case R.id.favorite_on:
-                        Log.d(TAG, "onだよ");
+                        setResult(RESULT_OK, intent);
+                        fileIO.Input(position, htmlParameter);
                         invalidateOptionsMenu();
                         break;
                     case R.id.favorite_off:
-                        Log.d(TAG, "offだよ");
+                        setResult(RESULT_OK, intent);
+                        for (int i = 0; i < fileIO.Output().size(); i++) {
+                            if (url.equals(fileIO.Output().get(i).get(3).toString()))
+                                fileIO.PreferencesDelete(i);
+                        }
                         invalidateOptionsMenu();
                         break;
                 }
@@ -62,9 +79,13 @@ public class WebActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.web_activity_main);
-        String url = getIntent().getStringExtra("url");
+        intent = new Intent();
+        fileIO = new FileIO(this);
+        url = getIntent().getStringExtra("url");
         String title = getIntent().getStringExtra("title");
-        ToolbarSetting(title,url);
+        this.position = getIntent().getIntExtra("position", 0);
+        addFavoriteCheck(url);
+        ToolbarSetting(title, url);
         WebView webView = (WebView) findViewById(R.id.webview);
         webView.setWebChromeClient(new WebChromeClient());
         webView.loadUrl(url);
@@ -92,15 +113,15 @@ public class WebActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu (Menu menu) {
+    public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        MenuItem offFavoriteMenu = (MenuItem)menu.findItem(R.id.favorite_off);
-        MenuItem onFavoriteMenu = (MenuItem)menu.findItem(R.id.favorite_on);
-        if (favorite_frag != true){
+        MenuItem offFavoriteMenu = (MenuItem) menu.findItem(R.id.favorite_on);
+        MenuItem onFavoriteMenu = (MenuItem) menu.findItem(R.id.favorite_off);
+        if (!favorite_frag) {
             onFavoriteMenu.setVisible(false);
             offFavoriteMenu.setVisible(true);
             favorite_frag = true;
-        }else{
+        } else {
             onFavoriteMenu.setVisible(true);
             offFavoriteMenu.setVisible(false);
             favorite_frag = false;
@@ -108,4 +129,11 @@ public class WebActivity extends AppCompatActivity {
         return true;
     }
 
+    private void addFavoriteCheck(String url) {
+        if (fileIO.Output() != null) {
+            for (int i = 0; i < fileIO.Output().size(); i++) {
+                if (url.equals(fileIO.Output().get(i).get(3).toString())) favorite_frag = true;
+            }
+        }
+    }
 }
