@@ -1,32 +1,23 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import com.reader.gigazine.kuroppe.gigazreader.AsyncTaskCallbacks;
-import com.reader.gigazine.kuroppe.gigazreader.PageChangeListener;
 import com.reader.gigazine.kuroppe.gigazreader.R;
-import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlList;
-import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlParameter;
 import com.reader.gigazine.kuroppe.gigazreader.SubActivity.WebActivity;
+import com.reader.gigazine.kuroppe.gigazreader.http.HtmlList;
+import com.reader.gigazine.kuroppe.gigazreader.http.HtmlParameter;
 
 public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private String TAG = "ArticleListFragment";
@@ -67,7 +58,6 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         HtmlList htmlList = new HtmlList();
-        final FileIO fileIO = new FileIO(getActivity());
         final HtmlParameter htmlParameter = new HtmlParameter();
         articleAdapter = new ArticleAdapter(getActivity(), 0, htmlList.getArticle());
         listView = (ListView) getActivity().findViewById(R.id.article_list);
@@ -104,6 +94,7 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
                 Intent intent = new Intent(getContext(), WebActivity.class);
                 intent.putExtra("url", url);
                 intent.putExtra("title", title);
+                intent.putExtra("transitionSource", TAG);
                 intent.putExtra("position", position);
                 getActivity().startActivityForResult(intent, 1234);
             }

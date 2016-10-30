@@ -16,12 +16,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchDialogFragment;
-import com.reader.gigazine.kuroppe.gigazreader.Http.HttpAsyncTask;
+import com.reader.gigazine.kuroppe.gigazreader.http.HttpAsyncTask;
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteListFragment;
+import com.reader.gigazine.kuroppe.gigazreader.SubActivity.LicensesActivity;
+import com.reader.gigazine.kuroppe.gigazreader.SubActivity.WebActivity;
 
 public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks {
     private String TAG = "MainActivity";
+    private static final int ArticleListFragmentCode = 1234;
     private MyPagerAdapter pagerAdapter = null;
     private ViewPager viewPager = null;
     private int pageNumber = 0;
@@ -33,24 +37,6 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     private void onHttpGet(int pageNumber) {
         HttpAsyncTask http = new HttpAsyncTask(this, this, pageNumber);
         http.execute();
-    }
-
-    private void ToolbarSetting(final Context context) {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
-//        toolbar.setTitle(R.string.app_name);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.White));
-        setSupportActionBar(toolbar);
-        toolbar.inflateMenu(R.menu.search_menu);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                //TODO 検索ダイアログを表示する
-                FragmentManager fm = getSupportFragmentManager();
-                SearchDialogFragment dialogFragment = new SearchDialogFragment();
-                dialogFragment.show(fm, "dialog");
-                return true;
-            }
-        });
     }
 
     private void onPagerSettings() {
@@ -68,12 +54,35 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         view = this.findViewById(android.R.id.content);
-        ToolbarSetting(this);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+//        toolbar.setTitle(R.string.app_name);
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.White));
+        setSupportActionBar(toolbar);
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("読み込み中...");
+        progressDialog.setMessage("読み込み中…");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
         onHttpGet(pageNumber);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, LicensesActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.search:
+                FragmentManager fm = getSupportFragmentManager();
+                SearchDialogFragment dialogFragment = new SearchDialogFragment();
+                dialogFragment.show(fm, "dialog");
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -113,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu, menu);
+        getMenuInflater().inflate(R.menu.settings_menu, menu);
         return true;
     }
 
@@ -120,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, String.valueOf(requestCode + " " + resultCode));
-        if (requestCode == 1234 && resultCode == RESULT_OK) {
+        if (requestCode == ArticleListFragmentCode && resultCode == RESULT_OK) {
             /** Fragmentの再生成 **/
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction trans = fm.beginTransaction();

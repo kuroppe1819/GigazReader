@@ -1,4 +1,4 @@
-package com.reader.gigazine.kuroppe.gigazreader.Http;
+package com.reader.gigazine.kuroppe.gigazreader.http;
 import java.util.ArrayList;
 
 public class HtmlParameter {

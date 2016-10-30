@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlParameter;
 
 import java.util.ArrayList;
 
@@ -35,19 +34,9 @@ public class FileIO {
         }.getType());
     }
 
-    public void Input(int position, HtmlParameter htmlParameter) {
-//        Log.d(TAG, String.valueOf(position) + " " + htmlParameter.getTitle().get(position));
+    public void Input(ArrayList articleData) {
         if (Output() != null) favoriteList = Output();
-        ArrayList<String> articleData = new ArrayList<>();
-        articleData.add(htmlParameter.getTitle().get(position));
-        articleData.add(htmlParameter.getCategory().get(position));
-        articleData.add(htmlParameter.getImgs().get(position));
-        articleData.add(htmlParameter.getUrl().get(position));
-        articleData.add(htmlParameter.getTime().get(position));
         favoriteList.add(articleData);
-//        for (int i=0; i<favoriteList.size(); i++) {
-//            Log.d(TAG, String.valueOf(favoriteList.get(i).get(3)));
-//        }
         Save(favoriteList);
     }
 

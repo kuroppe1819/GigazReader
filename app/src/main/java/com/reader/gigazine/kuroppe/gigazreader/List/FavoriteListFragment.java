@@ -16,8 +16,8 @@ import android.widget.ListView;
 import com.reader.gigazine.kuroppe.gigazreader.Dialog.FavoriteDialogFragment;
 import com.reader.gigazine.kuroppe.gigazreader.PageChangeListener;
 import com.reader.gigazine.kuroppe.gigazreader.R;
-import com.reader.gigazine.kuroppe.gigazreader.Http.HtmlList;
 import com.reader.gigazine.kuroppe.gigazreader.SubActivity.WebActivity;
+import com.reader.gigazine.kuroppe.gigazreader.http.HtmlList;
 
 public class FavoriteListFragment extends Fragment implements PageChangeListener {
     private View view;
@@ -65,6 +65,8 @@ public class FavoriteListFragment extends Fragment implements PageChangeListener
                     Intent intent = new Intent(getContext(), WebActivity.class);
                     intent.putExtra("url", url);
                     intent.putExtra("title", title);
+                    intent.putExtra("position", position);
+                    intent.putExtra("transitionSource", TAG);
                     startActivityForResult(intent, 5678);
                 }
             });

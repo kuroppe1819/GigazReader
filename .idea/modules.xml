@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/GigazReader.iml" filepath="$PROJECT_DIR$/GigazReader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GigaReader.iml" filepath="$PROJECT_DIR$/GigaReader.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/shared.iml" filepath="$PROJECT_DIR$/shared/shared.iml" />
     </modules>

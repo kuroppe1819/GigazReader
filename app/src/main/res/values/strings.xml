@@ -6,7 +6,8 @@
     <string name="dialog_message">この記事をお気に入りから削除しますか？</string>
     <string name="timeout">接続がタイムアウトしました。しばらくしてからもう一度お試しください。</string>
     <string name="article_share">記事の共有</string>
-    <string name="loading">読み込み中...</string>
+    <string name="loading">読み込み中…</string>
+    <string name="action_settings">このアプリについて</string>
 
     <string-array name="menu_items">
         <item>アニメ</item>
