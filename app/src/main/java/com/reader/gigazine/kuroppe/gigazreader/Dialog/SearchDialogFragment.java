@@ -44,15 +44,13 @@ public class SearchDialogFragment extends DialogFragment {
         // 背景を透明にする
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         final String[] menuItems = getResources().getStringArray(R.array.menu_items);
-        final int nullNumber = menuItems.length + 1;
-        position = nullNumber;
         ListView listView = (ListView) dialog.findViewById(R.id.search_dialog_list);
         listView.setAdapter(new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_single_choice, menuItems));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                position = i;
+                position = i + 1;
             }
         });
 
@@ -60,8 +58,7 @@ public class SearchDialogFragment extends DialogFragment {
         dialog.findViewById(R.id.positive_button).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, String.valueOf(nullNumber));
-                if (position != nullNumber) asyncTaskCallbacks.updateTaskCallbacks(true);
+                if (position != 0) asyncTaskCallbacks.updateTaskCallbacks(position);
                 dismiss();
             }
         });

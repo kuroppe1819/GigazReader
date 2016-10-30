@@ -1,7 +1,6 @@
 package com.reader.gigazine.kuroppe.gigazreader;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -16,16 +15,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchDialogFragment;
+import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchParameter;
 import com.reader.gigazine.kuroppe.gigazreader.http.HttpAsyncTask;
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteListFragment;
 import com.reader.gigazine.kuroppe.gigazreader.SubActivity.LicensesActivity;
-import com.reader.gigazine.kuroppe.gigazreader.SubActivity.WebActivity;
 
 public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks {
     private String TAG = "MainActivity";
     private static final int ArticleListFragmentCode = 1234;
+    private final static String StringNull = "";
     private MyPagerAdapter pagerAdapter = null;
     private ViewPager viewPager = null;
     private int pageNumber = 0;
@@ -33,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     private Snackbar snackbar = null;
     private View view;
     private ProgressDialog progressDialog;
+
 
     private void onHttpGet(int pageNumber) {
         HttpAsyncTask http = new HttpAsyncTask(this, this, pageNumber);
@@ -111,13 +111,10 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     }
 
     @Override
-    public void updateTaskCallbacks(boolean updateFrag) {
-        if (updateFrag){
-
-        }
-
-
-
+    public void updateTaskCallbacks(int position) {
+        SearchParameter searchParameter = new SearchParameter();
+        String[] menuItemsUrl = getResources().getStringArray(R.array.menu_items_url);
+        searchParameter.setCategoryUrl(menuItemsUrl[position]);
         snackbar = Snackbar.make(view, R.string.loading, Snackbar.LENGTH_LONG);
         snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.SeaGreen));
         snackbar.show();

@@ -75,7 +75,7 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
             /** ListViewがスクロール中かどうか **/
             @Override
             public void onScrollStateChanged(AbsListView arg0, int arg1) {
-                if (arg1 == 0 && scrollFinished == true) {
+                if (arg1 == 0 && scrollFinished) {
                     scrollFinished = false;
                     mFooter = null;
                     asyncTaskCallbacks.addTaskCallbacks();
@@ -109,7 +109,7 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
                 articleAdapter.clear();
                 articleAdapter.notifyDataSetChanged();
                 listView.invalidateViews();
-                asyncTaskCallbacks.updateTaskCallbacks(false);
+                asyncTaskCallbacks.updateTaskCallbacks(0);
                 /** 更新が終了したらインジケータ非表示 **/
                 mSwipeRefresh.setRefreshing(false);
                 mFooter = null;

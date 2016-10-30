@@ -9,10 +9,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import com.reader.gigazine.kuroppe.gigazreader.AsyncTaskCallbacks;
+import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchParameter;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import java.io.IOException;
+import java.util.Objects;
 
 public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
 
@@ -24,9 +26,11 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
     private String TAG = "AsyncTask";
 
     public HttpAsyncTask(Activity activity, AsyncTaskCallbacks callback, int pageNumber){
+        SearchParameter searchParameter = new SearchParameter();
         this.activity = activity;
         this.callback = callback;
-        this.url = "http://gigazine.net/P" + String.valueOf(pageNumber);
+        this.url = "http://gigazine.net/" + searchParameter.getCategoryUrl() + "/P" + String.valueOf(pageNumber);
+        Log.d(TAG, url);
         this.pageNumber = pageNumber;
     }
 
