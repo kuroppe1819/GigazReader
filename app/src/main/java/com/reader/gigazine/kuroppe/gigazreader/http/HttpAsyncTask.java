@@ -60,7 +60,6 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
 
     @Override
     protected void onCancelled() {
-        Log.v(TAG, "onCancelled");
         callback.onTaskCancelled();
     }
 }

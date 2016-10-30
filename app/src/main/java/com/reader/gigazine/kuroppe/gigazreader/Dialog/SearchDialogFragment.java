@@ -1,6 +1,7 @@
 package com.reader.gigazine.kuroppe.gigazreader.Dialog;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,12 +15,23 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.reader.gigazine.kuroppe.gigazreader.AsyncTaskCallbacks;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 
 public class SearchDialogFragment extends DialogFragment {
-
     private int position;
+    private AsyncTaskCallbacks asyncTaskCallbacks = null;
     private String TAG = "SearchDialogFragment";
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof AsyncTaskCallbacks) {
+            asyncTaskCallbacks = (AsyncTaskCallbacks) context;
+        } else {
+            throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
+        }
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -31,8 +43,9 @@ public class SearchDialogFragment extends DialogFragment {
         dialog.setContentView(R.layout.search_dialog);
         // 背景を透明にする
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
         final String[] menuItems = getResources().getStringArray(R.array.menu_items);
+        final int nullNumber = menuItems.length + 1;
+        position = nullNumber;
         ListView listView = (ListView) dialog.findViewById(R.id.search_dialog_list);
         listView.setAdapter(new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_single_choice, menuItems));
@@ -47,7 +60,8 @@ public class SearchDialogFragment extends DialogFragment {
         dialog.findViewById(R.id.positive_button).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, menuItems[position]);
+                Log.d(TAG, String.valueOf(nullNumber));
+                if (position != nullNumber) asyncTaskCallbacks.updateTaskCallbacks(true);
                 dismiss();
             }
         });

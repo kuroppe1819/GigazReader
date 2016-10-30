@@ -20,13 +20,14 @@
         <item>ゲーム</item>
         <item>広告</item>
         <item>コラム</item>
-        <item>サイエンス動画</item>
+        <item>サイエンス</item>
         <item>試食</item>
         <item>取材</item>
         <item>食</item>
         <item>セキュリティ</item>
         <item>ソフトウェア</item>
         <item>デザイン</item>
+        <item>動画</item>
         <item>ネットサービス</item>
         <item>乗り物</item>
         <item>ハードウェア</item>
@@ -35,5 +36,34 @@
         <item>メモ</item>
         <item>モバイル</item>
         <item>レビュー</item>
+    </string-array>
+
+    <string-array name="menu_items_url">
+        <item>C20</item>
+        <item>C32</item>
+        <item>C33</item>
+        <item>C17</item>
+        <item>C37</item>
+        <item>C8</item>
+        <item>C23</item>
+        <item>C10</item>
+        <item>C21</item>
+        <item>C16</item>
+        <item>C29</item>
+        <item>C13</item>
+        <item>C22</item>
+        <item>C15</item>
+        <item>C14</item>
+        <item>C4</item>
+        <item>C31</item>
+        <item>C9</item>
+        <item>C5</item>
+        <item>C30</item>
+        <item>C6</item>
+        <item>C34</item>
+        <item>C19</item>
+        <item>C7</item>
+        <item>C18</item>
+        <item>C12</item>
     </string-array>
 </resources>

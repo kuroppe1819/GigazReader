@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
         }
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 
     @Override
@@ -55,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
         setContentView(R.layout.activity_main);
         view = this.findViewById(android.R.id.content);
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
-//        toolbar.setTitle(R.string.app_name);
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.White));
         setSupportActionBar(toolbar);
         progressDialog = new ProgressDialog(this);
@@ -111,7 +111,13 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     }
 
     @Override
-    public void updateTaskCallbacks() {
+    public void updateTaskCallbacks(boolean updateFrag) {
+        if (updateFrag){
+
+        }
+
+
+
         snackbar = Snackbar.make(view, R.string.loading, Snackbar.LENGTH_LONG);
         snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.SeaGreen));
         snackbar.show();

@@ -99,7 +99,7 @@ public class HtmlParser {
             Url(url, i);
             Time(time, i);
         }
-        addPromotion();
+//        addPromotion();
 //        getLog();
         htmlList.setTitle(titleList);
         htmlList.setCategory(categoryList);

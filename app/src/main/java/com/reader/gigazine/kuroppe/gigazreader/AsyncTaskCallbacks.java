@@ -11,5 +11,5 @@ public interface AsyncTaskCallbacks {
     void addTaskCallbacks();
 
     //データの更新
-    void updateTaskCallbacks();
+    void updateTaskCallbacks(boolean updateFrag);
 }

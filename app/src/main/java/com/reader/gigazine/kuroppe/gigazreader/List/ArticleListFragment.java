@@ -109,7 +109,7 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
                 articleAdapter.clear();
                 articleAdapter.notifyDataSetChanged();
                 listView.invalidateViews();
-                asyncTaskCallbacks.updateTaskCallbacks();
+                asyncTaskCallbacks.updateTaskCallbacks(false);
                 /** 更新が終了したらインジケータ非表示 **/
                 mSwipeRefresh.setRefreshing(false);
                 mFooter = null;
