@@ -54,7 +54,7 @@ public class WebActivity extends AppCompatActivity {
         }
     }
 
-    private Toolbar ToolbarSetting(final String title, final String url) {
+    private Toolbar ToolbarSetting(final String title) {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(title);
         ObservableScrollView scrollView = (ObservableScrollView) findViewById(R.id.scrollview);
@@ -86,7 +86,7 @@ public class WebActivity extends AppCompatActivity {
         getFragmentName = getIntent().getStringExtra("transitionSource");
         final ArrayList<String> articleData = addInputData(position, fileIO);
         onExistCheck(url, fileIO);
-        Toolbar toolbar = ToolbarSetting(title, url);
+        Toolbar toolbar = ToolbarSetting(title);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {

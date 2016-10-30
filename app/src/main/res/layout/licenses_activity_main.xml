@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Version 1.00"
+                android:text="Version 1.0"
                 android:textSize="20sp" />
 
             <TextView
@@ -52,60 +52,11 @@
                 android:text="2016-10-31"
                 android:textSize="20sp" />
 
-
-            <LinearLayout
+            <WebView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@color/White"
-                android:orientation="vertical">
+                android:id="@+id/license_web_view"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="15dp"
-                    android:text="Open Source Licenses"
-                    android:textColor="@color/Black"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:text="・JSOUP"
-                    android:textColor="@color/Black"
-                    android:textSize="16sp" />
-
-                <!--<WebView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content" />-->
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@color/White"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:text="・Gride"
-                    android:textColor="@color/Black"
-                    android:textSize="16sp" />
-
-                <!--<WebView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content" />-->
-
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

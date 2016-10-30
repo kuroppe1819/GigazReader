@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 
 import com.reader.gigazine.kuroppe.gigazreader.R;
 
@@ -19,6 +21,9 @@ public class LicensesActivity extends AppCompatActivity{
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        WebView webView = (WebView) findViewById(R.id.license_web_view);
+        webView.setWebChromeClient(new WebChromeClient());
+        webView.loadUrl("file:///android_asset/license.html");
     }
 
     @Override
