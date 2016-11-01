@@ -15,6 +15,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchDialogFragment;
 import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchParameter;
 import com.reader.gigazine.kuroppe.gigazreader.http.HttpAsyncTask;
@@ -24,7 +28,6 @@ import com.reader.gigazine.kuroppe.gigazreader.SubActivity.LicensesActivity;
 public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks {
     private String TAG = "MainActivity";
     private static final int ArticleListFragmentCode = 1234;
-    private final static String StringNull = "";
     private MyPagerAdapter pagerAdapter = null;
     private ViewPager viewPager = null;
     private int pageNumber = 0;
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     private Snackbar snackbar = null;
     private View view;
     private ProgressDialog progressDialog;
+    private AdView mAdView;
 
 
     private void onHttpGet(int pageNumber) {
@@ -54,10 +58,19 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /** 広告の表示 **/
+        MobileAds.initialize(this, String.valueOf(R.string.banner_ad_unit_id));
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(String.valueOf(R.string.device_id))
+                .build();
+        mAdView.loadAd(adRequest);
         view = this.findViewById(android.R.id.content);
+        /** ツールバーの設定 **/
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.White));
         setSupportActionBar(toolbar);
+        /** プログレスダイアログ **/
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("読み込み中…");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -115,6 +128,12 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
         SearchParameter searchParameter = new SearchParameter();
         String[] menuItemsUrl = getResources().getStringArray(R.array.menu_items_url);
         searchParameter.setCategoryUrl(menuItemsUrl[position]);
+        if (position != 0) {
+            String[] menuItemsName = getResources().getStringArray(R.array.menu_items);
+            searchParameter.setCategoryName(menuItemsName[position - 1]);
+        }else {
+            searchParameter.onResetParameter();
+        }
         snackbar = Snackbar.make(view, R.string.loading, Snackbar.LENGTH_LONG);
         snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.SeaGreen));
         snackbar.show();
@@ -124,7 +143,8 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_menu, menu);
+        //TODO カテゴリ検索
+//        getMenuInflater().inflate(R.menu.search_menu, menu);
         getMenuInflater().inflate(R.menu.settings_menu, menu);
         return true;
     }
@@ -142,4 +162,29 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
             trans.commit();
         }
     }
+
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
+
 }

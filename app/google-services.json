@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "329718590405",
+    "firebase_url": "https://gigazreader.firebaseio.com",
+    "project_id": "gigazreader",
+    "storage_bucket": "gigazreader.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329718590405:android:0e3a95d963de734e",
+        "android_client_info": {
+          "package_name": "com.reader.gigazine.kuroppe.gigazreader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "329718590405-e99h79pg49oqbimldec23pcnbosm53gv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkrqjaJ3hq2WkohDXZZGWbA_gIhenE_5Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

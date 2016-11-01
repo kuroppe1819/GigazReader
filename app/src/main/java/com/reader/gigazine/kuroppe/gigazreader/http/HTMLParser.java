@@ -79,7 +79,7 @@ public class HtmlParser {
 
     private void getLog() {
         for (int i = 0; i < titleList.size(); i++) {
-            Log.d(TAG, "Title" + " " + titleList.get(i) + " " + titleList.size());
+//            Log.d(TAG, "Title" + " " + titleList.get(i) + " " + titleList.size());
 //            Log.d(TAG, "Category" + " " + categoryList.get(i) + " " + categoryList.size());
 //            Log.d(TAG, "Image" + " " + imgList.get(i) + " " + imgList.size());
 //            Log.d(TAG, "Url" + " " + urlList.get(i) + " " + urlList.size());
@@ -100,7 +100,7 @@ public class HtmlParser {
             Time(time, i);
         }
 //        addPromotion();
-//        getLog();
+        getLog();
         htmlList.setTitle(titleList);
         htmlList.setCategory(categoryList);
         htmlList.setImgs(imgList);
