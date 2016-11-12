@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <com.reader.gigazine.kuroppe.gigazreader.ObservableScrollView
@@ -33,6 +34,14 @@
         android:background="@color/SeaGreen"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:titleTextAppearance="@style/ToolbarTextAppearance"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+        <include layout="@layout/adview_layout" />
+    </LinearLayout>
+
 
 
 </FrameLayout>

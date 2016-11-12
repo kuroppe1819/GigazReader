@@ -10,10 +10,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.reader.gigazine.kuroppe.gigazreader.http.HtmlParameter;
 import com.reader.gigazine.kuroppe.gigazreader.List.FileIO;
 import com.reader.gigazine.kuroppe.gigazreader.ObservableScrollView;
 import com.reader.gigazine.kuroppe.gigazreader.R;
+
 import java.util.ArrayList;
 
 public class WebActivity extends AppCompatActivity {
@@ -21,6 +26,7 @@ public class WebActivity extends AppCompatActivity {
     private static final String TRASITIONSOURCE = "FavoriteListFragment";
     private String getFragmentName;
     private boolean favorite_frag = false;
+    private AdView mAdView;
 
     private ArrayList<String> addInputData(int position, FileIO fileIO) {
         ArrayList<String> articleData = new ArrayList<>();
@@ -74,10 +80,20 @@ public class WebActivity extends AppCompatActivity {
         return toolbar;
     }
 
+    private void showAdView() {
+        MobileAds.initialize(this, String.valueOf(R.string.banner_ad_unit_id));
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+//                .addTestDevice(String.valueOf(R.string.device_id))
+                .build();
+        mAdView.loadAd(adRequest);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.web_activity_main);
+        showAdView();
         final Intent intent = new Intent();
         final FileIO fileIO = new FileIO(this);
         final String url = getIntent().getStringExtra("url");
@@ -154,5 +170,29 @@ public class WebActivity extends AppCompatActivity {
             favorite_frag = false;
         }
         return true;
+    }
+
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
     }
 }

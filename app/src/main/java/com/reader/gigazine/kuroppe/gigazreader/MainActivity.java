@@ -54,20 +54,10 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 
-    private void showAdView(){
-        MobileAds.initialize(this, String.valueOf(R.string.banner_ad_unit_id));
-        mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(String.valueOf(R.string.device_id))
-                .build();
-        mAdView.loadAd(adRequest);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        showAdView();
         view = this.findViewById(android.R.id.content);
         /** ツールバーの設定 **/
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
@@ -165,29 +155,4 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
             trans.commit();
         }
     }
-
-    @Override
-    public void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();
-        }
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mAdView != null) {
-            mAdView.resume();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
-        super.onDestroy();
-    }
-
 }
