@@ -105,8 +105,8 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
             }
         });
         /** 記事の取得数が10以下のとき追加で記事を取得 **/
-//        if (htmlParameter.getTitle().size() < 11){
-        if (htmlParameter.getArticleCount() < 10){
+        if (htmlParameter.getTitle().size() < 11){
+//        if (htmlParameter.getArticleCount() < 10){
             try {
                 Thread.sleep(1000); //3
             } catch (InterruptedException ignored) {
