@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:ads="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <com.reader.gigazine.kuroppe.gigazreader.ObservableScrollView
@@ -33,15 +33,15 @@
         android:layout_height="wrap_content"
         android:background="@color/SeaGreen"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:titleTextAppearance="@style/ToolbarTextAppearance"/>
+        app:titleTextAppearance="@style/ToolbarTextAppearance" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom">
+
         <include layout="@layout/adview_layout" />
     </LinearLayout>
-
 
 
 </FrameLayout>

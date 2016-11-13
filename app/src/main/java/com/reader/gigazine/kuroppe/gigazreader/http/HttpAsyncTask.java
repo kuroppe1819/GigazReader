@@ -1,22 +1,20 @@
 package com.reader.gigazine.kuroppe.gigazreader.http;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
+
 import com.reader.gigazine.kuroppe.gigazreader.AsyncTaskCallbacks;
 import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchParameter;
 import com.reader.gigazine.kuroppe.gigazreader.R;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import java.io.IOException;
-import java.util.Objects;
 
-public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
+import java.io.IOException;
+
+public class HttpAsyncTask extends AsyncTask<Void, Void, Document> {
 
     //コールバックインターフェース
     private AsyncTaskCallbacks callback = null;
@@ -25,7 +23,7 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
     private int pageNumber;
     private String TAG = "AsyncTask";
 
-    public HttpAsyncTask(Activity activity, AsyncTaskCallbacks callback, int pageNumber){
+    public HttpAsyncTask(Activity activity, AsyncTaskCallbacks callback, int pageNumber) {
         SearchParameter searchParameter = new SearchParameter();
         this.activity = activity;
         this.callback = callback;
@@ -55,7 +53,7 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, Document>{
         if (document != null) {
             HtmlParser html = new HtmlParser(document, pageNumber);
             html.onParse();
-        }else {
+        } else {
             Toast.makeText(activity, R.string.timeout, Toast.LENGTH_LONG).show();
         }
         //終了をActivityに通知

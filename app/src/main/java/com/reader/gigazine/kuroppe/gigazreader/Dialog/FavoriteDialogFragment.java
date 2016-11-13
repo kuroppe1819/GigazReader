@@ -1,6 +1,7 @@
 package com.reader.gigazine.kuroppe.gigazreader.Dialog;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.app.Dialog;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
 import com.reader.gigazine.kuroppe.gigazreader.List.FileIO;
 import com.reader.gigazine.kuroppe.gigazreader.PageChangeListener;
 import com.reader.gigazine.kuroppe.gigazreader.R;
@@ -25,6 +27,7 @@ public class FavoriteDialogFragment extends DialogFragment {
         }
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = new Dialog(getActivity());

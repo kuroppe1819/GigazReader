@@ -4,12 +4,12 @@
     <item
         android:id="@+id/favorite_off"
         android:icon="@drawable/ic_star_black"
-        android:title="menu_favorite_on"
-        app:showAsAction="always" />
+        android:title="@string/menu_favorite_on"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/favorite_on"
         android:icon="@drawable/ic_star_border_white"
-        android:title="menu_favorite_off"
+        android:title="@string/menu_favorite_off"
         app:showAsAction="always" />
 </menu>

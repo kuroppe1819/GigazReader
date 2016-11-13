@@ -16,7 +16,7 @@ public class FavoriteData {
         this.category = category;
     }
 
-    public String getCategory() {
+    String getCategory() {
         return category;
     }
 
@@ -24,7 +24,7 @@ public class FavoriteData {
         this.imgs = imgs;
     }
 
-    public String getImgs() {
+    String getImgs() {
         return imgs;
     }
 

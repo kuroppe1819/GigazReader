@@ -1,20 +1,21 @@
 package com.reader.gigazine.kuroppe.gigazreader.http;
 
-import android.app.Activity;
 import android.util.Log;
 
-import com.reader.gigazine.kuroppe.gigazreader.http.HtmlParameter;
+import com.reader.gigazine.kuroppe.gigazreader.AsyncTaskCallbacks;
+import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchParameter;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class HtmlParser {
     private String TAG = "HTML";
     private Document document;
     private int PROMOTION_NUMBER;
-    private HtmlParameter htmlList;
+    private HtmlParameter htmlParameter;
     static private ArrayList<String> titleList = new ArrayList<>();
     static private ArrayList<String> categoryList = new ArrayList<>();
     static private ArrayList<String> imgList = new ArrayList<>();
@@ -27,13 +28,13 @@ public class HtmlParser {
         imgList.clear();
         urlList.clear();
         timeList.clear();
-        htmlList.onDestroyList();
+        htmlParameter.onDestroyList();
     }
 
     public HtmlParser(Document document, int pageNumber) {
         this.document = document;
-        PROMOTION_NUMBER = pageNumber + 15;
-        htmlList = new HtmlParameter();
+//        PROMOTION_NUMBER = pageNumber + 15;
+        htmlParameter = new HtmlParameter();
         if (pageNumber == 0) {
             onDestroyList();
         }
@@ -47,11 +48,12 @@ public class HtmlParser {
         }
     }
 
-    private void Title(String[] span_split) {
-        for (int i = 0; i < span_split.length; i += 2) {
-            titleList.add(span_split[i]);
-            categoryList.add(span_split[i + 1]);
-        }
+    private void Category(Elements category, int i) {
+        categoryList.add(category.get(i).text());
+    }
+
+    private void Title(Elements title, int i) {
+        titleList.add(title.get(i).text());
     }
 
     private void Url(Elements url, int i) {
@@ -88,23 +90,31 @@ public class HtmlParser {
     }
 
     public void onParse() {
+        int listSize = titleList.size();
+        Elements title = document.select("h2 a span");
+        Elements category = document.select(".catab");
         Elements url = document.select("h2 a");
         Elements img = document.select(".card .thumb a img");
-        Elements span = document.getElementsByTag("span");
-        String[] span_split = span.html().split("\n", 0);
         Elements time = document.select("time");
-        Title(span_split);
-        for (int i = 0; i < url.size(); i++) {
-            Image(img, i);
-            Url(url, i);
-            Time(time, i);
+        SearchParameter searchParameter = new SearchParameter();
+        String choiceCategory = searchParameter.getCategoryName();
+        for (int i = 0; i < title.size(); i++) {
+            if (Objects.equals(choiceCategory, category.get(i).text()) || choiceCategory == "") {
+                Title(title, i);
+                Category(category, i);
+                Image(img, i);
+                Url(url, i);
+                Time(time, i);
+            }
         }
 //        addPromotion();
-        getLog();
-        htmlList.setTitle(titleList);
-        htmlList.setCategory(categoryList);
-        htmlList.setImgs(imgList);
-        htmlList.setUrl(urlList);
-        htmlList.setTime(timeList);
+//        getLog();
+        htmlParameter.setTitle(titleList);
+        htmlParameter.setCategory(categoryList);
+        htmlParameter.setImgs(imgList);
+        htmlParameter.setUrl(urlList);
+        htmlParameter.setTime(timeList);
+        htmlParameter.setArticleCount(titleList.size() - listSize);
+        Log.d(TAG, String.valueOf(titleList.size() - listSize));
     }
 }

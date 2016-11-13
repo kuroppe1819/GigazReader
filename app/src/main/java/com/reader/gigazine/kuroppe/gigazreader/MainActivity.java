@@ -16,9 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchDialogFragment;
 import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchParameter;
 import com.reader.gigazine.kuroppe.gigazreader.http.HttpAsyncTask;
@@ -35,8 +32,6 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     private Snackbar snackbar = null;
     private View view;
     private ProgressDialog progressDialog;
-    private AdView mAdView;
-
 
     private void onHttpGet(int pageNumber) {
         HttpAsyncTask http = new HttpAsyncTask(this, this, pageNumber);
@@ -124,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
         if (position != 0) {
             String[] menuItemsName = getResources().getStringArray(R.array.menu_items);
             searchParameter.setCategoryName(menuItemsName[position - 1]);
-        }else {
+        } else {
             searchParameter.onResetParameter();
         }
         snackbar = Snackbar.make(view, R.string.loading, Snackbar.LENGTH_LONG);
@@ -137,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //TODO カテゴリ検索
-//        getMenuInflater().inflate(R.menu.search_menu, menu);
+        getMenuInflater().inflate(R.menu.search_menu, menu);
         getMenuInflater().inflate(R.menu.settings_menu, menu);
         return true;
     }

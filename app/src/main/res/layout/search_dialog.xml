@@ -8,9 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="6dp"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
+        android:layout_marginTop="6dp"
         android:background="@drawable/bg_dialog"
         android:gravity="center_horizontal"
         android:orientation="vertical">
@@ -23,9 +23,8 @@
             android:background="@drawable/bg_title"
             android:padding="10dp"
             android:text="カテゴリ検索"
-            android:textSize="18sp"
             android:textColor="@android:color/white"
-            />
+            android:textSize="18sp" />
 
         <ListView
             android:id="@+id/search_dialog_list"

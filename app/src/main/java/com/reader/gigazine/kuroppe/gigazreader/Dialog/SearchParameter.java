@@ -1,4 +1,5 @@
 package com.reader.gigazine.kuroppe.gigazreader.Dialog;
+
 import java.util.Objects;
 
 public class SearchParameter {
@@ -17,15 +18,15 @@ public class SearchParameter {
         return categoryUrl;
     }
 
-    public void setCategoryName(String categoryName){
+    public void setCategoryName(String categoryName) {
         SearchParameter.categoryName = categoryName;
     }
 
-    public String getCategoryName(){
+    public String getCategoryName() {
         return categoryName;
     }
 
-    public void onResetParameter(){
+    public void onResetParameter() {
         SearchParameter.categoryUrl = "";
         SearchParameter.categoryName = "";
     }

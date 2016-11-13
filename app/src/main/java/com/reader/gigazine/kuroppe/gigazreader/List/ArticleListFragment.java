@@ -7,12 +7,14 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
 import com.reader.gigazine.kuroppe.gigazreader.AsyncTaskCallbacks;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import com.reader.gigazine.kuroppe.gigazreader.SubActivity.WebActivity;
@@ -27,6 +29,7 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
     private View mFooter;
     private SwipeRefreshLayout mSwipeRefresh;
     private ArticleAdapter articleAdapter;
+    private static int breakCount;
 
     private View getFooter(Bundle bundle) {
         if (mFooter == null) {
@@ -62,7 +65,7 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
         articleAdapter = new ArticleAdapter(getActivity(), 0, htmlList.getArticle());
         listView = (ListView) getActivity().findViewById(R.id.article_list);
         listView.setAdapter(articleAdapter);
-        listView.addFooterView(getFooter(savedInstanceState));
+        if (htmlParameter.getArticleCount() != 0) listView.addFooterView(getFooter(savedInstanceState));
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
@@ -78,7 +81,7 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
                 if (arg1 == 0 && scrollFinished) {
                     scrollFinished = false;
                     mFooter = null;
-                    asyncTaskCallbacks.addTaskCallbacks();
+                    if (htmlParameter.getArticleCount() != 0) asyncTaskCallbacks.addTaskCallbacks();
                 }
             }
         });
@@ -89,16 +92,27 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                String url = htmlParameter.getUrl().get(position);
-                String title = htmlParameter.getTitle().get(position);
-                Intent intent = new Intent(getContext(), WebActivity.class);
-                intent.putExtra("url", url);
-                intent.putExtra("title", title);
-                intent.putExtra("transitionSource", TAG);
-                intent.putExtra("position", position);
-                getActivity().startActivityForResult(intent, 1234);
+                if (position < htmlParameter.getTitle().size()) {
+                    String url = htmlParameter.getUrl().get(position);
+                    String title = htmlParameter.getTitle().get(position);
+                    Intent intent = new Intent(getContext(), WebActivity.class);
+                    intent.putExtra("url", url);
+                    intent.putExtra("title", title);
+                    intent.putExtra("transitionSource", TAG);
+                    intent.putExtra("position", position);
+                    getActivity().startActivityForResult(intent, 1234);
+                }
             }
         });
+        /** 記事の取得数が10以下のとき追加で記事を取得 **/
+//        if (htmlParameter.getTitle().size() < 11){
+        if (htmlParameter.getArticleCount() < 10){
+            try {
+                Thread.sleep(1000); //3
+            } catch (InterruptedException ignored) {
+            }
+            asyncTaskCallbacks.addTaskCallbacks();
+        }
     }
 
     @Override
@@ -116,10 +130,4 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
             }
         }, 800);
     }
-
-//    @Override
-//    public void onDestroy(){
-//        super.onDestroy();
-//
-//    }
 }

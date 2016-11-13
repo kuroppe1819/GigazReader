@@ -85,7 +85,7 @@ public class FavoriteListFragment extends Fragment implements PageChangeListener
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent){
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         Log.d(TAG, String.valueOf(requestCode));
         FavoriteListUpdate();
     }

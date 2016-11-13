@@ -1,4 +1,5 @@
 package com.reader.gigazine.kuroppe.gigazreader.http;
+
 import java.util.ArrayList;
 
 public class HtmlParameter {
@@ -7,48 +8,57 @@ public class HtmlParameter {
     private static ArrayList<String> imgs = new ArrayList<>();
     private static ArrayList<String> url = new ArrayList<>();
     private static ArrayList<String> time = new ArrayList<>();
+    private static int count;
 
-    public void setTitle(ArrayList<String> title){
-        this.title = title;
+    public void setTitle(ArrayList<String> title) {
+        HtmlParameter.title = title;
     }
 
-    public ArrayList<String> getTitle(){
+    public ArrayList<String> getTitle() {
         return title;
     }
 
-    public void setCategory(ArrayList<String> category){
-        this.category = category;
+    void setCategory(ArrayList<String> category) {
+        HtmlParameter.category = category;
     }
 
-    public ArrayList<String> getCategory(){
+    public ArrayList<String> getCategory() {
         return category;
     }
 
-    public void setImgs(ArrayList<String> imgs){
-        this.imgs = imgs;
+    void setImgs(ArrayList<String> imgs) {
+        HtmlParameter.imgs = imgs;
     }
 
-    public ArrayList<String> getImgs(){
+    public ArrayList<String> getImgs() {
         return imgs;
     }
 
-    public void setUrl(ArrayList<String> url){
-        this.url = url;
+    void setUrl(ArrayList<String> url) {
+        HtmlParameter.url = url;
     }
 
-    public ArrayList<String> getUrl(){
+    public ArrayList<String> getUrl() {
         return url;
     }
 
-    public void setTime(ArrayList<String> time){
-        this.time = time;
+    public void setTime(ArrayList<String> time) {
+        HtmlParameter.time = time;
     }
 
-    public ArrayList<String> getTime(){
+    public ArrayList<String> getTime() {
         return time;
     }
 
-    public void onDestroyList(){
+    void setArticleCount(int count){
+        HtmlParameter.count = count;
+    }
+
+    public int getArticleCount(){
+        return count;
+    }
+
+    void onDestroyList() {
         title.clear();
         category.clear();
         imgs.clear();

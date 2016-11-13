@@ -12,9 +12,10 @@
             android:id="@+id/img"
             android:layout_width="140dp"
             android:layout_height="140dp"
-            android:layout_marginStart="8dp"
+            android:layout_centerVertical="true"
             android:layout_marginBottom="8dp"
-            android:layout_centerVertical="true" />
+            android:layout_marginStart="8dp"
+            android:contentDescription="" />
 
     </RelativeLayout>
 
@@ -25,38 +26,38 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp">
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/category_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="10dp"
-            android:textColor="@color/Grey"/>
+            <TextView
+                android:id="@+id/category_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/Grey"
+                android:textSize="10sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/time_text"
-            android:textSize="10dp"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/Grey"/>
+            <TextView
+                android:id="@+id/time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/Grey"
+                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/title_text"
-                android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/category_text"
-                android:textColor="@color/Black"/>
+                android:layout_marginTop="4dp"
+                android:textColor="@color/Black" />
 
             <Space
                 android:layout_width="0dp"
-                android:layout_height="90dp"/>
+                android:layout_height="90dp" />
         </RelativeLayout>
     </LinearLayout>
 
