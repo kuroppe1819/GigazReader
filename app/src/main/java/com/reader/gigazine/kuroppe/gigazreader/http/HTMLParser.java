@@ -11,7 +11,7 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class HtmlParser {
+class HtmlParser {
     private String TAG = "HTML";
     private Document document;
     private int PROMOTION_NUMBER;

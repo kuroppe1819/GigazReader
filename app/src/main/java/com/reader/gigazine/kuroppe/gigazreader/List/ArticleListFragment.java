@@ -29,7 +29,6 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
     private View mFooter;
     private SwipeRefreshLayout mSwipeRefresh;
     private ArticleAdapter articleAdapter;
-    private static int breakCount;
 
     private View getFooter(Bundle bundle) {
         if (mFooter == null) {
