@@ -3,7 +3,6 @@ package com.reader.gigazine.kuroppe.gigazreader.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -13,12 +12,10 @@ import java.util.ArrayList;
 public class FileIO {
     private ArrayList<ArrayList> favoriteList = new ArrayList<>();
     private String TAG = "FileIO";
-    private Activity activity;
     private Gson gson = new Gson();
     private SharedPreferences preferences;
 
     public FileIO(Activity activity) {
-        this.activity = activity;
         this.preferences = activity.getSharedPreferences("preferences", Context.MODE_PRIVATE);
         // 保存したデータを削除
 //        preferences.edit().clear().commit();
