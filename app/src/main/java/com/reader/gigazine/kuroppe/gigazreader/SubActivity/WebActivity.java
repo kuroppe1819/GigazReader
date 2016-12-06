@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -130,6 +131,10 @@ public class WebActivity extends AppCompatActivity {
         });
         WebView webView = (WebView) findViewById(R.id.webview);
         webView.setWebChromeClient(new WebChromeClient());
+
+        WebSettings webSettings=webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+
         webView.loadUrl(url);
     }
 

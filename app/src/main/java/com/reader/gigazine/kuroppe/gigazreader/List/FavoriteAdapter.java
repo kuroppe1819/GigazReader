@@ -1,6 +1,7 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +17,19 @@ import java.util.ArrayList;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-public class FavoriteAdapter extends ArrayAdapter<FavoriteData> {
+class FavoriteAdapter extends ArrayAdapter<FavoriteData> {
     private LayoutInflater layoutInflater_;
     private Context context;
 
-    public FavoriteAdapter(Context context, int textViewResourceId, ArrayList<FavoriteData> objects) {
+    FavoriteAdapter(Context context, int textViewResourceId, ArrayList<FavoriteData> objects) {
         super(context, textViewResourceId, objects);
         this.context = context;
         layoutInflater_ = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         // 特定の行(position)のデータを得る
         FavoriteData favoriteData = (FavoriteData) getItem(position);
 
@@ -37,12 +39,12 @@ public class FavoriteAdapter extends ArrayAdapter<FavoriteData> {
         }
 
         TextView titleText = (TextView) convertView.findViewById(R.id.title_text);
+        assert favoriteData != null;
         titleText.setText(favoriteData.getTitle());
         TextView categoryText = (TextView) convertView.findViewById(R.id.category_text);
         categoryText.setText(favoriteData.getCategory());
         TextView timeText = (TextView) convertView.findViewById(R.id.time_text);
         timeText.setText(favoriteData.getTime());
-
         ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
         // BitmapDataに変換
         Glide.with(this.context)
@@ -52,7 +54,6 @@ public class FavoriteAdapter extends ArrayAdapter<FavoriteData> {
                 .override(450, 450)
                 .error(android.R.drawable.ic_delete)
                 .into(imageView);
-
         return convertView;
     }
 }
