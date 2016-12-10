@@ -95,7 +95,7 @@ public class WebActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.web_activity_main);
 
-//        showAdView();
+        showAdView();
 
         final Intent intent = new Intent();
         final FileIO fileIO = new FileIO(this);

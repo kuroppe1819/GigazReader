@@ -52,7 +52,7 @@ class FavoriteAdapter extends ArrayAdapter<FavoriteData> {
                 .bitmapTransform(new RoundedCornersTransformation(context, 10, 0))
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .override(450, 450)
-                .error(android.R.drawable.ic_delete)
+                .error(R.drawable.no_image)
                 .into(imageView);
         return convertView;
     }
