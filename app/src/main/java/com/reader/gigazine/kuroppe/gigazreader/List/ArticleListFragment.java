@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.reader.gigazine.kuroppe.gigazreader.AsyncTaskCallbacks;
+import com.reader.gigazine.kuroppe.gigazreader.RxAndroidCallbacks;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 import com.reader.gigazine.kuroppe.gigazreader.SubActivity.WebActivity;
 import com.reader.gigazine.kuroppe.gigazreader.http.HtmlList;
@@ -25,7 +24,7 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
     private String TAG = "ArticleListFragment";
     private ListView listView;
     private boolean scrollFinished = false;
-    private AsyncTaskCallbacks asyncTaskCallbacks = null;
+    private RxAndroidCallbacks rxAndroidCallbacks = null;
     private View mFooter;
     private SwipeRefreshLayout mSwipeRefresh;
     private ArticleAdapter articleAdapter;
@@ -40,8 +39,8 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof AsyncTaskCallbacks) {
-            asyncTaskCallbacks = (AsyncTaskCallbacks) context;
+        if (context instanceof RxAndroidCallbacks) {
+            rxAndroidCallbacks = (RxAndroidCallbacks) context;
         } else {
             throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
         }
@@ -80,7 +79,7 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
                 if (arg1 == 0 && scrollFinished) {
                     scrollFinished = false;
                     mFooter = null;
-                    if (htmlParameter.getArticleCount() != 0) asyncTaskCallbacks.addTaskCallbacks();
+                    if (htmlParameter.getArticleCount() != 0) rxAndroidCallbacks.addTaskCallbacks();
                 }
             }
         });
@@ -110,7 +109,7 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
                 Thread.sleep(1000); //3
             } catch (InterruptedException ignored) {
             }
-            asyncTaskCallbacks.addTaskCallbacks();
+            rxAndroidCallbacks.addTaskCallbacks();
         }
     }
 
@@ -122,7 +121,7 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
                 articleAdapter.clear();
                 articleAdapter.notifyDataSetChanged();
                 listView.invalidateViews();
-                asyncTaskCallbacks.updateTaskCallbacks(0);
+                rxAndroidCallbacks.updateTaskCallbacks(0);
                 /** 更新が終了したらインジケータ非表示 **/
                 mSwipeRefresh.setRefreshing(false);
                 mFooter = null;

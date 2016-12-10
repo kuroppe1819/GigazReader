@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -16,19 +15,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.reader.gigazine.kuroppe.gigazreader.AsyncTaskCallbacks;
+import com.reader.gigazine.kuroppe.gigazreader.RxAndroidCallbacks;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 
 public class SearchDialogFragment extends DialogFragment {
     private int position;
-    private AsyncTaskCallbacks asyncTaskCallbacks = null;
+    private RxAndroidCallbacks rxAndroidCallbacks = null;
     private String TAG = "SearchDialogFragment";
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof AsyncTaskCallbacks) {
-            asyncTaskCallbacks = (AsyncTaskCallbacks) context;
+        if (context instanceof RxAndroidCallbacks) {
+            rxAndroidCallbacks = (RxAndroidCallbacks) context;
         } else {
             throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
         }
@@ -60,7 +59,7 @@ public class SearchDialogFragment extends DialogFragment {
         dialog.findViewById(R.id.positive_button).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (position != 0) asyncTaskCallbacks.updateTaskCallbacks(position);
+                if (position != 0) rxAndroidCallbacks.updateTaskCallbacks(position);
                 dismiss();
             }
         });

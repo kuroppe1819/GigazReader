@@ -1,6 +1,6 @@
 package com.reader.gigazine.kuroppe.gigazreader;
 
-public interface AsyncTaskCallbacks {
+public interface RxAndroidCallbacks {
     //終了
     void onTaskFinished();
 

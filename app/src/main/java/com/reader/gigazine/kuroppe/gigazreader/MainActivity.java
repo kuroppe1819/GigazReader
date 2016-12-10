@@ -15,14 +15,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchDialogFragment;
 import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchParameter;
-import com.reader.gigazine.kuroppe.gigazreader.http.HttpAsyncTask;
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteListFragment;
 import com.reader.gigazine.kuroppe.gigazreader.SubActivity.LicensesActivity;
+import com.reader.gigazine.kuroppe.gigazreader.http.HttpRxAndroid;
 
-public class MainActivity extends AppCompatActivity implements AsyncTaskCallbacks {
+
+public class MainActivity extends AppCompatActivity implements RxAndroidCallbacks {
     private String TAG = "MainActivity";
     private static final int ArticleListFragmentCode = 1234;
     private MyPagerAdapter pagerAdapter = null;
@@ -34,8 +36,8 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
     private ProgressDialog progressDialog;
 
     private void onHttpGet(int pageNumber) {
-        HttpAsyncTask http = new HttpAsyncTask(this, this, pageNumber);
-        http.execute();
+        HttpRxAndroid http = new HttpRxAndroid(this, this, pageNumber);
+        http.HttpConnect();
     }
 
     private void onPagerSettings() {
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskCallback
             progressDialog.dismiss();
             progressDialog = null;
         }
+        Toast.makeText(this, R.string.timeout, Toast.LENGTH_LONG).show();
     }
 
     @Override

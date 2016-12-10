@@ -94,7 +94,9 @@ public class WebActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.web_activity_main);
-        showAdView();
+
+//        showAdView();
+
         final Intent intent = new Intent();
         final FileIO fileIO = new FileIO(this);
         final String url = getIntent().getStringExtra("url");

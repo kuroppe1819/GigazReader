@@ -2,7 +2,6 @@ package com.reader.gigazine.kuroppe.gigazreader.http;
 
 import android.util.Log;
 
-import com.reader.gigazine.kuroppe.gigazreader.AsyncTaskCallbacks;
 import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchParameter;
 
 import org.jsoup.nodes.Document;

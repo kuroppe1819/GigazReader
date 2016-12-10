@@ -48,7 +48,7 @@ class ArticleAdapter extends ArrayAdapter<ArticleData> {
         Glide.with(this.context)
                 .load(articleData.getImgs())
                 .bitmapTransform(new RoundedCornersTransformation(context, 10, 0))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .override(450, 450)
                 .error(android.R.drawable.ic_delete)
                 .into(imageView);

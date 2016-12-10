@@ -50,7 +50,7 @@ class FavoriteAdapter extends ArrayAdapter<FavoriteData> {
         Glide.with(this.context)
                 .load(favoriteData.getImgs())
                 .bitmapTransform(new RoundedCornersTransformation(context, 10, 0))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .override(450, 450)
                 .error(android.R.drawable.ic_delete)
                 .into(imageView);
