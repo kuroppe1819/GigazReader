@@ -18,7 +18,7 @@ public class ArticleData implements Serializable{
         this.category = category;
     }
 
-    String getCategory() {
+    public String getCategory() {
         return category;
     }
 
@@ -26,7 +26,7 @@ public class ArticleData implements Serializable{
         this.imgs = imgs;
     }
 
-    String getImgs() {
+    public String getImgs() {
         return imgs;
     }
 

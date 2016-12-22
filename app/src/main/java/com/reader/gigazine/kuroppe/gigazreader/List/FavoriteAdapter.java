@@ -17,11 +17,11 @@ import java.util.ArrayList;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-class FavoriteAdapter extends ArrayAdapter<FavoriteData> {
+class FavoriteAdapter extends ArrayAdapter<ArticleData> {
     private LayoutInflater layoutInflater_;
     private Context context;
 
-    FavoriteAdapter(Context context, int textViewResourceId, ArrayList<FavoriteData> objects) {
+    FavoriteAdapter(Context context, int textViewResourceId, ArrayList<ArticleData> objects) {
         super(context, textViewResourceId, objects);
         this.context = context;
         layoutInflater_ = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -31,7 +31,7 @@ class FavoriteAdapter extends ArrayAdapter<FavoriteData> {
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         // 特定の行(position)のデータを得る
-        FavoriteData favoriteData = (FavoriteData) getItem(position);
+        ArticleData articleData = (ArticleData) getItem(position);
 
         // convertViewは使い回しされている可能性があるのでnullの時だけ新しく作る
         if (null == convertView) {
@@ -39,16 +39,16 @@ class FavoriteAdapter extends ArrayAdapter<FavoriteData> {
         }
 
         TextView titleText = (TextView) convertView.findViewById(R.id.title_text);
-        assert favoriteData != null;
-        titleText.setText(favoriteData.getTitle());
+        assert articleData != null;
+        titleText.setText(articleData.getTitle());
         TextView categoryText = (TextView) convertView.findViewById(R.id.category_text);
-        categoryText.setText(favoriteData.getCategory());
+        categoryText.setText(articleData.getCategory());
         TextView timeText = (TextView) convertView.findViewById(R.id.time_text);
-        timeText.setText(favoriteData.getTime());
+        timeText.setText(articleData.getTime());
         ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
         // BitmapDataに変換
         Glide.with(this.context)
-                .load(favoriteData.getImgs())
+                .load(articleData.getImgs())
                 .bitmapTransform(new RoundedCornersTransformation(context, 10, 0))
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .override(450, 450)

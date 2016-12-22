@@ -24,27 +24,23 @@ import com.reader.gigazine.kuroppe.gigazreader.R;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class WebActivity extends AppCompatActivity{
+public class WebActivity extends AppCompatActivity {
     private String TAG = "WebActivity";
     private static final String TRASITIONSOURCE = "FavoriteListFragment";
-    private String getFragmentName;
+    private static String getFragmentName;
+    private static int position;
+
+
     private boolean favorite_frag = false;
     private AdView mAdView;
 
-    private ArrayList<String> addInputData(int position, FileIO fileIO) {
+    private ArrayList<String> addInputData(ArticleData articleData) {
         ArrayList<String> arrayArticle = new ArrayList<>();
-        if (getFragmentName.equals(TRASITIONSOURCE)) {
-            for (int i = 0; i < 5; i++) {
-                arrayArticle.add(fileIO.Output().get(position).get(i).toString());
-            }
-        } else {
-            HtmlParameter htmlParameter = new HtmlParameter();
-            arrayArticle.add(htmlParameter.getTitle().get(position));
-            arrayArticle.add(htmlParameter.getCategory().get(position));
-            arrayArticle.add(htmlParameter.getImgs().get(position));
-            arrayArticle.add(htmlParameter.getUrl().get(position));
-            arrayArticle.add(htmlParameter.getTime().get(position));
-        }
+        arrayArticle.add(articleData.getTitle());
+        arrayArticle.add(articleData.getCategory());
+        arrayArticle.add(articleData.getImgs());
+        arrayArticle.add(articleData.getUrl());
+        arrayArticle.add(articleData.getTime());
         return arrayArticle;
     }
 
@@ -101,15 +97,10 @@ public class WebActivity extends AppCompatActivity{
 
         final Intent intent = new Intent();
         final FileIO fileIO = new FileIO(this);
-        final String url = getIntent().getStringExtra("url");
-        final String title = getIntent().getStringExtra("title");
-        ArticleData articleData = (ArticleData) getIntent().getSerializableExtra("article");
-        Log.d(TAG, String.valueOf(articleData.getTitle()));
-        int position = getIntent().getIntExtra("position", 0);
-        getFragmentName = getIntent().getStringExtra("transitionSource");
-        final ArrayList<String> arrayArticle = addInputData(position, fileIO);
-        onExistCheck(url, fileIO);
-        Toolbar toolbar = ToolbarSetting(title);
+        final ArticleData articleData = (ArticleData) getIntent().getSerializableExtra("article");
+        final ArrayList<String> arrayArticle = addInputData(articleData);
+        onExistCheck(articleData.getUrl(), fileIO);
+        Toolbar toolbar = ToolbarSetting(articleData.getTitle());
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -117,7 +108,7 @@ public class WebActivity extends AppCompatActivity{
                     case R.id.share:
                         ShareCompat.IntentBuilder builder = ShareCompat.IntentBuilder.from(WebActivity.this);
                         builder.setChooserTitle(R.string.article_share);
-                        builder.setText(title + " " + url);
+                        builder.setText(articleData.getTitle() + " " + articleData.getUrl());
                         builder.setType("text/plain");
                         builder.startChooser();
                         break;
@@ -128,7 +119,7 @@ public class WebActivity extends AppCompatActivity{
                         break;
                     case R.id.favorite_off:
                         setResult(RESULT_OK, intent);
-                        delFavoriteList(url, fileIO);
+                        delFavoriteList(articleData.getUrl(), fileIO);
                         invalidateOptionsMenu();
                         break;
                 }
@@ -137,7 +128,7 @@ public class WebActivity extends AppCompatActivity{
         });
         WebView webView = (WebView) findViewById(R.id.webview);
         webView.setWebChromeClient(new WebChromeClient());
-        webView.loadUrl(url);
+        webView.loadUrl(articleData.getUrl());
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
     }

@@ -104,14 +104,9 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position < htmlParameter.getTitle().size()) {
-                    String url = htmlParameter.getUrl().get(position);
-                    String title = htmlParameter.getTitle().get(position);
                     Intent intent = new Intent(getContext(), WebActivity.class);
-                    intent.putExtra("url", url);
-                    intent.putExtra("title", title);
                     intent.putExtra("article", htmlList.getArticle().get(position));
                     intent.putExtra("transitionSource", TAG);
-//                    intent.putExtra("position", position);
                     getActivity().startActivityForResult(intent, 1234);
                     getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }

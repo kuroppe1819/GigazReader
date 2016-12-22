@@ -2,11 +2,10 @@ package com.reader.gigazine.kuroppe.gigazreader.http;
 
 import android.app.Activity;
 import android.util.Log;
-
-import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteData;
 import com.reader.gigazine.kuroppe.gigazreader.List.FileIO;
 import com.reader.gigazine.kuroppe.gigazreader.List.ArticleData;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class HtmlList {
@@ -27,19 +26,18 @@ public class HtmlList {
         return objects;
     }
 
-    public ArrayList<FavoriteData> getFavorite(Activity activity) {
+    public ArrayList<ArticleData> getFavorite(Activity activity) {
         FileIO fileIO = new FileIO(activity);
-        ArrayList<FavoriteData> objects = new ArrayList<>();
+        ArrayList<ArticleData> objects = new ArrayList<>();
         if (fileIO.Output() == null) return null;
         for (int i = 0; i < fileIO.Output().size(); i++) {
-//            Log.d(TAG, String.valueOf(fileIO.Output().size()));
-            FavoriteData favoriteData = new FavoriteData();
-            favoriteData.setTitle(fileIO.Output().get(i).get(0).toString());
-            favoriteData.setCategory(fileIO.Output().get(i).get(1).toString());
-            favoriteData.setImgs(fileIO.Output().get(i).get(2).toString());
-            favoriteData.setUrl(fileIO.Output().get(i).get(3).toString());
-            favoriteData.setTime(fileIO.Output().get(i).get(4).toString());
-            objects.add(favoriteData);
+            ArticleData articleData = new ArticleData();
+            articleData.setTitle(fileIO.Output().get(i).get(0).toString());
+            articleData.setCategory(fileIO.Output().get(i).get(1).toString());
+            articleData.setImgs(fileIO.Output().get(i).get(2).toString());
+            articleData.setUrl(fileIO.Output().get(i).get(3).toString());
+            articleData.setTime(fileIO.Output().get(i).get(4).toString());
+            objects.add(articleData);
         }
         return objects;
     }
