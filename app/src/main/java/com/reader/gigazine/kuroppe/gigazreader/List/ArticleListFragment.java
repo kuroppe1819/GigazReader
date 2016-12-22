@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
@@ -22,7 +23,10 @@ import com.reader.gigazine.kuroppe.gigazreader.SubActivity.WebActivity;
 import com.reader.gigazine.kuroppe.gigazreader.http.HtmlList;
 import com.reader.gigazine.kuroppe.gigazreader.http.HtmlParameter;
 
-public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+import java.io.Serializable;
+import java.util.List;
+
+public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private String TAG = "ArticleListFragment";
     private ListView listView;
     private boolean scrollFinished = false;
@@ -65,7 +69,7 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        HtmlList htmlList = new HtmlList();
+        final HtmlList htmlList = new HtmlList();
         final HtmlParameter htmlParameter = new HtmlParameter();
         articleAdapter = new ArticleAdapter(getActivity(), 0, htmlList.getArticle());
         listView = (ListView) getActivity().findViewById(R.id.article_list);
@@ -105,8 +109,9 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
                     Intent intent = new Intent(getContext(), WebActivity.class);
                     intent.putExtra("url", url);
                     intent.putExtra("title", title);
+                    intent.putExtra("article", htmlList.getArticle().get(position));
                     intent.putExtra("transitionSource", TAG);
-                    intent.putExtra("position", position);
+//                    intent.putExtra("position", position);
                     getActivity().startActivityForResult(intent, 1234);
                     getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }

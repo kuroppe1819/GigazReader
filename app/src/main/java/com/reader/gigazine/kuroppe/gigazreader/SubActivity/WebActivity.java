@@ -15,14 +15,16 @@ import android.webkit.WebView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.reader.gigazine.kuroppe.gigazreader.List.ArticleData;
 import com.reader.gigazine.kuroppe.gigazreader.http.HtmlParameter;
 import com.reader.gigazine.kuroppe.gigazreader.List.FileIO;
 import com.reader.gigazine.kuroppe.gigazreader.ObservableScrollView;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class WebActivity extends AppCompatActivity {
+public class WebActivity extends AppCompatActivity{
     private String TAG = "WebActivity";
     private static final String TRASITIONSOURCE = "FavoriteListFragment";
     private String getFragmentName;
@@ -30,20 +32,20 @@ public class WebActivity extends AppCompatActivity {
     private AdView mAdView;
 
     private ArrayList<String> addInputData(int position, FileIO fileIO) {
-        ArrayList<String> articleData = new ArrayList<>();
+        ArrayList<String> arrayArticle = new ArrayList<>();
         if (getFragmentName.equals(TRASITIONSOURCE)) {
             for (int i = 0; i < 5; i++) {
-                articleData.add(fileIO.Output().get(position).get(i).toString());
+                arrayArticle.add(fileIO.Output().get(position).get(i).toString());
             }
         } else {
             HtmlParameter htmlParameter = new HtmlParameter();
-            articleData.add(htmlParameter.getTitle().get(position));
-            articleData.add(htmlParameter.getCategory().get(position));
-            articleData.add(htmlParameter.getImgs().get(position));
-            articleData.add(htmlParameter.getUrl().get(position));
-            articleData.add(htmlParameter.getTime().get(position));
+            arrayArticle.add(htmlParameter.getTitle().get(position));
+            arrayArticle.add(htmlParameter.getCategory().get(position));
+            arrayArticle.add(htmlParameter.getImgs().get(position));
+            arrayArticle.add(htmlParameter.getUrl().get(position));
+            arrayArticle.add(htmlParameter.getTime().get(position));
         }
-        return articleData;
+        return arrayArticle;
     }
 
     private void onExistCheck(String url, FileIO fileIO) {
@@ -101,9 +103,11 @@ public class WebActivity extends AppCompatActivity {
         final FileIO fileIO = new FileIO(this);
         final String url = getIntent().getStringExtra("url");
         final String title = getIntent().getStringExtra("title");
+        ArticleData articleData = (ArticleData) getIntent().getSerializableExtra("article");
+        Log.d(TAG, String.valueOf(articleData.getTitle()));
         int position = getIntent().getIntExtra("position", 0);
         getFragmentName = getIntent().getStringExtra("transitionSource");
-        final ArrayList<String> articleData = addInputData(position, fileIO);
+        final ArrayList<String> arrayArticle = addInputData(position, fileIO);
         onExistCheck(url, fileIO);
         Toolbar toolbar = ToolbarSetting(title);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -119,7 +123,7 @@ public class WebActivity extends AppCompatActivity {
                         break;
                     case R.id.favorite_on:
                         setResult(RESULT_OK, intent);
-                        fileIO.Input(articleData);
+                        fileIO.Input(arrayArticle);
                         invalidateOptionsMenu();
                         break;
                     case R.id.favorite_off:
