@@ -68,6 +68,7 @@ public class FavoriteListFragment extends Fragment implements PageChangeListener
                     intent.putExtra("position", position);
                     intent.putExtra("transitionSource", TAG);
                     startActivityForResult(intent, 5678);
+                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
             });
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

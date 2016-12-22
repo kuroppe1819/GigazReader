@@ -95,13 +95,13 @@ public class WebActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.web_activity_main);
 
-        showAdView();
+//        showAdView();
 
         final Intent intent = new Intent();
         final FileIO fileIO = new FileIO(this);
         final String url = getIntent().getStringExtra("url");
         final String title = getIntent().getStringExtra("title");
-        final int position = getIntent().getIntExtra("position", 0);
+        int position = getIntent().getIntExtra("position", 0);
         getFragmentName = getIntent().getStringExtra("transitionSource");
         final ArrayList<String> articleData = addInputData(position, fileIO);
         onExistCheck(url, fileIO);
@@ -133,11 +133,9 @@ public class WebActivity extends AppCompatActivity {
         });
         WebView webView = (WebView) findViewById(R.id.webview);
         webView.setWebChromeClient(new WebChromeClient());
-
-        WebSettings webSettings=webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-
         webView.loadUrl(url);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
     }
 
     @Override
@@ -201,5 +199,11 @@ public class WebActivity extends AppCompatActivity {
             mAdView.destroy();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

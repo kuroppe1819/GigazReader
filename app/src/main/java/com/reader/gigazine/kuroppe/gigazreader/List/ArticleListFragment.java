@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -34,6 +35,11 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
             mFooter = getLayoutInflater(bundle).inflate(R.layout.listview_footer, null);
         }
         return mFooter;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -99,6 +105,7 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
                     intent.putExtra("transitionSource", TAG);
                     intent.putExtra("position", position);
                     getActivity().startActivityForResult(intent, 1234);
+                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
             }
         });
@@ -128,4 +135,11 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
             }
         }, 800);
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+
 }

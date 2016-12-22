@@ -41,14 +41,22 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
     }
 
     private void onPagerSettings() {
+        Log.d(TAG, String.valueOf(pagerAdapter));
         if (pagerAdapter == null) {
             pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
             viewPager = (ViewPager) findViewById(R.id.viewpager);
             tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         }
+        Log.d(TAG, String.valueOf(pagerAdapter));
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+    }
+
+    private void onSnackBarSetting(){
+        snackbar = Snackbar.make(view, R.string.loading, Snackbar.LENGTH_LONG);
+        snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.SeaGreen));
+        snackbar.show();
     }
 
     @Override
@@ -67,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
         progressDialog.show();
         onHttpGet(pageNumber);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -116,18 +123,24 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
 
     @Override
     public void updateTaskCallbacks(int position) {
+        Log.d(TAG, String.valueOf(position));
         SearchParameter searchParameter = new SearchParameter();
         String[] menuItemsUrl = getResources().getStringArray(R.array.menu_items_url);
         searchParameter.setCategoryUrl(menuItemsUrl[position]);
-        if (position != 0) {
-            String[] menuItemsName = getResources().getStringArray(R.array.menu_items);
-            searchParameter.setCategoryName(menuItemsName[position - 1]);
-        } else {
-            searchParameter.onResetParameter();
+        switch (position){
+            case 0:
+                searchParameter.onResetParameter();
+                break;
+            case 1:
+                searchParameter.onResetParameter();
+                onSnackBarSetting();
+                break;
+            default:
+                String[] menuItemsName = getResources().getStringArray(R.array.menu_items);
+                searchParameter.setCategoryName(menuItemsName[position - 1]);
+                onSnackBarSetting();
+                break;
         }
-        snackbar = Snackbar.make(view, R.string.loading, Snackbar.LENGTH_LONG);
-        snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.SeaGreen));
-        snackbar.show();
         pageNumber = 0;
         onHttpGet(pageNumber);
     }

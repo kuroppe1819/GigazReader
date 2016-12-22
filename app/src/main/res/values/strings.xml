@@ -19,6 +19,7 @@
     <string name="appname">AppName</string>
 
     <string-array name="menu_items">
+        <item>すべて</item>
         <!--<item>アニメ</item>-->
         <item>アート</item>
         <item>生き物</item>
@@ -50,6 +51,7 @@
     <string-array name="menu_items_url">
         <item />
         <!--<item>C20</item>-->
+        <item>""</item>
         <item>C32</item>
         <item>C33</item>
         <item>C17</item>
