@@ -41,13 +41,11 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
     }
 
     private void onPagerSettings() {
-        Log.d(TAG, String.valueOf(pagerAdapter));
         if (pagerAdapter == null) {
             pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
             viewPager = (ViewPager) findViewById(R.id.viewpager);
             tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         }
-        Log.d(TAG, String.valueOf(pagerAdapter));
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -59,8 +57,19 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
         snackbar.show();
     }
 
+    private void onInitialization(){
+        pagerAdapter = null;
+        viewPager = null;
+        pageNumber = 0;
+        tabLayout = null;
+        snackbar = null;
+        View view = null;
+        progressDialog = null;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, String.valueOf(savedInstanceState));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         view = this.findViewById(android.R.id.content);
@@ -68,12 +77,16 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.White));
         setSupportActionBar(toolbar);
-        /** プログレスダイアログ **/
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("読み込み中…");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.show();
-        onHttpGet(pageNumber);
+        if (savedInstanceState == null) {
+            /** プログレスダイアログ **/
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("読み込み中…");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+            onHttpGet(pageNumber);
+        }else{
+            onPagerSettings();
+        }
     }
 
     @Override
@@ -97,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
 
     @Override
     public void onTaskFinished() {
+        Log.d(TAG, String.valueOf("onTaskFinished"));
         onPagerSettings();
         if (snackbar != null) snackbar.dismiss();
         if (progressDialog != null) {
@@ -117,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
 
     @Override
     public void addTaskCallbacks() {
+        Log.d(TAG, "addTaskCallbacks");
         pageNumber += 40;
         onHttpGet(pageNumber);
     }

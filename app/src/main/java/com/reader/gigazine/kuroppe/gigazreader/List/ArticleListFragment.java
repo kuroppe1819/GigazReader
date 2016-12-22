@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,7 +86,9 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
                 if (arg1 == 0 && scrollFinished) {
                     scrollFinished = false;
                     mFooter = null;
-                    if (htmlParameter.getArticleCount() != 0) rxAndroidCallbacks.addTaskCallbacks();
+                    if (htmlParameter.getArticleCount() != 0) {
+                        rxAndroidCallbacks.addTaskCallbacks();
+                    }
                 }
             }
         });
@@ -109,14 +112,16 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
                 }
             }
         });
+
         /** 記事の取得数が10以下のとき追加で記事を取得 **/
-        if (htmlParameter.getTitle().size() < 11){
-//        if (htmlParameter.getArticleCount() < 10){
+        if (htmlParameter.getTitle().size() < 11 && savedInstanceState == null){
             try {
                 Thread.sleep(1000); //3
             } catch (InterruptedException ignored) {
             }
             rxAndroidCallbacks.addTaskCallbacks();
+        }else if (savedInstanceState != null){
+            rxAndroidCallbacks.updateTaskCallbacks(0);
         }
     }
 
@@ -135,11 +140,4 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
             }
         }, 800);
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-
 }
