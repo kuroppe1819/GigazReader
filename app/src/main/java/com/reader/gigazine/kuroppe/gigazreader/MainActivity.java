@@ -51,13 +51,13 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 
-    private void onSnackBarSetting(){
+    private void onSnackBarSetting() {
         snackbar = Snackbar.make(view, R.string.loading, Snackbar.LENGTH_LONG);
         snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.SeaGreen));
         snackbar.show();
     }
 
-    private void onInitialization(){
+    private void onInitialization() {
         pagerAdapter = null;
         viewPager = null;
         pageNumber = 0;
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.show();
             onHttpGet(pageNumber);
-        }else{
+        } else {
             onPagerSettings();
         }
     }
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
         SearchParameter searchParameter = new SearchParameter();
         String[] menuItemsUrl = getResources().getStringArray(R.array.menu_items_url);
         searchParameter.setCategoryUrl(menuItemsUrl[position]);
-        switch (position){
+        switch (position) {
             case 0:
                 searchParameter.onResetParameter();
                 break;

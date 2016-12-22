@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
@@ -23,10 +22,7 @@ import com.reader.gigazine.kuroppe.gigazreader.SubActivity.WebActivity;
 import com.reader.gigazine.kuroppe.gigazreader.http.HtmlList;
 import com.reader.gigazine.kuroppe.gigazreader.http.HtmlParameter;
 
-import java.io.Serializable;
-import java.util.List;
-
-public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private String TAG = "ArticleListFragment";
     private ListView listView;
     private boolean scrollFinished = false;
@@ -74,7 +70,8 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
         articleAdapter = new ArticleAdapter(getActivity(), 0, htmlList.getArticle());
         listView = (ListView) getActivity().findViewById(R.id.article_list);
         listView.setAdapter(articleAdapter);
-        if (htmlParameter.getArticleCount() != 0) listView.addFooterView(getFooter(savedInstanceState));
+        if (htmlParameter.getArticleCount() != 0)
+            listView.addFooterView(getFooter(savedInstanceState));
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
@@ -114,13 +111,13 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
         });
 
         /** 記事の取得数が10以下のとき追加で記事を取得 **/
-        if (htmlParameter.getTitle().size() < 11 && savedInstanceState == null){
+        if (htmlParameter.getTitle().size() < 11 && savedInstanceState == null) {
             try {
                 Thread.sleep(1000); //3
             } catch (InterruptedException ignored) {
             }
             rxAndroidCallbacks.addTaskCallbacks();
-        }else if (savedInstanceState != null){
+        } else if (savedInstanceState != null) {
             rxAndroidCallbacks.updateTaskCallbacks(0);
         }
     }

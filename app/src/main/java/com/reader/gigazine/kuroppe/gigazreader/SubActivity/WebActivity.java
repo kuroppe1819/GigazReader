@@ -16,12 +16,10 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.reader.gigazine.kuroppe.gigazreader.List.ArticleData;
-import com.reader.gigazine.kuroppe.gigazreader.http.HtmlParameter;
 import com.reader.gigazine.kuroppe.gigazreader.List.FileIO;
 import com.reader.gigazine.kuroppe.gigazreader.ObservableScrollView;
 import com.reader.gigazine.kuroppe.gigazreader.R;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class WebActivity extends AppCompatActivity {
@@ -98,6 +96,7 @@ public class WebActivity extends AppCompatActivity {
         final Intent intent = new Intent();
         final FileIO fileIO = new FileIO(this);
         final ArticleData articleData = (ArticleData) getIntent().getSerializableExtra("article");
+        Log.d(TAG, articleData.getTitle());
         final ArrayList<String> arrayArticle = addInputData(articleData);
         onExistCheck(articleData.getUrl(), fileIO);
         Toolbar toolbar = ToolbarSetting(articleData.getTitle());

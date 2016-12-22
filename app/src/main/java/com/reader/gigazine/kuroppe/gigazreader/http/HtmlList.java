@@ -2,10 +2,10 @@ package com.reader.gigazine.kuroppe.gigazreader.http;
 
 import android.app.Activity;
 import android.util.Log;
+
 import com.reader.gigazine.kuroppe.gigazreader.List.FileIO;
 import com.reader.gigazine.kuroppe.gigazreader.List.ArticleData;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class HtmlList {
