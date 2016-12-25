@@ -2,45 +2,53 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
+    signingConfigs {
+        gigazreader {
+            keyAlias 'gigazreader'
+            keyPassword 'xkrDt3'
+            storeFile file('C:/Users/atsusuke/AndroidKey/gigazkey.jks')
+            storePassword 'tyoppa-1819'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-
     defaultConfig {
         applicationId "com.reader.gigazine.kuroppe.gigazreader"
         minSdkVersion 21
-        targetSdkVersion 25
-        versionCode 7
-        versionName "1.3.1"
+        targetSdkVersion 23
+        versionCode 8
+        versionName "1.3.2"
+        signingConfig signingConfigs.gigazreader
     }
-
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    sourceSets{
-        main{
+    sourceSets {
+        main {
             assets.srcDirs = ['assets']
         }
         main.java.srcDirs += 'src/main/kotlin'
     }
+    productFlavors {
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.android.support:design:25.0.1'
     compile 'org.jsoup:jsoup:1.9.2'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'com.google.code.gson:gson:2.4'
-    compile 'jp.wasabeef:glide-transformations:2.0.1'
     compile 'com.google.firebase:firebase-ads:9.6.1'
     compile 'io.reactivex:rxjava:1.2.2'
     compile 'io.reactivex:rxandroid:1.2.1'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

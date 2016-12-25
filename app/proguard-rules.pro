@@ -15,3 +15,10 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-keep class org.jsoup.** {*;}
+-keep class rx.**  {*;}
+-keep class com.google.gson**  {*;}
+-keep class com.bumptech.glide.**  { *; }
+
+-dontwarn rx.**
