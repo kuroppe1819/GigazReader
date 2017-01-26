@@ -1,10 +1,9 @@
 package com.reader.gigazine.kuroppe.gigazreader.http;
 
 import android.app.Activity;
-import android.util.Log;
 
-import com.reader.gigazine.kuroppe.gigazreader.List.FileIO;
 import com.reader.gigazine.kuroppe.gigazreader.List.ArticleData;
+import com.reader.gigazine.kuroppe.gigazreader.List.FileIO;
 
 import java.util.ArrayList;
 
@@ -30,7 +29,8 @@ public class HtmlList {
         FileIO fileIO = new FileIO(activity);
         ArrayList<ArticleData> objects = new ArrayList<>();
         if (fileIO.Output() == null) return null;
-        for (int i = 0; i < fileIO.Output().size(); i++) {
+//        for (int i = 0; i < fileIO.Output().size(); i++) {
+        for (int i = fileIO.Output().size() - 1; i >= 0; i--){
             ArticleData articleData = new ArticleData();
             articleData.setTitle(fileIO.Output().get(i).get(0).toString());
             articleData.setCategory(fileIO.Output().get(i).get(1).toString());

@@ -57,16 +57,6 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
         snackbar.show();
     }
 
-    private void onInitialization() {
-        pagerAdapter = null;
-        viewPager = null;
-        pageNumber = 0;
-        tabLayout = null;
-        snackbar = null;
-        View view = null;
-        progressDialog = null;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, String.valueOf(savedInstanceState));
@@ -121,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
 
     @Override
     public void onTaskCancelled() {
-        Log.d(TAG, "キャンセル");
+        Log.d(TAG, "Cancell");
         if (progressDialog != null) {
             progressDialog.dismiss();
             progressDialog = null;
@@ -180,5 +170,17 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
             trans.replace(R.id.fragment, favoriteListFragment);
             trans.commit();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        pagerAdapter = null;
+        viewPager = null;
+        pageNumber = 0;
+        tabLayout = null;
+        snackbar = null;
+        View view = null;
+        progressDialog = null;
     }
 }
