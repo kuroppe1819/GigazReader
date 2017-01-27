@@ -1,7 +1,8 @@
 package com.reader.gigazine.kuroppe.gigazreader;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -9,7 +10,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -17,6 +17,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.SpinKitView;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchDialogFragment;
 import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchParameter;
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteListFragment;
@@ -33,7 +38,12 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
     private TabLayout tabLayout = null;
     private Snackbar snackbar = null;
     private View view;
-    private ProgressDialog progressDialog;
+    private SpinKitView spinKitView;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     private void onHttpGet(int pageNumber) {
         HttpRxAndroid http = new HttpRxAndroid(this, this, pageNumber);
@@ -48,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
         }
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+        //// TODO: 2017/01/27 Fullにならない問題
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 
@@ -68,15 +79,15 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.White));
         setSupportActionBar(toolbar);
         if (savedInstanceState == null) {
-            /** プログレスダイアログ **/
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("読み込み中…");
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.show();
+            /** 非同期通信 **/
+            spinKitView = (SpinKitView) findViewById(R.id.spin_kit);
             onHttpGet(pageNumber);
         } else {
             onPagerSettings();
         }
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -101,21 +112,20 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
     @Override
     public void onTaskFinished() {
         Log.d(TAG, String.valueOf("onTaskFinished"));
-        onPagerSettings();
-        if (snackbar != null) snackbar.dismiss();
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-            progressDialog = null;
+        /** Spin **/
+        if ( spinKitView != null ) {
+            spinKitView.setVisibility(View.GONE);
+            spinKitView = null;
         }
+        /** Snackbar **/
+        if (snackbar != null) snackbar.dismiss();
+        onPagerSettings();
     }
 
     @Override
     public void onTaskCancelled() {
         Log.d(TAG, "Cancell");
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-            progressDialog = null;
-        }
+        spinKitView.setVisibility(View.GONE);
         Toast.makeText(this, R.string.timeout, Toast.LENGTH_LONG).show();
     }
 
@@ -172,6 +182,42 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
         }
     }
 
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Main Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -180,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
         pageNumber = 0;
         tabLayout = null;
         snackbar = null;
-        View view = null;
-        progressDialog = null;
+        view = null;
+        spinKitView = null;
     }
 }

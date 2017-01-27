@@ -29,7 +29,6 @@ public class HtmlList {
         FileIO fileIO = new FileIO(activity);
         ArrayList<ArticleData> objects = new ArrayList<>();
         if (fileIO.Output() == null) return null;
-//        for (int i = 0; i < fileIO.Output().size(); i++) {
         for (int i = fileIO.Output().size() - 1; i >= 0; i--){
             ArticleData articleData = new ArticleData();
             articleData.setTitle(fileIO.Output().get(i).get(0).toString());
