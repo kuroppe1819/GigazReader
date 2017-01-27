@@ -78,9 +78,10 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.White));
         setSupportActionBar(toolbar);
+        /** spinkitViewの設定 **/
+        spinKitView = (SpinKitView) findViewById(R.id.spin_kit);
         if (savedInstanceState == null) {
             /** 非同期通信 **/
-            spinKitView = (SpinKitView) findViewById(R.id.spin_kit);
             onHttpGet(pageNumber);
         } else {
             onPagerSettings();
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
     public void onTaskFinished() {
         Log.d(TAG, String.valueOf("onTaskFinished"));
         /** Spin **/
-        if ( spinKitView != null ) {
+        if (spinKitView != null) {
             spinKitView.setVisibility(View.GONE);
             spinKitView = null;
         }
@@ -125,7 +126,10 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
     @Override
     public void onTaskCancelled() {
         Log.d(TAG, "Cancell");
-        spinKitView.setVisibility(View.GONE);
+        if (spinKitView != null) {
+            spinKitView.setVisibility(View.GONE);
+            spinKitView = null;
+        }
         Toast.makeText(this, R.string.timeout, Toast.LENGTH_LONG).show();
     }
 
