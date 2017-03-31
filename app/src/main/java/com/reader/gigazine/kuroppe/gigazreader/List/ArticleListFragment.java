@@ -56,7 +56,7 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.article_layout, null);
         mSwipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
-        mSwipeRefresh.setColorSchemeResources(R.color.DarkSeaGreen);
+        mSwipeRefresh.setColorSchemeResources(R.color.Accent);
         mSwipeRefresh.setOnRefreshListener(this);
         return view;
     }

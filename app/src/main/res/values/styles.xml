@@ -4,7 +4,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/SeaGreen</item>
         <item name="colorPrimaryDark">@color/DarkSeaGreen</item>
-        <item name="colorAccent">@color/DarkSeaGreen</item>
+        <item name="colorAccent">@color/Accent</item>
         <!-- ToolBarのタイトルテキスト色 -->
         <item name="android:textColorPrimary">@color/DarkGrey</item>
     </style>
