@@ -50,7 +50,7 @@ public class FavoriteListFragment extends Fragment implements PageChangeListener
         super.onActivityCreated(savedInstanceState);
         fileIO = new FileIO(activity);
         if (fileIO.Output() != null) {
-            HtmlList htmlList = new HtmlList();
+            final HtmlList htmlList = new HtmlList();
             favoriteAdapter = new FavoriteAdapter(activity, 0, htmlList.getFavorite(activity));
             listView = (ListView) activity.findViewById(R.id.favorite_list);
             listView.setAdapter(favoriteAdapter);
@@ -60,14 +60,11 @@ public class FavoriteListFragment extends Fragment implements PageChangeListener
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    String url = fileIO.Output().get(position).get(3).toString();
-                    String title = fileIO.Output().get(position).get(0).toString();
                     Intent intent = new Intent(getContext(), WebActivity.class);
-                    intent.putExtra("url", url);
-                    intent.putExtra("title", title);
-                    intent.putExtra("position", position);
+                    intent.putExtra("article", htmlList.getFavorite(getActivity()).get(position));
                     intent.putExtra("transitionSource", TAG);
                     startActivityForResult(intent, 5678);
+                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
             });
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

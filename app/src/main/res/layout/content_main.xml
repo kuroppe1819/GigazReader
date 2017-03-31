@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/SeaGreen"
+            app:tabGravity="fill"
             app:tabSelectedTextColor="@color/White"
             app:tabTextColor="@color/White" />
 
@@ -32,5 +33,15 @@
         android:layout_height="wrap_content"
         android:background="@color/GigazineBackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/spin_kit"
+        style="@style/SpinKitView.CubeGrid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        app:SpinKit_Color="@color/SeaGreen"
+        app:layout_anchor="@+id/viewpager"
+        app:layout_anchorGravity="center_vertical|center_horizontal" />
 
 </android.support.design.widget.CoordinatorLayout>

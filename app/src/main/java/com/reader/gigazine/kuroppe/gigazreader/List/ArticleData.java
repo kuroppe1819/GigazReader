@@ -1,6 +1,8 @@
 package com.reader.gigazine.kuroppe.gigazreader.List;
 
-public class ArticleData {
+import java.io.Serializable;
+
+public class ArticleData implements Serializable{
     private String title, category, imgs, url, time;
     private String TAG = "ArticleData";
 
@@ -16,7 +18,7 @@ public class ArticleData {
         this.category = category;
     }
 
-    String getCategory() {
+    public String getCategory() {
         return category;
     }
 
@@ -24,7 +26,7 @@ public class ArticleData {
         this.imgs = imgs;
     }
 
-    String getImgs() {
+    public String getImgs() {
         return imgs;
     }
 

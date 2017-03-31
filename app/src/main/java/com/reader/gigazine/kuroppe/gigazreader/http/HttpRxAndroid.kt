@@ -1,26 +1,19 @@
 package com.reader.gigazine.kuroppe.gigazreader.http
 
 import android.app.Activity
-import android.os.AsyncTask
 import android.util.Log
-import android.widget.Toast
-
-import com.reader.gigazine.kuroppe.gigazreader.RxAndroidCallbacks
 import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchParameter
-import com.reader.gigazine.kuroppe.gigazreader.R
-
+import com.reader.gigazine.kuroppe.gigazreader.RxAndroidCallbacks
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import rx.Observable
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-
 import java.io.IOException
 
 class HttpRxAndroid(activity: Activity, onRxCallback: RxAndroidCallbacks, private val pageNumber: Int) {
 
-    //コールバックインターフェース
     private var onRxCallback: RxAndroidCallbacks? = null
     private var activity: Activity? = null
     private val url: String

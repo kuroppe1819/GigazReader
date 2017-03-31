@@ -9,24 +9,20 @@ import com.reader.gigazine.kuroppe.gigazreader.List.ArticleListFragment;
 
 public class MyPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
-    private ArticleListFragment articleListFragment;
-    private FavoriteListFragment favoriteListFragment;
     private FragmentManager fm;
 
     public MyPagerAdapter(FragmentManager fm) {
         super(fm);
         this.fm = fm;
-        articleListFragment = new ArticleListFragment();
-        favoriteListFragment = new FavoriteListFragment();
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return articleListFragment;
+                return new ArticleListFragment();
             case 1:
-                return favoriteListFragment;
+                return new FavoriteListFragment();
         }
         return null;
     }

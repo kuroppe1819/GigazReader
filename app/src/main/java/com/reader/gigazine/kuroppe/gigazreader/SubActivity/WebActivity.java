@@ -15,7 +15,7 @@ import android.webkit.WebView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.reader.gigazine.kuroppe.gigazreader.http.HtmlParameter;
+import com.reader.gigazine.kuroppe.gigazreader.List.ArticleData;
 import com.reader.gigazine.kuroppe.gigazreader.List.FileIO;
 import com.reader.gigazine.kuroppe.gigazreader.ObservableScrollView;
 import com.reader.gigazine.kuroppe.gigazreader.R;
@@ -25,25 +25,21 @@ import java.util.ArrayList;
 public class WebActivity extends AppCompatActivity {
     private String TAG = "WebActivity";
     private static final String TRASITIONSOURCE = "FavoriteListFragment";
-    private String getFragmentName;
+    private static String getFragmentName;
+    private static int position;
+
+
     private boolean favorite_frag = false;
     private AdView mAdView;
 
-    private ArrayList<String> addInputData(int position, FileIO fileIO) {
-        ArrayList<String> articleData = new ArrayList<>();
-        if (getFragmentName.equals(TRASITIONSOURCE)) {
-            for (int i = 0; i < 5; i++) {
-                articleData.add(fileIO.Output().get(position).get(i).toString());
-            }
-        } else {
-            HtmlParameter htmlParameter = new HtmlParameter();
-            articleData.add(htmlParameter.getTitle().get(position));
-            articleData.add(htmlParameter.getCategory().get(position));
-            articleData.add(htmlParameter.getImgs().get(position));
-            articleData.add(htmlParameter.getUrl().get(position));
-            articleData.add(htmlParameter.getTime().get(position));
-        }
-        return articleData;
+    private ArrayList<String> addInputData(ArticleData articleData) {
+        ArrayList<String> arrayArticle = new ArrayList<>();
+        arrayArticle.add(articleData.getTitle());
+        arrayArticle.add(articleData.getCategory());
+        arrayArticle.add(articleData.getImgs());
+        arrayArticle.add(articleData.getUrl());
+        arrayArticle.add(articleData.getTime());
+        return arrayArticle;
     }
 
     private void onExistCheck(String url, FileIO fileIO) {
@@ -99,13 +95,11 @@ public class WebActivity extends AppCompatActivity {
 
         final Intent intent = new Intent();
         final FileIO fileIO = new FileIO(this);
-        final String url = getIntent().getStringExtra("url");
-        final String title = getIntent().getStringExtra("title");
-        final int position = getIntent().getIntExtra("position", 0);
-        getFragmentName = getIntent().getStringExtra("transitionSource");
-        final ArrayList<String> articleData = addInputData(position, fileIO);
-        onExistCheck(url, fileIO);
-        Toolbar toolbar = ToolbarSetting(title);
+        final ArticleData articleData = (ArticleData) getIntent().getSerializableExtra("article");
+        Log.d(TAG, articleData.getTitle());
+        final ArrayList<String> arrayArticle = addInputData(articleData);
+        onExistCheck(articleData.getUrl(), fileIO);
+        Toolbar toolbar = ToolbarSetting(articleData.getTitle());
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -113,18 +107,18 @@ public class WebActivity extends AppCompatActivity {
                     case R.id.share:
                         ShareCompat.IntentBuilder builder = ShareCompat.IntentBuilder.from(WebActivity.this);
                         builder.setChooserTitle(R.string.article_share);
-                        builder.setText(title + " " + url);
+                        builder.setText(articleData.getTitle() + " " + articleData.getUrl());
                         builder.setType("text/plain");
                         builder.startChooser();
                         break;
                     case R.id.favorite_on:
                         setResult(RESULT_OK, intent);
-                        fileIO.Input(articleData);
+                        fileIO.Input(arrayArticle);
                         invalidateOptionsMenu();
                         break;
                     case R.id.favorite_off:
                         setResult(RESULT_OK, intent);
-                        delFavoriteList(url, fileIO);
+                        delFavoriteList(articleData.getUrl(), fileIO);
                         invalidateOptionsMenu();
                         break;
                 }
@@ -133,11 +127,9 @@ public class WebActivity extends AppCompatActivity {
         });
         WebView webView = (WebView) findViewById(R.id.webview);
         webView.setWebChromeClient(new WebChromeClient());
-
-        WebSettings webSettings=webView.getSettings();
+        webView.loadUrl(articleData.getUrl());
+        WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-
-        webView.loadUrl(url);
     }
 
     @Override
@@ -201,5 +193,11 @@ public class WebActivity extends AppCompatActivity {
             mAdView.destroy();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }
