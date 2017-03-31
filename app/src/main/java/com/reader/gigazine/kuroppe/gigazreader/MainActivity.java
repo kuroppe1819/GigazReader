@@ -11,7 +11,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,10 +38,6 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
     private Snackbar snackbar = null;
     private View view;
     private SpinKitView spinKitView;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
     private GoogleApiClient client;
 
     private void onHttpGet(int pageNumber) {
@@ -70,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, String.valueOf(savedInstanceState));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         view = this.findViewById(android.R.id.content);
@@ -112,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
 
     @Override
     public void onTaskFinished() {
-        Log.d(TAG, String.valueOf("onTaskFinished"));
         /** Spin **/
         if (spinKitView != null) {
             spinKitView.setVisibility(View.GONE);
@@ -125,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
 
     @Override
     public void onTaskCancelled() {
-        Log.d(TAG, "Cancell");
         if (spinKitView != null) {
             spinKitView.setVisibility(View.GONE);
             spinKitView = null;
@@ -135,14 +127,12 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
 
     @Override
     public void addTaskCallbacks() {
-        Log.d(TAG, "addTaskCallbacks");
         pageNumber += 40;
         onHttpGet(pageNumber);
     }
 
     @Override
     public void updateTaskCallbacks(int position) {
-        Log.d(TAG, String.valueOf(position));
         SearchParameter searchParameter = new SearchParameter();
         String[] menuItemsUrl = getResources().getStringArray(R.array.menu_items_url);
         searchParameter.setCategoryUrl(menuItemsUrl[position]);
@@ -175,7 +165,6 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, String.valueOf(requestCode + " " + resultCode));
         if (requestCode == ArticleListFragmentCode && resultCode == RESULT_OK) {
             /** Fragmentの再生成 **/
             FragmentManager fm = getSupportFragmentManager();
