@@ -1,12 +1,12 @@
 package com.reader.gigazine.kuroppe.gigazreader.Dialog;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -43,7 +43,7 @@ public class FavoriteDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 FileIO fileIO = new FileIO(getActivity());
-                fileIO.PreferencesDelete(getTargetRequestCode());
+                fileIO.PreferencesDelete(fileIO.Output().size() - 1 - getTargetRequestCode());
                 pageChangeListener.dialogCallback();
                 dismiss();
             }
