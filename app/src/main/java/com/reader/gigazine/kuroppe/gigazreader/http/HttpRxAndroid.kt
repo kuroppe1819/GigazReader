@@ -2,7 +2,6 @@ package com.reader.gigazine.kuroppe.gigazreader.http
 
 import android.app.Activity
 import android.util.Log
-import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchParameter
 import com.reader.gigazine.kuroppe.gigazreader.RxAndroidCallbacks
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -19,10 +18,10 @@ class HttpRxAndroid(activity: Activity, onRxCallback: RxAndroidCallbacks, privat
     private val url: String
 
     init {
-        val searchParameter = SearchParameter()
         this.activity = activity
         this.onRxCallback = onRxCallback
-        this.url = "http://gigazine.net/" + searchParameter.categoryUrl + "/P" + pageNumber.toString()
+        this.url = "http://gigazine.net/P" + pageNumber.toString()
+        Log.d(TAG, url)
     }
 
     fun HttpConnect() {

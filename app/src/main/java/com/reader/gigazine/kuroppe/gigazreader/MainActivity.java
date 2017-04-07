@@ -3,7 +3,6 @@ package com.reader.gigazine.kuroppe.gigazreader;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,15 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchDialogFragment;
-import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchParameter;
 import com.reader.gigazine.kuroppe.gigazreader.List.ArticleListFragment;
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteListFragment;
 import com.reader.gigazine.kuroppe.gigazreader.SubActivity.LicensesActivity;
@@ -36,8 +32,6 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
     private ViewPager viewPager = null;
     private int pageNumber = 0;
     private TabLayout tabLayout = null;
-    private Snackbar snackbar = null;
-    private View view;
     private GoogleApiClient client;
 
     private void onHttpGet(int pageNumber) {
@@ -57,17 +51,10 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 
-    private void onSnackBarSetting() {
-        snackbar = Snackbar.make(view, R.string.loading, Snackbar.LENGTH_LONG);
-        snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.SeaGreen));
-        snackbar.show();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        view = this.findViewById(android.R.id.content);
         /** ツールバーの設定 **/
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.White));
@@ -92,11 +79,6 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
                 Intent intent = new Intent(this, LicensesActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.search:
-                FragmentManager fm = getSupportFragmentManager();
-                SearchDialogFragment dialogFragment = new SearchDialogFragment();
-                dialogFragment.show(fm, "dialog");
-                break;
             default:
                 break;
         }
@@ -105,10 +87,6 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
 
     @Override
     public void onTaskFinished() {
-        /** Snackbar **/
-        if (snackbar != null) {
-            snackbar.dismiss();
-        }
         onPagerSettings();
     }
 
@@ -129,31 +107,12 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
 
     @Override
     public void updateTaskCallbacks(int position) {
-        SearchParameter searchParameter = new SearchParameter();
-        String[] menuItemsUrl = getResources().getStringArray(R.array.menu_items_url);
-        searchParameter.setCategoryUrl(menuItemsUrl[position]);
-        switch (position) {
-            case 0:
-                searchParameter.onResetParameter();
-                break;
-            case 1:
-                searchParameter.onResetParameter();
-                onSnackBarSetting();
-                break;
-            default:
-                String[] menuItemsName = getResources().getStringArray(R.array.menu_items);
-                searchParameter.setCategoryName(menuItemsName[position - 1]);
-                onSnackBarSetting();
-                break;
-        }
         pageNumber = 0;
         onHttpGet(pageNumber);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //TODO カテゴリ検索
-        getMenuInflater().inflate(R.menu.search_menu, menu);
         getMenuInflater().inflate(R.menu.settings_menu, menu);
         return true;
     }
@@ -214,7 +173,5 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
         viewPager = null;
         pageNumber = 0;
         tabLayout = null;
-        snackbar = null;
-        view = null;
     }
 }
