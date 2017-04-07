@@ -15,6 +15,7 @@ import android.webkit.WebView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.reader.gigazine.kuroppe.gigazreader.BuildConfig;
 import com.reader.gigazine.kuroppe.gigazreader.List.ArticleData;
 import com.reader.gigazine.kuroppe.gigazreader.List.FileIO;
 import com.reader.gigazine.kuroppe.gigazreader.ObservableScrollView;
@@ -90,8 +91,9 @@ public class WebActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.web_activity_main);
-
-//        showAdView();
+        if (!BuildConfig.DEBUG) {
+            showAdView();
+        }
 
         final Intent intent = new Intent();
         final FileIO fileIO = new FileIO(this);

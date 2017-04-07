@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="Accent">#F32853</color>
+    <color name="Accent">#F48FB1</color>
     <color name="White">#FFFFFF</color>
-    <color name="Grey">#808080</color>
-    <color name="DarkGrey">#505050</color>
-    <color name="Black">#000000</color>
-    <color name="Yellow">#FFDD22</color>
-    <color name="GigazineBackground">#fffde3</color>
-    <color name="Ivory">#FFFFF0</color>
-    <color name="SeaGreen">#FFAE00</color>
-    <color name="DarkSeaGreen">#AD7C00</color>
+    <color name="Grey">#757575</color>
+    <color name="DarkGrey">#37474f</color>
+    <color name="Black">#212121</color>
+    <color name="GigazineBackground">#fffde7</color>
+    <color name="Ivory">#fffde7</color>
+    <color name="SeaGreen">#FBC02D</color>
+    <color name="DarkSeaGreen">#ffab00</color>
 </resources>

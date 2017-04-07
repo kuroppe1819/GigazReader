@@ -3,12 +3,10 @@ package com.reader.gigazine.kuroppe.gigazreader.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +14,8 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.reader.gigazine.kuroppe.gigazreader.RxAndroidCallbacks;
 import com.reader.gigazine.kuroppe.gigazreader.R;
+import com.reader.gigazine.kuroppe.gigazreader.RxAndroidCallbacks;
 import com.reader.gigazine.kuroppe.gigazreader.SubActivity.WebActivity;
 import com.reader.gigazine.kuroppe.gigazreader.http.HtmlList;
 import com.reader.gigazine.kuroppe.gigazreader.http.HtmlParameter;
@@ -57,7 +55,7 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.article_layout, null);
         mSwipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
-        mSwipeRefresh.setColorSchemeResources(R.color.DarkSeaGreen);
+        mSwipeRefresh.setColorSchemeResources(R.color.Accent);
         mSwipeRefresh.setOnRefreshListener(this);
         return view;
     }
@@ -65,6 +63,9 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        /** 更新が終了したらインジケータ非表示 **/
+        closeRefresh();
+
         final HtmlList htmlList = new HtmlList();
         final HtmlParameter htmlParameter = new HtmlParameter();
         articleAdapter = new ArticleAdapter(getActivity(), 0, htmlList.getArticle());
@@ -124,17 +125,14 @@ public class ArticleListFragment extends Fragment implements SwipeRefreshLayout.
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                articleAdapter.clear();
-                articleAdapter.notifyDataSetChanged();
-                listView.invalidateViews();
-                rxAndroidCallbacks.updateTaskCallbacks(0);
-                /** 更新が終了したらインジケータ非表示 **/
-                mSwipeRefresh.setRefreshing(false);
-                mFooter = null;
-            }
-        }, 800);
+        listView.removeFooterView(mFooter);
+        articleAdapter.clear();
+        // アプリの位置を変更しないで更新
+        listView.invalidateViews();
+        rxAndroidCallbacks.updateTaskCallbacks(0);
+    }
+
+    public void closeRefresh(){
+        mSwipeRefresh.setRefreshing(false);
     }
 }

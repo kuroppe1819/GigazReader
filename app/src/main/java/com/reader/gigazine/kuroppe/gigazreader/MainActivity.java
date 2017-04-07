@@ -5,25 +5,25 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchDialogFragment;
 import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchParameter;
+import com.reader.gigazine.kuroppe.gigazreader.List.ArticleListFragment;
 import com.reader.gigazine.kuroppe.gigazreader.List.FavoriteListFragment;
 import com.reader.gigazine.kuroppe.gigazreader.SubActivity.LicensesActivity;
 import com.reader.gigazine.kuroppe.gigazreader.http.HttpRxAndroid;
@@ -38,11 +38,6 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
     private TabLayout tabLayout = null;
     private Snackbar snackbar = null;
     private View view;
-    private SpinKitView spinKitView;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
     private GoogleApiClient client;
 
     private void onHttpGet(int pageNumber) {
@@ -70,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, String.valueOf(savedInstanceState));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         view = this.findViewById(android.R.id.content);
@@ -78,13 +72,12 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.White));
         setSupportActionBar(toolbar);
-        /** spinkitViewの設定 **/
-        spinKitView = (SpinKitView) findViewById(R.id.spin_kit);
+
+        onPagerSettings();
+
         if (savedInstanceState == null) {
             /** 非同期通信 **/
             onHttpGet(pageNumber);
-        } else {
-            onPagerSettings();
         }
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -112,37 +105,30 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
 
     @Override
     public void onTaskFinished() {
-        Log.d(TAG, String.valueOf("onTaskFinished"));
-        /** Spin **/
-        if (spinKitView != null) {
-            spinKitView.setVisibility(View.GONE);
-            spinKitView = null;
-        }
         /** Snackbar **/
-        if (snackbar != null) snackbar.dismiss();
+        if (snackbar != null) {
+            snackbar.dismiss();
+        }
         onPagerSettings();
     }
 
     @Override
     public void onTaskCancelled() {
-        Log.d(TAG, "Cancell");
-        if (spinKitView != null) {
-            spinKitView.setVisibility(View.GONE);
-            spinKitView = null;
+        Fragment activeFragment = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewpager + ":" + 0);
+        if (activeFragment instanceof ArticleListFragment){
+            ((ArticleListFragment) activeFragment).closeRefresh();
         }
         Toast.makeText(this, R.string.timeout, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void addTaskCallbacks() {
-        Log.d(TAG, "addTaskCallbacks");
         pageNumber += 40;
         onHttpGet(pageNumber);
     }
 
     @Override
     public void updateTaskCallbacks(int position) {
-        Log.d(TAG, String.valueOf(position));
         SearchParameter searchParameter = new SearchParameter();
         String[] menuItemsUrl = getResources().getStringArray(R.array.menu_items_url);
         searchParameter.setCategoryUrl(menuItemsUrl[position]);
@@ -175,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, String.valueOf(requestCode + " " + resultCode));
         if (requestCode == ArticleListFragmentCode && resultCode == RESULT_OK) {
             /** Fragmentの再生成 **/
             FragmentManager fm = getSupportFragmentManager();
@@ -231,6 +216,5 @@ public class MainActivity extends AppCompatActivity implements RxAndroidCallback
         tabLayout = null;
         snackbar = null;
         view = null;
-        spinKitView = null;
     }
 }
