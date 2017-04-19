@@ -1,6 +1,9 @@
 package com.reader.gigazine.kuroppe.gigazreader.SubActivity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -25,11 +28,8 @@ import java.util.ArrayList;
 
 public class WebActivity extends AppCompatActivity {
     private String TAG = "WebActivity";
-    private static final String TRASITIONSOURCE = "FavoriteListFragment";
-    private static String getFragmentName;
-    private static int position;
-
-
+    private BroadcastReceiver broadcastReceiver;
+    private WebView webView;
     private boolean favorite_frag = false;
     private AdView mAdView;
 
@@ -87,6 +87,14 @@ public class WebActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
     }
 
+    private void webViewSetUp(String url){
+        webView = (WebView) findViewById(R.id.webview);
+        webView.setWebChromeClient(new WebChromeClient());
+        webView.loadUrl(url);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,11 +135,21 @@ public class WebActivity extends AppCompatActivity {
                 return true;
             }
         });
-        WebView webView = (WebView) findViewById(R.id.webview);
-        webView.setWebChromeClient(new WebChromeClient());
-        webView.loadUrl(articleData.getUrl());
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
+
+        // ブロードキャストリスナー
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if (action.equals(Intent.ACTION_SCREEN_OFF)) {
+                    Log.d(TAG, "SCREEN_OFF");
+                    webView.reload();
+                }
+            }
+        };
+        // リスナーの登録
+        this.registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF));
+        webViewSetUp(articleData.getUrl());
     }
 
     @Override
@@ -175,10 +193,10 @@ public class WebActivity extends AppCompatActivity {
 
     @Override
     public void onPause() {
+        super.onPause();
         if (mAdView != null) {
             mAdView.pause();
         }
-        super.onPause();
     }
 
     @Override
@@ -191,10 +209,12 @@ public class WebActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         if (mAdView != null) {
             mAdView.destroy();
         }
-        super.onDestroy();
+        this.unregisterReceiver(broadcastReceiver);
+        webView.destroy();
     }
 
     @Override
