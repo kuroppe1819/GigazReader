@@ -31,10 +31,10 @@ class HttpRxAndroid(activity: Activity, onRxCallback: RxAndroidCallbacks, privat
                     try {
                         document = Jsoup.connect(url).get()
                         subscriber.onNext(document)
-                        subscriber.onCompleted()
                     } catch (e: IOException) {
                         subscriber.onError(e)
                     }
+                    subscriber.onCompleted()
                 }).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(object : Subscriber<Document>() {

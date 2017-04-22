@@ -11,27 +11,37 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.reader.gigazine.kuroppe.gigazreader.BuildConfig;
 import com.reader.gigazine.kuroppe.gigazreader.List.ArticleData;
 import com.reader.gigazine.kuroppe.gigazreader.List.FileIO;
 import com.reader.gigazine.kuroppe.gigazreader.ObservableScrollView;
 import com.reader.gigazine.kuroppe.gigazreader.R;
+import com.reader.gigazine.kuroppe.gigazreader.http.HttpArticleDetails;
+import com.reader.gigazine.kuroppe.gigazreader.util.ParseHtmlUtil;
+
+import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
 
-public class WebActivity extends AppCompatActivity {
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+public class WebActivity extends AppCompatActivity implements Observer<Document> {
     private String TAG = "WebActivity";
     private BroadcastReceiver broadcastReceiver;
     private WebView webView;
     private boolean favorite_frag = false;
     private AdView mAdView;
+    private String content;
 
     private ArrayList<String> addInputData(ArticleData articleData) {
         ArrayList<String> arrayArticle = new ArrayList<>();
@@ -46,7 +56,9 @@ public class WebActivity extends AppCompatActivity {
     private void onExistCheck(String url, FileIO fileIO) {
         if (fileIO.Output() != null) {
             for (int i = 0; i < fileIO.Output().size(); i++) {
-                if (url.equals(fileIO.Output().get(i).get(3).toString())) favorite_frag = true;
+                if (url.equals(fileIO.Output().get(i).get(3).toString())) {
+                    favorite_frag = true;
+                }
             }
         }
     }
@@ -87,10 +99,11 @@ public class WebActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
     }
 
-    private void webViewSetUp(String url){
+    private void webViewSetUp() {
         webView = (WebView) findViewById(R.id.webview);
         webView.setWebChromeClient(new WebChromeClient());
-        webView.loadUrl(url);
+        webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY); // 右端の余白を削除する
+        webView.loadData(content, "text/html; charset=utf-8", "UTF-8");
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
     }
@@ -99,9 +112,9 @@ public class WebActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.web_activity_main);
-        if (!BuildConfig.DEBUG) {
-            showAdView();
-        }
+//        if (!BuildConfig.DEBUG) {
+//            showAdView();
+//        }
 
         final Intent intent = new Intent();
         final FileIO fileIO = new FileIO(this);
@@ -149,7 +162,12 @@ public class WebActivity extends AppCompatActivity {
         };
         // リスナーの登録
         this.registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF));
-        webViewSetUp(articleData.getUrl());
+
+        // Http通信
+        HttpArticleDetails.request(articleData.getUrl())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this);
     }
 
     @Override
@@ -213,13 +231,30 @@ public class WebActivity extends AppCompatActivity {
         if (mAdView != null) {
             mAdView.destroy();
         }
+        if (webView != null) {
+            webView.destroy();
+        }
         this.unregisterReceiver(broadcastReceiver);
-        webView.destroy();
     }
 
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    @Override
+    public void onNext(Document document) {
+        content = ParseHtmlUtil.getContentHtml(document);
+    }
+
+    @Override
+    public void onCompleted() {
+        webViewSetUp();
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        Toast.makeText(this, R.string.timeout, Toast.LENGTH_LONG).show();
     }
 }
