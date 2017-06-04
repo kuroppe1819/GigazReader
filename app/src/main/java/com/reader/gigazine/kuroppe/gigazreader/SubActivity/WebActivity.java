@@ -31,11 +31,13 @@ import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
 
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
-public class WebActivity extends AppCompatActivity implements Observer<Document> {
+public class WebActivity extends AppCompatActivity {
     private String TAG = "WebActivity";
     private BroadcastReceiver broadcastReceiver;
     private WebView webView;
@@ -167,7 +169,28 @@ public class WebActivity extends AppCompatActivity implements Observer<Document>
         HttpArticleDetails.request(articleData.getUrl())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this);
+                .subscribe(new Observer<Document>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Document document) {
+                        content = ParseHtmlUtil.getContentHtml(document);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(getApplicationContext(), R.string.timeout, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        webViewSetUp();
+                    }
+                });
     }
 
     @Override
@@ -241,20 +264,5 @@ public class WebActivity extends AppCompatActivity implements Observer<Document>
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-    }
-
-    @Override
-    public void onNext(Document document) {
-        content = ParseHtmlUtil.getContentHtml(document);
-    }
-
-    @Override
-    public void onCompleted() {
-        webViewSetUp();
-    }
-
-    @Override
-    public void onError(Throwable e) {
-        Toast.makeText(this, R.string.timeout, Toast.LENGTH_LONG).show();
     }
 }

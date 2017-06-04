@@ -5,7 +5,7 @@ import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 
 public class HttpArticleDetails {
@@ -17,7 +17,7 @@ public class HttpArticleDetails {
             } catch (IOException e) {
                 subscriber.onError(e);
             }
-            subscriber.onCompleted();
+            subscriber.onComplete();
         });
     }
 }

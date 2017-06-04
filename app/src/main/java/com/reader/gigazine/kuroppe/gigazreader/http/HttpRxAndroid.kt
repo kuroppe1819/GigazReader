@@ -3,12 +3,13 @@ package com.reader.gigazine.kuroppe.gigazreader.http
 import android.app.Activity
 import android.util.Log
 import com.reader.gigazine.kuroppe.gigazreader.RxAndroidCallbacks
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import rx.Observable
-import rx.Subscriber
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import java.io.IOException
 
 class HttpRxAndroid(activity: Activity, onRxCallback: RxAndroidCallbacks, private val pageNumber: Int) {
@@ -21,12 +22,11 @@ class HttpRxAndroid(activity: Activity, onRxCallback: RxAndroidCallbacks, privat
         this.activity = activity
         this.onRxCallback = onRxCallback
         this.url = "http://gigazine.net/P" + pageNumber.toString()
-        Log.d(TAG, url)
     }
 
     fun HttpConnect() {
         Observable
-                .create(Observable.OnSubscribe<Document> { subscriber ->
+                .create<Document> { subscriber ->
                     val document: Document
                     try {
                         document = Jsoup.connect(url).get()
@@ -34,25 +34,27 @@ class HttpRxAndroid(activity: Activity, onRxCallback: RxAndroidCallbacks, privat
                     } catch (e: IOException) {
                         subscriber.onError(e)
                     }
-                    subscriber.onCompleted()
-                }).observeOn(AndroidSchedulers.mainThread())
+                    subscriber.onComplete()
+                }.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(object : Subscriber<Document>() {
-                    override fun onCompleted() {
+                .subscribe(object : Observer<Document> {
+                    override fun onSubscribe(d: Disposable?) {
+
+                    }
+
+                    override fun onError(e: Throwable?) {
+                        Log.e(TAG, "onError: " + e)
+                        onRxCallback?.onTaskCancelled()
+                    }
+
+                    override fun onComplete() {
                         Log.d(TAG, "onCompleted")
                         onRxCallback?.onTaskFinished()
                     }
 
-                    override fun onError(e: Throwable) {
-                        Log.d(TAG, "onError: " + e)
-                        onRxCallback?.onTaskCancelled()
-                    }
-
                     override fun onNext(document: Document?) {
-                        if (document != null) {
-                            val html = HtmlParser(document, pageNumber)
-                            html.onParse()
-                        }
+                        val html = HtmlParser(document, pageNumber)
+                        html.onParse()
                     }
                 })
     }
