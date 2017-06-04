@@ -1,12 +1,9 @@
 package com.reader.gigazine.kuroppe.gigazreader.http;
 
-import com.reader.gigazine.kuroppe.gigazreader.Dialog.SearchParameter;
-
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 class HtmlParser {
     private String TAG = "HTML";
@@ -71,16 +68,12 @@ class HtmlParser {
         Elements url = document.select("h2 a");
         Elements img = document.select(".card .thumb a img");
         Elements time = document.select("time");
-        SearchParameter searchParameter = new SearchParameter();
-        String choiceCategory = searchParameter.getCategoryName();
         for (int i = 0; i < title.size(); i++) {
-            if (Objects.equals(choiceCategory, category.get(i).text()) || choiceCategory == "") {
                 Title(title, i);
                 Category(category, i);
                 Image(img, i);
                 Url(url, i);
                 Time(time, i);
-            }
         }
         htmlParameter.setTitle(titleList);
         htmlParameter.setCategory(categoryList);

@@ -1,6 +1,9 @@
 package com.reader.gigazine.kuroppe.gigazreader.SubActivity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -8,30 +11,39 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.reader.gigazine.kuroppe.gigazreader.BuildConfig;
 import com.reader.gigazine.kuroppe.gigazreader.List.ArticleData;
 import com.reader.gigazine.kuroppe.gigazreader.List.FileIO;
 import com.reader.gigazine.kuroppe.gigazreader.ObservableScrollView;
 import com.reader.gigazine.kuroppe.gigazreader.R;
+import com.reader.gigazine.kuroppe.gigazreader.http.HttpArticleDetails;
+import com.reader.gigazine.kuroppe.gigazreader.util.ParseHtmlUtil;
+
+import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 public class WebActivity extends AppCompatActivity {
     private String TAG = "WebActivity";
-    private static final String TRASITIONSOURCE = "FavoriteListFragment";
-    private static String getFragmentName;
-    private static int position;
-
-
+    private BroadcastReceiver broadcastReceiver;
+    private WebView webView;
     private boolean favorite_frag = false;
     private AdView mAdView;
+    private String content;
 
     private ArrayList<String> addInputData(ArticleData articleData) {
         ArrayList<String> arrayArticle = new ArrayList<>();
@@ -46,7 +58,9 @@ public class WebActivity extends AppCompatActivity {
     private void onExistCheck(String url, FileIO fileIO) {
         if (fileIO.Output() != null) {
             for (int i = 0; i < fileIO.Output().size(); i++) {
-                if (url.equals(fileIO.Output().get(i).get(3).toString())) favorite_frag = true;
+                if (url.equals(fileIO.Output().get(i).get(3).toString())) {
+                    favorite_frag = true;
+                }
             }
         }
     }
@@ -87,13 +101,22 @@ public class WebActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
     }
 
+    private void webViewSetUp() {
+        webView = (WebView) findViewById(R.id.webview);
+        webView.setWebChromeClient(new WebChromeClient());
+        webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY); // 右端の余白を削除する
+        webView.loadData(content, "text/html; charset=utf-8", "UTF-8");
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.web_activity_main);
-        if (!BuildConfig.DEBUG) {
-            showAdView();
-        }
+//        if (!BuildConfig.DEBUG) {
+//            showAdView();
+//        }
 
         final Intent intent = new Intent();
         final FileIO fileIO = new FileIO(this);
@@ -127,11 +150,47 @@ public class WebActivity extends AppCompatActivity {
                 return true;
             }
         });
-        WebView webView = (WebView) findViewById(R.id.webview);
-        webView.setWebChromeClient(new WebChromeClient());
-        webView.loadUrl(articleData.getUrl());
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
+
+        // ブロードキャストリスナー
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if (action.equals(Intent.ACTION_SCREEN_OFF)) {
+                    Log.d(TAG, "SCREEN_OFF");
+                    webView.reload();
+                }
+            }
+        };
+        // リスナーの登録
+        this.registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF));
+
+        // Http通信
+        HttpArticleDetails.request(articleData.getUrl())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Document>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Document document) {
+                        content = ParseHtmlUtil.getContentHtml(document);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(getApplicationContext(), R.string.timeout, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        webViewSetUp();
+                    }
+                });
     }
 
     @Override
@@ -175,10 +234,10 @@ public class WebActivity extends AppCompatActivity {
 
     @Override
     public void onPause() {
+        super.onPause();
         if (mAdView != null) {
             mAdView.pause();
         }
-        super.onPause();
     }
 
     @Override
@@ -191,10 +250,14 @@ public class WebActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         if (mAdView != null) {
             mAdView.destroy();
         }
-        super.onDestroy();
+        if (webView != null) {
+            webView.destroy();
+        }
+        this.unregisterReceiver(broadcastReceiver);
     }
 
     @Override
